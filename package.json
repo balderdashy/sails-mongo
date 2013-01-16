@@ -1,6 +1,6 @@
 {
   "name": "waterline-mongo",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Mongo DB adapter for Waterline ORM",
   "scripts": {
     "test": "mocha"
