@@ -1,6 +1,8 @@
-# MySQLAdapter
+# MongoAdapter
 
-Waterline adapter for MySQL.
+> Unfinished!  Let me know if you'd like to help.  @mikermcneil on twitter.
+
+Waterline adapter for MongoDB.
 
 ## About Waterline
 Waterline is a new kind of storage and retrieval engine.  It provides a uniform API for accessing stuff from different kinds of databases, protocols, and 3rd party APIs.  That means you write the same code to get users, whether they live in mySQL, LDAP, MongoDB, or Facebook.
