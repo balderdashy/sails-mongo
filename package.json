@@ -1,0 +1,22 @@
+{
+  "name": "waterline-mongo",
+  "version": "0.0.0",
+  "description": "Mongo DB adapter for Waterline ORM",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "mongo",
+    "orm",
+    "waterline",
+    "sails"
+  ],
+  "author": "Mike McNeil",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "async": "~0.1.22",
+    "underscore": "~1.4.3",
+    "underscore.string": "~2.3.1"
+  }
+}
