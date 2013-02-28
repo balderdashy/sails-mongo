@@ -1,7 +1,7 @@
 {
-  "name": "waterline-mongo",
+  "name": "sails-mongo",
   "version": "0.0.1",
-  "description": "Mongo DB adapter for Waterline ORM",
+  "description": "Mongo DB adapter for Sails.js",
   "scripts": {
     "test": "mocha"
   },
@@ -16,7 +16,7 @@
   "readmeFilename": "README.md",
   "dependencies": {
     "async": "~0.1.22",
-    "underscore": "~1.4.3",
+    "underscore": "~1.4.4",
     "underscore.string": "~2.3.1"
   }
 }
