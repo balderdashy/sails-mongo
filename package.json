@@ -2,6 +2,7 @@
   "name": "sails-mongo",
   "version": "0.0.1",
   "description": "Mongo DB adapter for Sails.js",
+  "main": "MongoAdapter.js",
   "scripts": {
     "test": "mocha"
   },
@@ -12,11 +13,18 @@
     "sails"
   ],
   "author": "Mike McNeil",
+  "contributors": [
+    {
+      "name": "Robin Persson",
+      "email": "rprssn@gmail.com"
+    }
+  ],
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
     "async": "~0.1.22",
     "underscore": "~1.4.4",
-    "underscore.string": "~2.3.1"
+    "underscore.string": "~2.3.1",
+    "mongodb": "*"
   }
 }
