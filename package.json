@@ -12,11 +12,18 @@
     "waterline",
     "sails"
   ],
-  "author": "Mike McNeil",
   "contributors": [
     {
       "name": "Robin Persson",
       "email": "rprssn@gmail.com"
+    },
+    {
+      "name": "Ted Kulp",
+      "email": "github@wishy.org"
+    }
+    {
+      "name": "Mike McNeil",
+      "email": "mike@balderdash.co"
     }
   ],
   "license": "MIT",
