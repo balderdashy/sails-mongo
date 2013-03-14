@@ -1,6 +1,7 @@
 # MongoAdapter
 
-> Unfinished!  Let me know if you'd like to help.  @mikermcneil on twitter.
+> Unreleased on npm, pending some more testing, but very nearly ready.  Let me know if you'd like to help test!  @mikermcneil on twitter.
+> Thanks again to Ted Kulp.
 
 Sails adapter for MongoDB.
 
