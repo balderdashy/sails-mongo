@@ -5,6 +5,19 @@
 
 Sails adapter for MongoDB.
 
+## Configuration
+Add the mongo URL to the config/adapters.js file:
+
+    module.exports.adapters = {
+      'default': 'mongo',
+
+      mongo: {
+        module   : 'sails-mongo',
+        url      : 'mongodb://localhost:27017/sails'
+        // url      : 'mongodb://user:pass@host.com:12345/sails_production'
+      }
+    };
+
 ## Sails.js
 http://sailsjs.com
 
@@ -16,12 +29,11 @@ You can learn more about
 
 *Waterline repo: https://github.com/mikermcneil/waterline*
 
-
 ## Writing your own adapters
 It's easy to add your own adapters for integrating with proprietary systems or existing open APIs.  For most things, it's as easy as `require('some-module')` and mapping the appropriate methods to match waterline semantics.
 
 ## Contributors
-Thanks so much to Ted Kulp (@tedkulp) and Robin Persson (@prssn) for building this adapter.
+Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin Persson ([@prssn](https://twitter.com/prssn)) for building this adapter.
 
 
 ## Sails.js License
