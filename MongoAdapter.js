@@ -97,8 +97,9 @@ module.exports = (function() {
 
       spawnConnection(function(connection, cb) {
         options = rewriteCriteria(options);
+        values = rewriteValues(values);
         var collection = connection.collection(collectionName);
-        collection.update(options.where, { $set: values }, { multi: true }, function(err, result) {
+        collection.update(options.where, values, { multi: true }, function(err, result) {
           if (!err) {
             that.find(collectionName, options, function(err, docs) {
               cb(err, docs);
@@ -164,6 +165,24 @@ module.exports = (function() {
     }
     return options;
   }
+  
+  // Rewrite values when used with Atomic operators
+  function rewriteValues(values){
+        var _values = {};
+        var _$set = {};
+        _.each(values,function(e,i){
+            if(!_.isNaN(i) && i.indexOf("$")===0){
+                _values[i] = e;
+            }
+            else {
+                _$set[i]=e;
+            }
+        });
+        if(!_.isEmpty(_$set)){
+            _values["$set"] = _$set;
+        }
+        return _values;
+    }
 
   function parseTypes(obj) {
     // Rewrite false and true if they come through. Not sure if there
