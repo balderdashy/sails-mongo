@@ -178,7 +178,9 @@ module.exports = (function() {
                 _$set[i]=e;
             }
         });
-        _values["$set"] = _$set;
+        if(!_.isEmpty(_$set)){
+            _values["$set"] = _$set;
+        }
         return _values;
     }
 
