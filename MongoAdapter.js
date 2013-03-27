@@ -120,7 +120,14 @@ module.exports = (function() {
         });
       }, dbs[collectionName], cb);
     },
-
+    aggregate: function(collectionName, pipeline, cb) {
+        spawnConnection(function(connection, cb) {
+            var collection = connection.collection(collectionName);
+            collection.aggregate(pipeline, function(err, result) {
+                cb(err, rewriteIds(result));
+            });
+        }, dbs[collectionName], cb);
+    },
     identity: 'sails-mongo'
   };
 
