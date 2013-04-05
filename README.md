@@ -5,6 +5,10 @@
 
 Sails adapter for MongoDB.
 
+
+## Installation
+`npm install sails-mongo@git://github.com/balderdashy/sails-mongo.git`
+
 ## Configuration
 Add the mongo URL to the config/adapters.js file:
 
