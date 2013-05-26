@@ -192,6 +192,8 @@ module.exports = (function() {
         obj[key] = false;
       else if (val === "true")
         obj[key] = true;
+      else if (!_.isNaN(val))
+        obj[key] = val;
       else if (!_.isNaN(Date.parse(val)))
         obj[key] = new Date(val);
       else if (_.isObject(val))
