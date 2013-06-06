@@ -20,7 +20,7 @@ module.exports = (function() {
   var connection = {};
 
   var adapter = {
-    syncable: false,
+    syncable: true, // to track schema internally
 
     defaults: {
       host: 'localhost',
@@ -42,6 +42,9 @@ module.exports = (function() {
         dbs[collection.identity] = marshalConfig(collection);
       }
 
+      // Holds the Schema
+      dbs[collection.identity].schema = {};
+
       return cb();
     },
 
@@ -50,15 +53,67 @@ module.exports = (function() {
     },
 
     describe: function(collectionName, cb) {
-      //It's mongo -- there's nothing to describe
-      return cb(null, {});
+      var des = Object.keys(dbs[collectionName].schema).length === 0 ?
+        null : dbs[collectionName].schema;
+      return cb(null, des);
     },
 
     define: function(collectionName, definition, cb) {
       spawnConnection(function __DEFINE__(connection, cb) {
         connection.createCollection(collectionName, function __DEFINE__(err, result) {
           if (err) return cb(err);
-          cb(null, result);
+
+          // Use the collection to perform index queries
+          connection.collection(collectionName, function(err, collection) {
+            var index;
+
+            // Clone the definition
+            var def = _.clone(definition);
+
+            function processKey(key, cb) {
+
+              // Remove any autoIncement keys, Mongo won't support them without
+              // a hacky additional collection
+              if(def[key].autoIncrement) {
+                delete def[key].autoIncrement;
+              }
+
+              // Handle Unique Key
+              if(def[key].unique) {
+                index = {};
+                index[key] = 1;
+
+                return collection.ensureIndex(index, { unique: true, sparse: true }, function(err) {
+                  if(err) return cb(err);
+                  def[key].indexed = true;
+                  cb();
+                });
+              }
+
+              // Add non-unique indexes
+              if(def[key].index && !def[key].unique) {
+                index = {};
+                index[key] = 1;
+
+                return collection.ensureIndex(index, { unique: true, sparse: true }, function(err) {
+                  if(err) return cb(err);
+                  def[key].indexed = true;
+                  cb();
+                });
+              }
+
+              return cb();
+            }
+
+            var keys = Object.keys(def);
+
+            // Loop through the def and process attributes for each key
+            async.forEach(keys, processKey, function(err) {
+              if(err) return cb(err);
+              dbs[collectionName].schema = def;
+              cb(null, dbs[collectionName].schema);
+            });
+          });
         });
       }, dbs[collectionName], cb);
     },
