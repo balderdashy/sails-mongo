@@ -1,10 +1,10 @@
 {
   "name": "sails-mongo",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Mongo DB adapter for Sails.js",
   "main": "MongoAdapter.js",
   "scripts": {
-    "test": "mocha"
+    "test": "node test/integration/runner"
   },
   "keywords": [
     "mongo",
@@ -24,6 +24,10 @@
     {
       "name": "Mike McNeil",
       "email": "mike@balderdash.co"
+    },
+    {
+      "name": "Cody Stoltman",
+      "email": "particlebanana@gmail.com"
     }
   ],
   "license": "MIT",
