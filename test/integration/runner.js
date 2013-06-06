@@ -7,7 +7,7 @@
  */
 
 var tests = require('waterline-adapter-tests'),
-    adapter = require('../../MongoAdapter'),
+    adapter = require('../../lib/adapter'),
     mocha = require('mocha');
 
 /**
