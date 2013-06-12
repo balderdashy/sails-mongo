@@ -23,7 +23,7 @@ module.exports.adapters = {
   mongo: {
     module   : 'sails-mongo',
     host     : 'localhost',
-    db       : '<your mongo db name here>'
+    database : '<your mongo db name here>'
   }
 };
 ```
