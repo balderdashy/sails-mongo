@@ -4,7 +4,7 @@
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
-    "test": "node test/integration/runner"
+    "test": "make test"
   },
   "keywords": [
     "mongo",
