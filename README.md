@@ -20,10 +20,19 @@ Add the mongo config to the config/adapters.js file:
 module.exports.adapters = {
   'default': 'mongo',
 
+  // sails v.0.9.0
   mongo: {
     module   : 'sails-mongo',
     host     : 'localhost',
+    user     : 'username',
+    password : 'password',
     database : 'your mongo db name here'
+  }
+
+  // sails v.0.8.x
+  mongo: {
+    module   : 'sails-mongo',
+    url      : 'mongodb://USER:PASSWORD@HOST:PORT/DB'
   }
 };
 ```
