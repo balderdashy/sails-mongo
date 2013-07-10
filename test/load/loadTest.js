@@ -1,6 +1,6 @@
 var Adapter = require('../../lib/adapter'),
-    Config = require('./support/config'),
-    Fixture = require('./support/fixture'),
+    Config = require('../support/config'),
+    Fixture = require('../support/fixture'),
     assert = require('assert'),
     async = require('async');
 
@@ -13,11 +13,11 @@ describe('Load Testing', function() {
     var Schema;
 
     // Register The Collection
-    Adapter.registerCollection({ identity: 'loadTest', config: Config }, function(err) {
+    Adapter.registerCollection({ identity: 'test', config: Config }, function(err) {
       if(err) done(err);
 
       // Define The Collection
-      Adapter.define('loadTest', Fixture, function(err, schema) {
+      Adapter.define('test', Fixture, function(err, schema) {
         if(err) return done(err);
         Schema = schema;
         done();
@@ -38,7 +38,7 @@ describe('Load Testing', function() {
           email: Math.floor((Math.random()*100000)+1)
         };
 
-        Adapter.create('loadTest', data, next);
+        Adapter.create('test', data, next);
       }, function(err, users) {
         assert(!err);
         assert(users.length === CONNECTIONS);
