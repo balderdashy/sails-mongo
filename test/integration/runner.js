@@ -17,7 +17,9 @@ var tests = require('waterline-adapter-tests'),
 var config = {
   host: 'localhost',
   database: 'sails-mongo',
-  port: 27017
+  port: 27017,
+  nativeParser: false,
+  safe: true
 };
 
 /**
