@@ -18,6 +18,7 @@ var config = {
   host: 'localhost',
   database: 'sails-mongo',
   port: 27017,
+  schema: true,
   nativeParser: false,
   safe: true
 };
