@@ -1,5 +1,5 @@
 
-MOCHA_OPTS= --check-leaks
+MOCHA_OPTS= --check-leaks --timeout 30000
 REPORTER = dot
 
 test: test-unit test-integration
