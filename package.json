@@ -14,20 +14,16 @@
   ],
   "contributors": [
     {
+      "name": "Cody Stoltman",
+      "email": "particlebanana@gmail.com"
+    },
+    {
       "name": "Robin Persson",
       "email": "rprssn@gmail.com"
     },
     {
       "name": "Ted Kulp",
       "email": "github@wishy.org"
-    },
-    {
-      "name": "Mike McNeil",
-      "email": "mike@balderdash.co"
-    },
-    {
-      "name": "Cody Stoltman",
-      "email": "particlebanana@gmail.com"
     }
   ],
   "license": "MIT",
@@ -37,13 +33,13 @@
     "url": "git://github.com/balderdashy/sails-mongo.git"
   },
   "dependencies": {
-    "async": "~0.2.9",
-    "underscore": "~1.4.4",
-    "underscore.string": "~2.3.1",
-    "mongodb": "~1.3.8"
+    "async": "0.2.9",
+    "underscore": "1.4.4",
+    "underscore.string": "2.3.1",
+    "mongodb": "1.3.8"
   },
   "devDependencies": {
     "mocha": "*",
-    "waterline-adapter-tests": "0.9.0"
+    "waterline-adapter-tests": "~0.9.0"
   }
 }
