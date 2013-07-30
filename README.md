@@ -27,6 +27,10 @@ module.exports.adapters = {
     user     : 'username',
     password : 'password',
     database : 'your mongo db name here'
+    
+    // OR
+    module   : 'sails-mongo',
+    url      : 'mongodb://USER:PASSWORD@HOST:PORT/DB'
   }
 
   // sails v.0.8.x
