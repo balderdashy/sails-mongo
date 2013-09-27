@@ -10,16 +10,7 @@ describe('adapter', function() {
     var Schema;
 
     // Register The Collection
-    Adapter.registerCollection({ identity: 'test', config: Config }, function(err) {
-      if(err) done(err);
-
-      // Define The Collection
-      Adapter.define('test', Fixture, function(err, schema) {
-        if(err) return done(err);
-        Schema = schema;
-        done();
-      });
-    });
+    Adapter.registerCollection({ identity: 'test', config: Config, definition: Fixture }, done);
   });
 
 
