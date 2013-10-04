@@ -27,7 +27,7 @@ var config = {
  * Expose Interfaces Used In Adapter
  */
 
-var interfaces = ['semantic', 'queryable', 'migratable'];
+var interfaces = ['semantic', 'queryable', 'migratable', 'associations'];
 
 /**
  * Run Tests
