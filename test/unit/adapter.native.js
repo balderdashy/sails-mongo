@@ -10,7 +10,14 @@ describe('adapter', function() {
     var Schema;
 
     // Register The Collection
-    Adapter.registerCollection({ identity: 'test', config: Config, definition: Fixture }, done);
+    Adapter.registerCollection({
+      identity: 'test',
+      config: Config,
+      definition: Fixture,
+      meta: {
+        junctionTable: false
+      }
+    }, done);
   });
 
 
