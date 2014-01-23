@@ -9,15 +9,13 @@ describe('adapter', function() {
   before(function(done) {
     var Schema;
 
-    // Register The Collection
-    Adapter.registerCollection({
-      identity: 'test',
-      config: Config,
-      definition: Fixture,
-      meta: {
-        junctionTable: false
-      }
-    }, done);
+    var connection = Config;
+    connection.identity = 'test';
+
+    var collection = { identity: 'foobar', definition: Fixture };
+    collection.definition.connection = 'test';
+
+    Adapter.registerConnection(connection, [collection], done);
   });
 
 
@@ -25,8 +23,10 @@ describe('adapter', function() {
 
     it('should allow direct access to the collection object', function(done) {
 
-      Adapter.native('test', function(err, collection) {
+      Adapter.native('test', 'foobar', function(err, db) {
         assert(!err);
+
+        var collection = db.collection('foobar');
 
         // Attempt to insert a document
         collection.insert({hello: 'world'}, {w:1}, function(err, objects) {
