@@ -15,7 +15,7 @@ describe('adapter', function() {
     var collection = { identity: 'foobar', definition: Fixture };
     collection.definition.connection = 'test';
 
-    Adapter.registerConnection(connection, [collection], done);
+    Adapter.registerConnection(connection, { 'foobar': collection }, done);
   });
 
 
