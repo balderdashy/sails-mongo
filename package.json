@@ -1,6 +1,6 @@
 {
   "name": "sails-mongo",
-  "version": "0.9.5",
+  "version": "0.10.0",
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
@@ -43,6 +43,6 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "waterline-adapter-tests": "git://github.com/balderdashy/waterline-adapter-tests.git#associations"
+    "waterline-adapter-tests": "git://github.com/balderdashy/waterline-adapter-tests.git#v0.10"
   }
 }
