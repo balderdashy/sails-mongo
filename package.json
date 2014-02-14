@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "waterline-adapter-tests": "git://github.com/balderdashy/waterline-adapter-tests.git#v0.10",
+    "waterline-adapter-tests": "~0.10.0",
     "captains-log": "~0.11.1"
   },
   "waterlineAdapter": {
