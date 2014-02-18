@@ -23,10 +23,8 @@ describe('adapter', function() {
 
     it('should allow direct access to the collection object', function(done) {
 
-      Adapter.native('test', 'foobar', function(err, db) {
+      Adapter.native('test', 'foobar', function(err, collection) {
         assert(!err);
-
-        var collection = db.collection('foobar');
 
         // Attempt to insert a document
         collection.insert({hello: 'world'}, {w:1}, function(err, objects) {
