@@ -9,50 +9,62 @@ Waterline adapter for MongoDB.
 Install from NPM.
 
 ```bash
-$ npm install sails-mongo
+$ npm install sails-mongo --save
 ```
 
 ## Sails Configuration
 
-Add the mongo config to the config/adapters.js file:
+Add the mongo config to the `config/adapters.js` file.
+
+### Using with Sails v0.9.x
 
 ```javascript
 module.exports.adapters = {
   'default': 'mongo',
 
-  // sails v.0.9.0
   mongo: {
-    module   : 'sails-mongo',
-    host     : 'localhost',
-    port     : 27017,
-    user     : 'username',
-    password : 'password',
-    database : 'your mongo db name here',
-    
-    // OR
-    module   : 'sails-mongo',
-    url      : 'mongodb://USER:PASSWORD@HOST:PORT/DB',
-
-    // Replica Set (optional)
-    replSet: {
-      servers: [
-        {
-          host: 'secondary1.localhost',
-          port: 27017 // Will override port from default config (optional)
-        },
-        {
-          host: 'secondary2.localhost',
-          port: 27017
-        }
-      ],
-      options: {} // See http://mongodb.github.io/node-mongodb-native/api-generated/replset.html (optional)
-    }
+    module: 'sails-mongo',
+    host: 'localhost',
+    port: 27017,
+    user: 'username',
+    password: 'password',
+    database: 'your mongo db name here'
   }
+};
+```
 
-  // sails v.0.8.x
+*Note: You can also use the old `v0.8.x` syntax as well, see next section for details.*
+
+Replication/Replica Set can be setup by adding the following options to the `mongo` object,
+with your own replica details specified:
+
+```javascript
+replSet: {
+  servers: [
+    {
+      host: 'secondary1.localhost',
+      port: 27017 // Will override port from default config (optional)
+    },
+    {
+      host: 'secondary2.localhost',
+      port: 27017
+    }
+  ],
+  options: {} // See http://mongodb.github.io/node-mongodb-native/api-generated/replset.html (optional)
+}
+```
+
+*Note: Replica set configuration is optional.*
+
+### Using with Sails v0.8.x
+
+```javascript
+module.exports.adapters = {
+  'default': 'mongo',
+
   mongo: {
-    module   : 'sails-mongo',
-    url      : 'mongodb://USER:PASSWORD@HOST:PORT/DB'
+    module: 'sails-mongo',
+    url: 'mongodb://USER:PASSWORD@HOST:PORT/DB'
   }
 };
 ```
