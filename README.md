@@ -69,6 +69,8 @@ module.exports.adapters = {
 };
 ```
 
+Don't forget that Mongo uses the ObjectId type for ids.
+
 ## Sails.js
 
 http://sailsjs.org
