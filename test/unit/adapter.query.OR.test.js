@@ -22,7 +22,7 @@ describe('Query', function() {
         }
       };
 
-      var Q = new Query(options);
+      var Q = new Query(options, { id: { type: 'string' }});
       var criteria = Q.criteria.where;
 
       assert(criteria.hasOwnProperty('$or'));
