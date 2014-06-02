@@ -1,5 +1,6 @@
 var Query = require('../../lib/query');
 var assert = require('assert');
+var _ = require('lodash');
 
 describe('Query', function() {
 
@@ -31,6 +32,30 @@ describe('Query', function() {
       assert(criteria['$or'][0]._id.hasOwnProperty('$in'));
       assert(criteria['$or'][0]._id['$in'].length === 2);
       assert(criteria['$or'][1].hasOwnProperty('name'));
+    });
+
+    it('should accept `null` clause without throwing error', function () {
+      var options = {
+        where: {
+          or: [null]
+        }
+      };
+      var Q = new Query(options, { id: { type: 'string' }});
+      var criteria = Q.criteria.where;
+      assert(criteria.hasOwnProperty('$or'));
+      assert(criteria['$or'].length === 1);
+      assert(_.isEmpty(criteria['$or'][0]));
+    });
+
+    it('should accept `null` without throwing error', function () {
+      var options = {
+        where: {
+          or: null
+        }
+      };
+      var Q = new Query(options, { id: { type: 'string' }});
+      var criteria = Q.criteria.where;
+      assert(criteria.hasOwnProperty('$or') === false);
     });
 
   });
