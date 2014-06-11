@@ -110,6 +110,14 @@ describe('Query', function () {
       assert(_.isEqual(actual, expect));
     });
 
+    it('should accept `$ne` selector without turning string value to a RegExp', function () {
+      var where = { name: { $ne: 'a' } };
+      var expect = _.cloneDeep(where);
+      var Q = new Query({ where: where }, { name: 'string' });
+      var actual = Q.criteria.where;
+      assert(_.isEqual(actual, expect));
+    });
+
   });
 
 
