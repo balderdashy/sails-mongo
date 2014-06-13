@@ -83,6 +83,66 @@ describe('Query', function () {
       assert(_.isEqual(actual, expect));
     });
 
+    describe('with objectid values', function () {
+
+      var ObjectID = require('mongodb').ObjectID;
+
+      it('should accept objectid in Equal Pair', function () {
+        var _id = new ObjectID();
+        var where = {
+          user: new ObjectID(_id)
+        };
+        var expect = {
+          user: new ObjectID(_id)
+        };
+        var Q = new Query({ where: where }, { user: 'objectid' });
+        var actual = Q.criteria.where;
+        assert(_.isEqual(actual['user'].toString(), expect['user'].toString()));
+      });
+
+      it('should accept objectid in Not Pair', function () {
+        var _id = new ObjectID();
+        var where = {
+          user: { '!': new ObjectID(_id) }
+        };
+        var expect = {
+          user: { $ne: new ObjectID(_id) }
+        };
+        var Q = new Query({ where: where }, { user: 'objectid' });
+        var actual = Q.criteria.where;
+        assert(_.isEqual(actual['user']['$ne'].toString(), expect['user']['$ne'].toString()));
+      });
+
+      it('should accept objectid in In Pair', function () {
+        var _ids = [new ObjectID(), new ObjectID()];
+        var where = {
+          user: [new ObjectID(_ids[0]), new ObjectID(_ids[1])]
+        };
+        var expect = {
+          user: { $in: [new ObjectID(_ids[0]), new ObjectID(_ids[1])] }
+        };
+        var Q = new Query({ where: where }, { user: 'objectid' });
+        var actual = Q.criteria.where;
+        assert(_.isEqual(actual['user']['$in'][0].toString(), expect['user']['$in'][0].toString()));
+        assert(_.isEqual(actual['user']['$in'][1].toString(), expect['user']['$in'][1].toString()));
+      });
+
+      it('should accept objectid in Object Pair', function () {
+        var _id = new ObjectID();
+        var where = {
+          user: { '>': new ObjectID(_id) }
+        };
+        var expect = {
+          user: { $gt: new ObjectID(_id) }
+        };
+        var Q = new Query({ where: where }, { user: 'objectid' });
+        var actual = Q.criteria.where;
+        assert(_.isEqual(actual['user']['$gt'].toString(), expect['user']['$gt'].toString()));
+        assert(_.isEqual(actual['user']['$gt'].toString(), expect['user']['$gt'].toString()));
+      });
+
+    })
+
   });
 
 
