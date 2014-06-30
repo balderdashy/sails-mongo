@@ -1,6 +1,7 @@
 var Query = require('../../../lib/query');
 var assert = require('assert');
 var _ = require('lodash');
+var ObjectID = require('mongodb').ObjectID;
 
 describe('Query', function () {
   "use strict";
@@ -85,8 +86,6 @@ describe('Query', function () {
 
     describe('with objectid values', function () {
 
-      var ObjectID = require('mongodb').ObjectID;
-
       it('should accept objectid in Equal Pair', function () {
         var _id = new ObjectID();
         var where = {
@@ -141,7 +140,43 @@ describe('Query', function () {
         assert(_.isEqual(actual['user']['$gt'].toString(), expect['user']['$gt'].toString()));
       });
 
-    })
+    });
+
+    describe('with `in` clause', function () {
+
+      it('should parse as `$in` clause', function () {
+        var id1 = new ObjectID(), id2 = new ObjectID(), id3 = new ObjectID();
+        var where = {
+          id: [id1.toString(), id2.toString(), id3.toString() ]
+        };
+        var expect;
+        expect = {
+          _id: { $in: [id1, id2, id3] }
+        };
+        var Q = new Query({ where: where }, { id: { type: 'objectid', primaryKey: true } });
+        var actual = Q.criteria.where;
+        assert(_.isEqual(actual, expect));
+      });
+
+    });
+
+    describe('with `not in` clause', function () {
+
+      it('should parse as `$in` clause', function () {
+        var id1 = new ObjectID(), id2 = new ObjectID(), id3 = new ObjectID();
+        var where = {
+          id: { '!': [id1.toString(), id2.toString(), id3.toString() ] }
+        };
+        var expect;
+        expect = {
+          _id: { $nin: [id1, id2, id3] }
+        };
+        var Q = new Query({ where: where }, { id: { type: 'objectid', primaryKey: true } });
+        var actual = Q.criteria.where;
+        assert(_.isEqual(actual, expect));
+      });
+
+    });
 
   });
 
