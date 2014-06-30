@@ -162,7 +162,7 @@ describe('Query', function () {
 
     describe('with `not in` clause', function () {
 
-      it('should parse as `$in` clause', function () {
+      it('should parse as `$nin` clause', function () {
         var id1 = new ObjectID(), id2 = new ObjectID(), id3 = new ObjectID();
         var where = {
           id: { '!': [id1.toString(), id2.toString(), id3.toString() ] }
