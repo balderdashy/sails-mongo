@@ -233,7 +233,7 @@ describe('Query', function () {
       var where = {
         or: [{ name: { $exists: false } }, { name: { '!': 'clark' } }]
       };
-      var expect = { $or: [ { name: { $exists: false } }, { name: { $ne: /^clark$/i } } ] };
+      var expect = { $or: [ { name: { $exists: false } }, { name: { $ne: 'clark' } } ] };
       var Q = new Query({ where: where }, { name: 'string', age: 'integer' });
       var actual = Q.criteria.where;
       assert(_.isEqual(actual, expect));
