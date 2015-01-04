@@ -39,7 +39,7 @@
   "dependencies": {
     "async": "~0.8.0",
     "lodash": "~2.4.1",
-    "mongodb": "1.4.4",
+    "mongodb": "1.4.26",
     "waterline-errors": "~0.10.0",
     "waterline-cursor": "~0.0.5"
   },
