@@ -1,10 +1,10 @@
 [![](https://camo.githubusercontent.com/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67)](http://sailsjs.org/#!)
 
-# MongoAdapter
+# sails-mongo
 
 Waterline adapter for MongoDB.
 
-> **Warning**
+> **Heads up**
 >
 > `sails-mongo` maps the logical `id` attribute to the required `_id` physical-layer mongo id.
 > In the current version of `sails-mongo`, you **should not** sort by `id`.
@@ -42,11 +42,34 @@ And set this particular mongo database as your default in `config/models.js`:
 ```js
 module.exports.models = {
   'connection': 'someMongoDb'
-}
+};
+```
+
+#### What about mongo urls?
+
+Alternatively, you can specify your Mongo configuration as a URL, e.g.:
+
+```js
+module.exports.connections = {
+
+  someMongoDb: {
+    adapter: 'sails-mongo',
+    url: process.env.MONGOLAB_URI
+  }
+};
+```
+
+This would be useful if, for instance, your Heroku env variables looked like:
+
+```bash
+MONGOLAB_URI=mongodb://heroku_app33429348:o9dag2076pnj70p8iqmaj2fiaq@049641.mongolab.com:49641/heroku_app33429348
 ```
 
 
-### Using with Sails v0.9.x
+
+### Legacy usage
+
+####Using with Sails v0.9.x
 
 Add the mongo config to the `config/adapters.js` file.
 
@@ -88,7 +111,7 @@ replSet: {
 
 *Note: Replica set configuration is optional.*
 
-### Using with Sails v0.8.x
+#### Using with Sails v0.8.x
 
 ```javascript
 module.exports.adapters = {
