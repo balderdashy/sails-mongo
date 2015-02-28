@@ -19,9 +19,36 @@ $ npm install sails-mongo --save
 
 ## Sails Configuration
 
-Add the mongo config to the `config/adapters.js` file.
+### Using with Sails v0.11.x (>= 0.10.x)
+
+Add the following config to the `config/connections.js` file:
+
+```javascript
+module.exports.connections = {
+
+  someMongoDb: {
+    adapter: 'sails-mongo',
+    host: 'localhost', // defaults to `localhost` if omitted
+    port: 27017, // defaults to 27017 if omitted
+    user: 'username_here', // or omit if not relevant
+    password: 'password_here', // or omit if not relevant
+    database: 'database_name_here' // or omit if not relevant
+  }
+};
+```
+
+And set this particular mongo database as your default in `config/models.js`:
+
+```js
+module.exports.models = {
+  'connection': 'someMongoDb'
+}
+```
+
 
 ### Using with Sails v0.9.x
+
+Add the mongo config to the `config/adapters.js` file.
 
 ```javascript
 module.exports.adapters = {
@@ -96,7 +123,7 @@ Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin P
 
 ### The MIT License (MIT)
 
-Copyright © 2012-2013 Mike McNeil
+Copyright © 2012-2015 Mike McNeil &amp; contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -104,4 +131,3 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/a22d3919de208c90c898986619efaa85 "githalytics.com")](http://githalytics.com/mikermcneil/sails-mongo)
