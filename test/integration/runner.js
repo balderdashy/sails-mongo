@@ -75,7 +75,16 @@ new TestRunner({
 
   // The set of adapter interfaces to test against.
   // (grabbed these from this adapter's package.json file above)
-  interfaces: interfaces
+  interfaces: interfaces,
+    
+  // Mocha options
+  // reference: https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically
+  mocha: {},
+    
+  mochaChainableMethods: {},
+    
+  // Return code != 0 if any test failed
+  failOnError: true
 
   // Most databases implement 'semantic' and 'queryable'.
   //
