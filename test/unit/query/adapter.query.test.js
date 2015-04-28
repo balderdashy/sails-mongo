@@ -213,6 +213,22 @@ describe('Query', function () {
       assert(_.isEqual(actual, expect));
     });
 
+    it('should accept `$gt` selector without turning string value to a RegExp', function () {
+      var where = { name: { $gt: 'banana' } };
+      var expect = _.cloneDeep(where);
+      var Q = new Query({ where: where }, { name: 'string' });
+      var actual = Q.criteria.where;
+      assert(_.isEqual(actual, expect));
+    });
+
+    it('should accept `$gte` selector without turning string value to a RegExp', function () {
+      var where = { name: { $gte: 'apple' } };
+      var expect = _.cloneDeep(where);
+      var Q = new Query({ where: where }, { name: 'string' });
+      var actual = Q.criteria.where;
+      assert(_.isEqual(actual, expect));
+    });
+
   });
 
 
@@ -233,7 +249,7 @@ describe('Query', function () {
       var where = {
         or: [{ name: { $exists: false } }, { name: { '!': 'clark' } }]
       };
-      var expect = { $or: [ { name: { $exists: false } }, { name: { $ne: /^clark$/i } } ] };
+      var expect = { $or: [ { name: { $exists: false } }, { name: { $ne: 'clark' } } ] };
       var Q = new Query({ where: where }, { name: 'string', age: 'integer' });
       var actual = Q.criteria.where;
       assert(_.isEqual(actual, expect));
