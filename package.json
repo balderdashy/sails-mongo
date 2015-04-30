@@ -28,10 +28,6 @@
     {
       "name": "Ted Kulp",
       "email": "github@wishy.org"
-    },
-    {
-      "name": "Andy Pham",
-      "email": "andyphamhung@gmail.com"
     }
   ],
   "license": "MIT",
@@ -43,9 +39,9 @@
   "dependencies": {
     "async": "~0.8.0",
     "lodash": "~2.4.1",
-    "mongodb": "^2.0.27",
-    "waterline-cursor": "~0.0.5",
-    "waterline-errors": "~0.10.0"
+    "mongodb": "1.4.26",
+    "waterline-errors": "~0.10.0",
+    "waterline-cursor": "~0.0.5"
   },
   "devDependencies": {
     "mocha": "*",
