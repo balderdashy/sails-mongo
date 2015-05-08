@@ -1,6 +1,9 @@
 [![](https://camo.githubusercontent.com/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67)](http://sailsjs.org/#!)
 
 # sails-mongo
+[![Build Status](https://travis-ci.org/balderdashy/sails-mongo.svg?branch=master)](https://travis-ci.org/balderdashy/sails-mongo)
+[![npm version](https://badge.fury.io/js/sails-mongo.svg)](http://badge.fury.io/js/sails-mongo)
+[![Dependency Status](https://david-dm.org/balderdashy/sails-mongo.svg)](https://david-dm.org/balderdashy/sails-mongo)
 
 Waterline adapter for MongoDB.
 
@@ -16,6 +19,9 @@ Install from NPM.
 ```bash
 $ npm install sails-mongo --save
 ```
+
+## Compatibility
+sails-mongo 0.11.x has updated to mongo native driver 2.0. If you using mongodb version <=2.4.5, it is recommended that you stick with sails-mongo 0.10.x.
 
 ## Sails Configuration
 
