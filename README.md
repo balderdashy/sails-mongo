@@ -20,9 +20,6 @@ Install from NPM.
 $ npm install sails-mongo --save
 ```
 
-## Compatibility
-sails-mongo 0.11.x has updated to mongo native driver 2.0. If you using mongodb version <=2.4.5, it is recommended that you stick with sails-mongo 0.10.x.
-
 ## Sails Configuration
 
 ### Using with Sails v0.11.x (>= 0.10.x)
