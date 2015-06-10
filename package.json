@@ -41,8 +41,8 @@
     "url": "git://github.com/balderdashy/sails-mongo.git"
   },
   "dependencies": {
-    "async": "~0.8.0",
-    "lodash": "~2.4.1",
+    "async": "~1.2.1",
+    "lodash": "~3.9.3",
     "mongodb": "^2.0.27",
     "waterline-cursor": "~0.0.5",
     "waterline-errors": "~0.10.0"
