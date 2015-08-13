@@ -1,6 +1,6 @@
 {
   "name": "sails-mongo",
-  "version": "0.11.2",
+  "version": "0.11.2.1",
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
@@ -44,6 +44,7 @@
     "async": "~0.8.0",
     "lodash": "~2.4.1",
     "mongodb": "^2.0.27",
+    "waterline": "^0.10.26",
     "waterline-cursor": "~0.0.5",
     "waterline-errors": "~0.10.0"
   },
