@@ -1,6 +1,5 @@
 var assert = require('assert');
 var clarifyError = require('../../lib/utils').clarifyError;
-var WLValidationError = require('waterline/lib/waterline/error/WLValidationError');
 
 describe('clarifyError', function () {
   it('returns the original error object if it does not have the proper error code', function () {
@@ -11,19 +10,18 @@ describe('clarifyError', function () {
     assert.strictEqual(validationError, err);
   });
 
-  it('returns a WLValidationError if passed a MongoDB duplicate key error', function () {
+  it('returns a validation error if passed a MongoDB duplicate key error', function () {
     var err = createError('test', 'collection', 'name', 'test');
     var validationError = clarifyError(err);
 
-    assert(validationError instanceof WLValidationError);
+    assert(validationError.code === 'E_UNIQUE');
   });
 
-  it('extracts properties from the error message and populates the WLValidationError', function () {
+  it('extracts properties from the error message and populates the validation error', function () {
     var err = createError('test', 'collection', 'name', 'test');
     var validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
-    assert.strictEqual(validationError.model, 'Collection');
     assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);
     assert.strictEqual(validationError.invalidAttributes['name'][0].rule, 'unique');
     assert.strictEqual(validationError.invalidAttributes['name'][0].value, 'test');
@@ -35,7 +33,6 @@ describe('clarifyError', function () {
     var validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
-    assert.strictEqual(validationError.model, 'My_collection_name');
     assert(validationError.invalidAttributes['my_field_name'] && validationError.invalidAttributes['my_field_name'][0]);
     assert.strictEqual(validationError.invalidAttributes['my_field_name'][0].rule, 'unique');
     assert.strictEqual(validationError.invalidAttributes['my_field_name'][0].value, 'test_value');
@@ -47,7 +44,6 @@ describe('clarifyError', function () {
     var validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
-    assert.strictEqual(validationError.model, 'Collection');
     assert(validationError.invalidAttributes['name_123'] && validationError.invalidAttributes['name_123'][0]);
     assert.strictEqual(validationError.invalidAttributes['name_123'][0].rule, 'unique');
     assert.strictEqual(validationError.invalidAttributes['name_123'][0].value, 'test');
@@ -59,7 +55,6 @@ describe('clarifyError', function () {
     var validationError = clarifyError(err);
 
     assert.strictEqual(validationError.code, 'E_UNIQUE');
-    assert.strictEqual(validationError.model, 'Collection');
     assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);
     assert.strictEqual(validationError.invalidAttributes['name'][0].rule, 'unique');
     assert.strictEqual(validationError.invalidAttributes['name'][0].value, '"this" here \\is\\ a "test"');
