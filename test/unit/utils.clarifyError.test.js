@@ -60,6 +60,28 @@ describe('clarifyError', function () {
     assert.strictEqual(validationError.invalidAttributes['name'][0].value, '"this" here \\is\\ a "test"');
     assert.strictEqual(validationError.originalError, err);
   });
+
+  it('handles non-string values correctly', function () {
+    var err = createError('test', 'collection', 'name', 360.25);
+    var validationError = clarifyError(err);
+
+    assert.strictEqual(validationError.code, 'E_UNIQUE');
+    assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);
+    assert.strictEqual(validationError.invalidAttributes['name'][0].rule, 'unique');
+    assert.strictEqual(validationError.invalidAttributes['name'][0].value, 360.25);
+    assert.strictEqual(validationError.originalError, err);
+  });
+
+  it('uses the string representation of non-JSON-serializable values', function () {
+    var err = createError('test', 'collection', 'name', 'ObjectId("507f191e810c19729de860ea")');
+    var validationError = clarifyError(err);
+
+    assert.strictEqual(validationError.code, 'E_UNIQUE');
+    assert(validationError.invalidAttributes['name'] && validationError.invalidAttributes['name'][0]);
+    assert.strictEqual(validationError.invalidAttributes['name'][0].rule, 'unique');
+    assert.strictEqual(validationError.invalidAttributes['name'][0].value, 'ObjectId("507f191e810c19729de860ea")');
+    assert.strictEqual(validationError.originalError, err);
+  });
 });
 
 /**
