@@ -13,11 +13,13 @@ test-integration:
 test-unit:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
+		--globals "Promise" \
 		$(MOCHA_OPTS) \
 		test/unit/**
 
 test-load:
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
+		--globals "Promise" \
 		$(MOCHA_OPTS) \
 		test/load/**
