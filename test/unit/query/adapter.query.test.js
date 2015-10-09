@@ -99,6 +99,17 @@ describe('Query', function () {
         assert(_.isEqual(actual['user'].toString(), expect['user'].toString()));
       });
 
+      it('should accept objectid string', function () {
+        var _id = new ObjectID();
+        var where = {
+          user: '' + new ObjectID(_id)
+        };
+
+        var Q = new Query({ where: where }, { user: 'objectid' });
+        var actual = Q.criteria.where;
+        assert(_.isEqual(typeof actual['user'], 'string'));
+      });
+
       it('should accept objectid in Not Pair', function () {
         var _id = new ObjectID();
         var where = {
