@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "async": "~1.4.2",
-    "background-compute": "0.0.4",
+    "background-compute": "~0.0.7",
     "lodash": "~3.10.0",
     "mongodb": "^2.0.42",
     "validator": "^4.1.0",
