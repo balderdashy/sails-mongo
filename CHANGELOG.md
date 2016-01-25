@@ -9,3 +9,5 @@
 * [ENHANCEMENT] Allow multi-line queries when using `contains`, `like`, `startsWith`, and `endsWith`. See [#308](https://github.com/balderdashy/sails-mongo/pull/308) for more. Thanks [@vbud](https://github.com/vbud).
 
 * [BUG] Fix issue when returning results with the key `_id` that are not actual ObjectId instances. See [#356](https://github.com/balderdashy/sails-mongo/pull/356) for more. Thanks [@miccar](https://github.com/miccarr).
+
+* [STABILITY] Locked the dependency versions down.
