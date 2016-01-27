@@ -86,7 +86,10 @@ module.exports.adapters = {
     port: 27017,
     user: 'username',
     password: 'password',
-    database: 'your mongo db name here'
+    database: 'your mongo db name here',
+    wlNext: {
+      caseSensitive: false
+    }
   }
 };
 ```
