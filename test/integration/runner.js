@@ -67,9 +67,9 @@ new TestRunner({
 
   // Default connection config to use.
   config: {
-    host: 'localhost',
-    database: 'sails-mongo',
-    port: 27017,
+    host: process.env.MONGO_PORT_27017_TCP_ADDR || process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost',
+    database: process.env.WATERLINE_ADAPTER_TESTS_DATABASE || 'sails-mongo',
+    port: process.env.WATERLINE_ADAPTER_TESTS_PORT || 27017,
     schema: true,
     poolSize: 1
   },
@@ -78,19 +78,19 @@ new TestRunner({
   // The set of adapter interfaces to test against.
   // (grabbed these from this adapter's package.json file above)
   interfaces: interfaces,
-  
+
   // The set of adapter features to test against.
   // (grabbed these from this adapter's package.json file above)
   features: features,
-    
+
   // Mocha options
   // reference: https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically
   mocha: {
     reporter: 'spec'
   },
-    
+
   mochaChainableMethods: {},
-    
+
   // Return code != 0 if any test failed
   failOnError: true
 

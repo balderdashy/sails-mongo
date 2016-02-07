@@ -5,12 +5,11 @@ REPORTER = dot
 test: test-unit test-integration
 
 test-integration:
-	echo 'DROPPING ALL COLLECTIONS IN "sails-mongo"'
-	mongo sails-mongo --eval 'db.dropDatabase()'
 	echo 'Running integration tests...'
 	@NODE_ENV=test node test/integration/runner.js
 
 test-unit:
+	echo 'Running unit tests...'
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
 		--globals "Promise" \
@@ -18,6 +17,7 @@ test-unit:
 		test/unit/**
 
 test-load:
+	echo 'Running load tests...'
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) \
 		--globals "Promise" \

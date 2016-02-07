@@ -1,0 +1,12 @@
+adapter:
+  build: .
+  volumes:
+   - .:/usr/src/app
+  links:
+   - mongo
+  environment:
+   - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
+   - NODE_ENV=test
+
+mongo:
+  image: mongo
