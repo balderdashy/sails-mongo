@@ -43,15 +43,15 @@
   "dependencies": {
     "async": "1.5.2",
     "lodash": "3.10.1",
-    "mongodb": "2.1.3",
+    "mongodb": "2.1.6",
     "validator": "4.5.1",
     "waterline-cursor": "~0.0.6",
-    "waterline-errors": "~0.10.0"
+    "waterline-errors": "~0.10.1"
   },
   "devDependencies": {
-    "mocha": "*",
-    "waterline-adapter-tests": "~0.10.18",
-    "captains-log": "~0.11.1"
+    "captains-log": "~0.11.11",
+    "mocha": "2.4.1",
+    "waterline-adapter-tests": "~0.11.1"
   },
   "waterlineAdapter": {
     "waterlineVersion": "~0.10.0",
