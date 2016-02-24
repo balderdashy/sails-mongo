@@ -42,8 +42,8 @@
   },
   "dependencies": {
     "async": "1.5.2",
-    "mongodb": "2.1.6",
     "lodash": "4.5.1",
+    "machinepack-mongodb": "particlebanana/machinepack-mongodb",
     "validator": "4.5.1",
     "waterline-cursor": "~0.0.6",
     "waterline-errors": "~0.10.1"
