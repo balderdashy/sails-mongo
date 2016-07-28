@@ -4,7 +4,8 @@
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "docker": "docker-compose run adapter bash"
   },
   "keywords": [
     "mongo",
