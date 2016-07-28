@@ -1,5 +1,9 @@
 # Sails-Mongo Changelog
 
+### 0.12.1
+
+* [ENHANCEMENT] Sets the `reconnectInterval` to the mongo default and adds a `reconnectTries` configuration option. See [#118](https://github.com/balderdashy/sails-mongo/issues/118) for more details. Thanks [@luislobo](https://github.com/luislobo) for the patch!
+
 ### 0.12.0
 
 * [ENHANCEMENT] Now exposes a flag `wlNext` that allows you to toggle the case sensitivity of a string query. See [#380](https://github.com/balderdashy/sails-mongo/pull/380) and [#238](https://github.com/balderdashy/sails-mongo/pull/238) for more. Thanks [@nicoespeon](https://github.com/nicoespeon).
