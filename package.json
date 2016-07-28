@@ -1,6 +1,6 @@
 {
   "name": "sails-mongo",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
