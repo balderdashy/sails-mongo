@@ -7,11 +7,6 @@
 
 Waterline adapter for MongoDB.
 
-> **Heads up**
->
-> `sails-mongo` maps the logical `id` attribute to the required `_id` physical-layer mongo id.
-> In the current version of `sails-mongo`, you **should not** sort by `id`.
-
 ## Installation
 
 Install from NPM.
