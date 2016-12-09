@@ -2,8 +2,10 @@
 
 # sails-mongo
 [![Build Status](https://travis-ci.org/balderdashy/sails-mongo.svg?branch=master)](https://travis-ci.org/balderdashy/sails-mongo)
+[![Build status on Windows](https://ci.appveyor.com/api/projects/status/u0i1o62tsw6ymbjd/branch/master?svg=true)](https://ci.appveyor.com/project/mikermcneil/sails-mongo/branch/master)
 [![npm version](https://badge.fury.io/js/sails-mongo.svg)](http://badge.fury.io/js/sails-mongo)
 [![Dependency Status](https://david-dm.org/balderdashy/sails-mongo.svg)](https://david-dm.org/balderdashy/sails-mongo)
+
 
 Waterline adapter for MongoDB.
 
