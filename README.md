@@ -50,16 +50,29 @@ module.exports.models = {
 };
 ```
 
-#### What about mongo urls?
+#### What about MongoDB urls?
 
-Alternatively, you can specify your Mongo configuration as a URL, e.g.:
+You can follow [MongoDB URI Connection Settings](https://docs.mongodb.com/manual/reference/connection-string/) specification on how to define a connection string URI.
+
+Following there is an example on how to configure the connection to your MongoDB server using a URL. e.g.:
 
 ```js
 module.exports.connections = {
 
   someMongoDb: {
     adapter: 'sails-mongo',
-    url: process.env.MONGOLAB_URI
+    url: 'mongodb://heroku_12345678:random_password@ds029017.mLab.com:29017/heroku_12345678'
+  }
+};
+```
+You could also use an environment variable, to ease your deployments, for example, to [Heroku](https://devcenter.heroku.com/articles/mongolab#getting-your-connection-uri) , as follows:
+
+```js
+module.exports.connections = {
+
+  someMongoDb: {
+    adapter: 'sails-mongo',
+    url: process.env.MONGODB_URI
   }
 };
 ```
@@ -67,9 +80,20 @@ module.exports.connections = {
 This would be useful if, for instance, your Heroku env variables looked like:
 
 ```bash
-MONGOLAB_URI=mongodb://heroku_app33429348:o9dag2076pnj70p8iqmaj2fiaq@049641.mongolab.com:49641/heroku_app33429348
+MONGODB_URI=mongodb://heroku_12345678:random_password@ds029017.mLab.com:29017/heroku_12345678
 ```
 
+It must be noted though, that if you provide a `url` configuration, then, `database`, `user`, `password`, `host` and `port` configuration options are ignored.
+
+##### What about a MongoDB deployment that is part of a Replica Set?
+
+For example:
+
+```bash
+MONGODB_URI=mongodb://mongodbserver01:27017,mongodbserver02:27017,mongodbserver03:27017/my-app-datatabase?replSet=my-replica-set-name&readPreference=nearest&slaveOk=true
+```
+
+The previous configuration will set three MongoDB servers, named `mongodbserver01`, `mongodbserver02` and `mongodbserver03`, all using port `27017`, connecting to the `my-app-database` and using `my-replica-set-name` as the replica set. It also sets the `readPreference` to `nearest` and allows slave connections, with `slaveOk` set to `true`
 
 
 ### Legacy usage
