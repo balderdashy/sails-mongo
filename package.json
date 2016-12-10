@@ -9,6 +9,7 @@
   },
   "keywords": [
     "mongo",
+    "mongodb",
     "orm",
     "waterline",
     "sails"
@@ -42,8 +43,8 @@
     "url": "git://github.com/balderdashy/sails-mongo.git"
   },
   "dependencies": {
+    "@sailshq/lodash": "3.10.2",
     "async": "1.5.2",
-    "lodash": "3.10.1",
     "mongodb": "2.1.20",
     "validator": "4.5.1",
     "waterline-cursor": "0.0.7",
