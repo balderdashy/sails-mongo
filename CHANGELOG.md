@@ -2,6 +2,7 @@
 
 ### 0.12.2
 
+* [INTERNAL] Bump and pin dependency versions
 * [BUG] Update mongo driver version picking up patches fixes issue with ssl connectivity which was resolved in mongodb[2.1.20]. See [#425](https://github.com/balderdashy/sails-mongo/issues/435) for more details.
 
 ### 0.12.1
