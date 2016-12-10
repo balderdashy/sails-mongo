@@ -14,11 +14,11 @@ describe('Load Testing', function() {
 
     // Register The Collection
     Adapter.registerCollection({ identity: 'test', config: Config }, function(err) {
-      if(err) done(err);
+      if(err) { return done(err); }
 
       // Define The Collection
       Adapter.define('test', Fixture, function(err, schema) {
-        if(err) return done(err);
+        if(err) { return done(err); }
         Schema = schema;
         done();
       });
@@ -40,8 +40,10 @@ describe('Load Testing', function() {
 
         Adapter.create('test', data, next);
       }, function(err, users) {
-        assert(!err);
-        assert(users.length === CONNECTIONS);
+        try {
+          assert(!err,err);
+          assert(users.length === CONNECTIONS, 'expected '+CONNECTIONS+' users but instead got '+users.length);
+        } catch (e) { return done(e); }
         done();
       });
     });
