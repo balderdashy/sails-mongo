@@ -1,8 +1,8 @@
-var Adapter = require('../../lib/adapter'),
-    Config = require('../support/config'),
-    Fixture = require('../support/fixture'),
-    assert = require('assert'),
-    async = require('async');
+var assert = require('assert');
+var async = require('async');
+var Adapter = require('../../lib/adapter');
+var Config = require('../support/config');
+var Fixture = require('../support/fixture');
 
 var CONNECTIONS = 10000;
 
