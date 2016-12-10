@@ -1,18 +1,16 @@
-[![](https://camo.githubusercontent.com/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67)](http://sailsjs.org/#!)
+[![](https://camo.githubusercontent.com/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67)](http://sailsjs.com)
 
 # sails-mongo
-[![Build Status](https://travis-ci.org/balderdashy/sails-mongo.svg?branch=master)](https://travis-ci.org/balderdashy/sails-mongo)
-[![Build status on Windows](https://ci.appveyor.com/api/projects/status/u0i1o62tsw6ymbjd/branch/master?svg=true)](https://ci.appveyor.com/project/mikermcneil/sails-mongo/branch/master)
 [![npm version](https://badge.fury.io/js/sails-mongo.svg)](http://badge.fury.io/js/sails-mongo)
-[![Dependency Status](https://david-dm.org/balderdashy/sails-mongo.svg)](https://david-dm.org/balderdashy/sails-mongo)
 
+Sails.js/Waterline adapter for MongoDB.
 
-Waterline adapter for MongoDB.
 
 > **Heads up**
 >
 > `sails-mongo` maps the logical `id` attribute to the required `_id` physical-layer mongo id.
 > In the current version of `sails-mongo`, you **should not** sort by `id`.
+
 
 ## Installation
 
@@ -22,16 +20,21 @@ Install from NPM.
 $ npm install sails-mongo --save
 ```
 
-## Sails Configuration
+## Usage
 
-### Using with Sails v0.11.x (>= 0.10.x)
+> Note: The following instructions are for apps using at least Sails v0.10.x, up through v0.12.x.
+> + For help with legacy versions of Sails, see [#Legacy Usage](#Legacy-usage) below.
+> + To use sails-mongo with the Sails v1 / Waterline 0.13 prerelease, see [the 1.0 branch of sails-docs](https://github.com/balderdashy/sails-docs/tree/1.0).
 
-Add the following config to the `config/connections.js` file:
+
+After installing this adapter as a dependency of your Sails app, make this particular Mongo database your default datastore by adding the following settings to the files in your config folder:
+
 
 ```javascript
+// config/connections.js
 module.exports.connections = {
 
-  someMongoDb: {
+  localMongoDb: {
     adapter: 'sails-mongo',
     host: 'localhost', // defaults to `localhost` if omitted
     port: 27017, // defaults to 27017 if omitted
@@ -39,16 +42,32 @@ module.exports.connections = {
     password: 'password_here', // or omit if not relevant
     database: 'database_name_here' // or omit if not relevant
   }
+
 };
 ```
-
-And set this particular mongo database as your default in `config/models.js`:
 
 ```js
+// config/models.js
 module.exports.models = {
-  'connection': 'someMongoDb'
+  'connection': 'localMongoDb'
 };
 ```
+
+#### What about production?
+In production, use config/env/production.js and/or environment variables.
+
+
+## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/sails-mongo.svg)](http://npmjs.com/package/sails-mongo)
+
+To report a bug, [click here](http://sailsjs.com/bugs).
+
+
+## Help
+
+If you have questions or need help, click [here](http://sailsjs.com/support).
+
+
+## FAQ
 
 #### What about MongoDB urls?
 
@@ -59,7 +78,7 @@ Following there is an example on how to configure the connection to your MongoDB
 ```js
 module.exports.connections = {
 
-  someMongoDb: {
+  localMongoDb: {
     adapter: 'sails-mongo',
     url: 'mongodb://heroku_12345678:random_password@ds029017.mLab.com:29017/heroku_12345678'
   }
@@ -70,7 +89,7 @@ You could also use an environment variable, to ease your deployments, for exampl
 ```js
 module.exports.connections = {
 
-  someMongoDb: {
+  localMongoDb: {
     adapter: 'sails-mongo',
     url: process.env.MONGODB_URI
   }
@@ -85,7 +104,8 @@ MONGODB_URI=mongodb://heroku_12345678:random_password@ds029017.mLab.com:29017/he
 
 It must be noted though, that if you provide a `url` configuration, then, `database`, `user`, `password`, `host` and `port` configuration options are ignored.
 
-##### What about a MongoDB deployment that is part of a Replica Set?
+
+#### What about a MongoDB deployment that is part of a Replica Set?
 
 For example:
 
@@ -96,7 +116,8 @@ MONGODB_URI=mongodb://mongodbserver01:27017,mongodbserver02:27017,mongodbserver0
 The previous configuration will set three MongoDB servers, named `mongodbserver01`, `mongodbserver02` and `mongodbserver03`, all using port `27017`, connecting to the `my-app-database` and using `my-replica-set-name` as the replica set. It also sets the `readPreference` to `nearest` and allows slave connections, with `slaveOk` set to `true`
 
 
-### Legacy usage
+
+## Legacy usage
 
 ####Using with Sails v0.9.x
 
@@ -156,33 +177,30 @@ module.exports.adapters = {
 };
 ```
 
-Don't forget that Mongo uses the ObjectId type for ids.
-
-## Sails.js
-
-http://sailsjs.org
-
-## Waterline
-
-[Waterline](https://github.com/balderdashy/waterline) is a brand new kind of storage and retrieval engine.
-
-It provides a uniform API for accessing stuff from different kinds of databases, protocols, and 3rd party APIs. That means you write the same code to get users, whether they live in MySQL, LDAP, MongoDB, or Facebook.
+> Don't forget that Mongo uses the ObjectId type for ids.
 
 
-## Contributors
 
-Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin Persson ([@prssn](https://twitter.com/prssn)) for building this adapter.
+## Contributing &nbsp; [![Dependency Status](https://david-dm.org/balderdashy/sails-mongo.svg)](https://david-dm.org/balderdashy/sails-mongo) &nbsp; [![Build Status](https://travis-ci.org/balderdashy/sails-mongo.svg?branch=master)](https://travis-ci.org/balderdashy/sails-mongo) &nbsp; [![Build status on Windows](https://ci.appveyor.com/api/projects/status/u0i1o62tsw6ymbjd/branch/master?svg=true)](https://ci.appveyor.com/project/mikermcneil/sails-mongo/branch/master)
+
+Please observe the guidelines and conventions laid out in the [Sails project contribution guide](http://sailsjs.com/contribute) when opening issues or submitting pull requests.
+
+[![NPM](https://nodei.co/npm/sails-mongo.png?downloads=true)](http://npmjs.com/package/sails-mongo)
 
 
-## Sails.js License
+#### Special thanks
 
-### The MIT License (MIT)
+Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin Persson ([@prssn](https://twitter.com/prssn)) for building the first version of this adapter back in 2013.  Since then, it has evolved into a core adapter within the framework.
 
-Copyright © 2012-2015 Mike McNeil &amp; contributors
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+## License
 
-THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+MIT
+
+&copy; 2013 Ted Kulp, Robin Persson, Cody Stoltman, Mike McNeil, Balderdash Design Co.
+&copy; 2014 Balderdash Design Co.
+&copy; 2015-2016 The Treeline Co.
+
+Like the [Sails framework](http://sailsjs.com), this adapter is free and open-source under the [MIT License](http://sailsjs.com/license).
 

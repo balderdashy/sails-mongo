@@ -46,13 +46,13 @@
     "lodash": "3.10.1",
     "mongodb": "2.1.20",
     "validator": "4.5.1",
-    "waterline-cursor": "~0.0.6",
-    "waterline-errors": "~0.10.1"
+    "waterline-cursor": "0.0.7",
+    "waterline-errors": "0.10.1"
   },
   "devDependencies": {
-    "captains-log": "~0.11.11",
-    "mocha": "2.4.1",
-    "waterline-adapter-tests": "~0.11.1"
+    "captains-log": "^1.0.2",
+    "mocha": "3.0.2",
+    "waterline-adapter-tests": "~0.12.1"
   },
   "waterlineAdapter": {
     "waterlineVersion": "~0.10.0",
