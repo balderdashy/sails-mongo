@@ -53,8 +53,12 @@ module.exports.models = {
 };
 ```
 
+> For more information about configuring datastores in your Sails app, click [here](http://sailsjs.com/documentation/reference/config/sails-config-connections).
+
 #### What about production?
 In production, use config/env/production.js and/or environment variables.
+
+> For more about getting your Sails app ready for production, see [**Concepts > Deployment**](http://sailsjs.com/documentation/concepts/deployment).
 
 
 ## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/sails-mongo.svg)](http://npmjs.com/package/sails-mongo)
