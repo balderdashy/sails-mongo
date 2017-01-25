@@ -1,10 +1,10 @@
 {
   "name": "sails-mongo",
-  "version": "0.12.2",
+  "version": "1.0.0-1",
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
-    "test": "make test",
+    "test": "NODE_ENV=test node ./node_modules/mocha/bin/mocha test/adapter/unit --recursive && NODE_ENV=test node test/adapter/integration/runner",
     "docker": "docker-compose run adapter bash"
   },
   "keywords": [
@@ -45,15 +45,16 @@
   "dependencies": {
     "@sailshq/lodash": "^3.10.2",
     "async": "2.0.1",
-    "mongodb": "2.1.20",
-    "validator": "4.5.1",
-    "waterline-cursor": "0.0.7",
-    "waterline-errors": "0.10.1"
+    "machine": "^13.0.0-17",
+    "machinepack-mongodb": "^1.0.0-0",
+    "mongodb": "^2.2.22",
+    "waterline-utils": "^1.3.1"
   },
   "devDependencies": {
-    "captains-log": "^1.0.2",
+    "benchmark": "2.1.1",
+    "eslint": "3.5.0",
     "mocha": "3.0.2",
-    "waterline-adapter-tests": "~0.12.1"
+    "waterline-adapter-tests": "^1.0.0-2"
   },
   "waterlineAdapter": {
     "waterlineVersion": "~0.10.0",
