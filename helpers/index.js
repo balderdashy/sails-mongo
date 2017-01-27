@@ -8,7 +8,6 @@ module.exports = {
   destroy: require('./destroy'),
   registerDataStore: require('./register-data-store'),
   select: require('./select'),
-  setSequence: require('./set-sequence'),
   sum: require('./sum'),
   teardown: require('./teardown'),
   update: require('./update')
