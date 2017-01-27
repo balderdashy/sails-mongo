@@ -126,6 +126,13 @@ module.exports = require('machine').build({
       delete query.newRecord[primaryKeyColumnName];
     }
 
+    // Always make sure either _id is set to something valid or removed.
+    // Default value for _id is an empty string which blows up on Mongo.
+    if (_.has(query.newRecord, '_id')) {
+      if (query.newRecord._id === '') {
+        delete query.newRecord._id;
+      }
+    }
 
     // Get mongo collection (and spawn a new connection)
     var collection = inputs.datastore.manager.collection(query.using);

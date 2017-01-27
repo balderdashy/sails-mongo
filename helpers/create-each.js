@@ -129,10 +129,18 @@ module.exports = require('machine').build({
     var primaryKeyField = model.primaryKey;
     var primaryKeyColumnName = model.definition[primaryKeyField].columnName;
 
-    // Remove primary key if the value is NULL
+    // Remove primary key if the value is NULL AND always make sure either _id
+    // is set to something valid or removed.
     _.each(query.newRecords, function removeNullPrimaryKey(record) {
       if (_.isNull(record[primaryKeyColumnName])) {
         delete record[primaryKeyColumnName];
+      }
+
+      // Default value for _id is an empty string which blows up on Mongo.
+      if (_.has(record, '_id')) {
+        if (record._id === '') {
+          delete record._id;
+        }
       }
     });
 
