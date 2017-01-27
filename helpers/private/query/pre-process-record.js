@@ -40,9 +40,15 @@ module.exports = function preProcessRecord(options) {
 
   // Run all the records through the iterator so that they can be normalized.
   eachRecordDeep(options.records, function iterator(record, WLModel) {
+    // If trying to change the _id value, remove it.
+    if (_.has(record, '_id')) {
+      delete record._id;
+    }
+
     // Find any foreign key values and store them as ObjectIDs rather than
     // strings.
     _.each(WLModel.definition, function findForeignKeys(def) {
+
       if (_.has(def, 'foreignKey') && def.foreignKey) {
         var attrName = def.columnName;
         if (_.has(record, attrName) && !_.isUndefined(record[attrName])) {
