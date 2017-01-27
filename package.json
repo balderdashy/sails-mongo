@@ -47,7 +47,8 @@
       "migratable"
     ],
     "features": [
-      "cross-adapter"
+      "cross-adapter",
+      "unique"
     ]
   }
 }
