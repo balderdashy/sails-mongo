@@ -91,15 +91,17 @@ module.exports = require('machine').build({
     //  ╔╗ ╦ ╦╦╦  ╔╦╗  ┌─┐┌─┐┌─┐┬─┐┌─┐┌─┐┌─┐┌┬┐┬┌─┐┌┐┌
     //  ╠╩╗║ ║║║   ║║  ├─┤│ ┬│ ┬├┬┘├┤ │ ┬├─┤ │ ││ ││││
     //  ╚═╝╚═╝╩╩═╝═╩╝  ┴ ┴└─┘└─┘┴└─└─┘└─┘┴ ┴ ┴ ┴└─┘┘└┘
-    var aggregation = [{
-      $match: where,
-      $group: {
-        _id: query.numericAttrName,
-        avg: {
-          $avg: '$' + query.numericAttrName
+    var aggregation = [
+      { $match: where },
+      {
+        $group: {
+          _id: query.numericAttrName,
+          avg: {
+            $avg: '$' + query.numericAttrName
+          }
         }
       }
-    }];
+    ];
 
     // Run the aggregation on the collection.
     collection.aggregate(aggregation, function(err, results) {
@@ -107,7 +109,8 @@ module.exports = require('machine').build({
         return exits.error(err);
       }
 
-      return exits.success(results);
+      var avg = _.first(results).avg;
+      return exits.success(avg);
     });
   }
 });
