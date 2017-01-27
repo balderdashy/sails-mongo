@@ -4,8 +4,8 @@
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
-    "test": "NODE_ENV=test node ./node_modules/mocha/bin/mocha test/adapter/unit --recursive && NODE_ENV=test node test/adapter/integration/runner",
-    "fasttest": "NODE_ENV=test node ./node_modules/mocha/bin/mocha test/adapter/unit --recursive && NODE_ENV=test node test/adapter/integration/runner",
+    "test": "NODE_ENV=test node test/adapter/integration/runner",
+    "fasttest": "NODE_ENV=test node test/adapter/integration/runner",
     "pretest": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi",
     "lint": "eslint lib helpers",
     "docker": "docker-compose run adapter bash"

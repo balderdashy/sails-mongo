@@ -14,15 +14,15 @@
  */
 
 var util = require('util');
-var mocha = require('mocha');
 var TestRunner = require('waterline-adapter-tests');
 var Adapter = require('../../../lib/adapter');
 
 
 // Grab targeted interfaces from this adapter's `package.json` file:
-var package = {},
-  interfaces = [],
-  features = [];
+var package = {};
+var interfaces = [];
+var features = [];
+
 try {
   package = require('../../../package.json');
   interfaces = package.waterlineAdapter.interfaces;
@@ -45,18 +45,18 @@ console.log('http://links.sailsjs.org/docs/plugins/adapters/interfaces');
 
 
 
-/**
- * Integration Test Runner
- *
- * Uses the `waterline-adapter-tests` module to
- * run mocha tests against the specified interfaces
- * of the currently-implemented Waterline adapter API.
- */
+//
+// Integration Test Runner
+//
+// Uses the `waterline-adapter-tests` module to
+// run mocha tests against the specified interfaces
+// of the currently-implemented Waterline adapter API.
 new TestRunner({
 
   // Mocha opts
   mocha: {
-    bail: true
+    bail: true,
+    reporter: 'spec'
   },
 
   // Load the adapter module.
@@ -79,12 +79,6 @@ new TestRunner({
   // The set of adapter features to test against.
   // (grabbed these from this adapter's package.json file above)
   features: features,
-
-  // Mocha options
-  // reference: https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically
-  mocha: {
-    reporter: 'spec'
-  },
 
   mochaChainableMethods: {},
 
