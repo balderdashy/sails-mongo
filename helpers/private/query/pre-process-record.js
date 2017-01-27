@@ -48,7 +48,6 @@ module.exports = function preProcessRecord(options) {
     // Find any foreign key values and store them as ObjectIDs rather than
     // strings.
     _.each(WLModel.definition, function findForeignKeys(def) {
-
       if (_.has(def, 'foreignKey') && def.foreignKey) {
         var attrName = def.columnName;
         if (_.has(record, attrName) && !_.isUndefined(record[attrName])) {

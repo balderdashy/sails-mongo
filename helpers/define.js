@@ -64,7 +64,6 @@ module.exports = require('machine').build({
 
 
   fn: function define(inputs, exits) {
-
     // Get mongo collection (and spawn a new connection)
     var collection = inputs.datastore.manager.collection(inputs.collectionName);
 
