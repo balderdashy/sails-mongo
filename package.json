@@ -61,7 +61,8 @@
     "interfaces": [
       "semantic",
       "queryable",
-      "associations"
+      "associations",
+      "migratable"
     ],
     "features": [
       "cross-adapter"
