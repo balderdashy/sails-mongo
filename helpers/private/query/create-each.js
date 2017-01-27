@@ -36,7 +36,7 @@ module.exports = function createEach(options, cb) {
   // Insert the documents into the db.
   collection.insertMany(query.newRecords, function insertCb(err, report) {
     if (err) {
-      if (err.code === 11000) {
+      if (err.code === 11000 || err.code === 11001) {
         err.footprint = {
           identity: 'notUnique'
         };
