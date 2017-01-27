@@ -153,7 +153,7 @@ module.exports = require('machine').build({
       // Update the documents in the db.
       collection.updateMany(where, { '$set': query.valuesToSet }, function updateManyCb(err) {
         if (err) {
-          if (err.errorType === 'uniqueViolated') {
+          if (err.code === 11000) {
             err.footprint = {
               identity: 'notUnique'
             };
