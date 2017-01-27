@@ -37,6 +37,8 @@ module.exports = function parseObjectIds(val) {
     if (objectified.toString() === val) {
       return objectified;
     }
+
+    return val;
   } catch (e) {
     return val;
   }
