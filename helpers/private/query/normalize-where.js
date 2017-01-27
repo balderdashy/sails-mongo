@@ -3,7 +3,6 @@
  */
 
 var _ = require('@sailshq/lodash');
-var ObjectID = require('mongodb').ObjectID;
 var parseObjectId = require('./parse-object-id');
 
 module.exports = function normalizeWhereClause(_whereClause) {
@@ -15,7 +14,7 @@ module.exports = function normalizeWhereClause(_whereClause) {
     var val = branch[loneKey];
 
     if (loneKey === 'and' || loneKey === 'or') {
-      branch['$'+loneKey] = _.map(val, transformBranch);
+      branch['$' + loneKey] = _.map(val, transformBranch);
       delete branch[loneKey];
       return branch;
     }
@@ -71,7 +70,7 @@ module.exports = function normalizeWhereClause(_whereClause) {
         break;
 
       case 'like':
-        val['$regex'] = new RegExp('^'+_.escapeRegExp(modified).replace(/^%/, '.*').replace(/([^\\])%/g, '$1.*').replace(/\\%/g, '%')+'$');
+        val['$regex'] = new RegExp('^' + _.escapeRegExp(modified).replace(/^%/, '.*').replace(/([^\\])%/g, '$1.*').replace(/\\%/g, '%') + '$');
         break;
 
       default:
@@ -80,6 +79,5 @@ module.exports = function normalizeWhereClause(_whereClause) {
     }
 
     return branch;
-
   })(whereClause);
 };

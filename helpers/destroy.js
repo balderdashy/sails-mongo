@@ -63,7 +63,6 @@ module.exports = require('machine').build({
   fn: function destroy(inputs, exits) {
     // Dependencies
     var _ = require('@sailshq/lodash');
-    var WLUtils = require('waterline-utils');
     var Helpers = require('./private');
 
 
@@ -82,6 +81,12 @@ module.exports = require('machine').build({
     var fetchRecords = false;
 
 
+    // Build a faux ORM for use in processEachRecords
+    var fauxOrm = {
+      collections: inputs.models
+    };
+
+
     //  ╔╦╗╔═╗╔╦╗╔═╗╦═╗╔╦╗╦╔╗╔╔═╗  ┬ ┬┬ ┬┬┌─┐┬ ┬  ┬  ┬┌─┐┬  ┬ ┬┌─┐┌─┐
     //   ║║║╣  ║ ║╣ ╠╦╝║║║║║║║║╣   │││├─┤││  ├─┤  └┐┌┘├─┤│  │ │├┤ └─┐
     //  ═╩╝╚═╝ ╩ ╚═╝╩╚═╩ ╩╩╝╚╝╚═╝  └┴┘┴ ┴┴└─┘┴ ┴   └┘ ┴ ┴┴─┘└─┘└─┘└─┘
@@ -91,11 +96,6 @@ module.exports = require('machine').build({
     if (_.has(query.meta, 'fetch') && query.meta.fetch) {
       fetchRecords = true;
     }
-
-
-    // Find the Primary Key
-    var primaryKeyField = model.primaryKey;
-    var primaryKeyColumnName = model.definition[primaryKeyField].columnName;
 
 
     // Get mongo collection (and spawn a new connection)
@@ -131,7 +131,7 @@ module.exports = require('machine').build({
       }
 
       // Destroy the documents in the db.
-      collection.deleteMany(where, function(err, results) {
+      collection.deleteMany(where, function deleteCb(err) {
         if (err) {
           return exits.error(err);
         }

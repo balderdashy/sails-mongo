@@ -34,7 +34,7 @@ module.exports = function createEach(options, cb) {
   var query = options.query;
 
   // Insert the documents into the db.
-  collection.insertMany(query.newRecords, function(err, report) {
+  collection.insertMany(query.newRecords, function insertCb(err, report) {
     if (err) {
       if (err.errorType === 'uniqueViolated') {
         err.footprint = {
@@ -43,13 +43,13 @@ module.exports = function createEach(options, cb) {
 
         // If we can infer which attribute this refers to, add a `keys` array to the error.
         // First, see if only one value in the new record matches the value that triggered the uniqueness violation.
-        var errKeys = _.filter(_.values(_.first(query.newRecords)), function (val) {
+        var errKeys = _.filter(_.values(_.first(query.newRecords)), function filterFn(val) {
           return val === err.key;
         });
 
-        if(errKeys.length === 1) {
+        if (errKeys.length === 1) {
           // If so, find the key (i.e. column name) that this value was assigned to, add set that in the `keys` array.
-          var footprintKey = _.findKey(query.newRecord, function(val) {
+          var footprintKey = _.findKey(query.newRecord, function findFn(val) {
             return val === err.key;
           });
 

@@ -42,7 +42,7 @@ module.exports = function preProcessRecord(options) {
   eachRecordDeep(options.records, function iterator(record, WLModel) {
     // Find any foreign key values and store them as ObjectIDs rather than
     // strings.
-    _.each(WLModel.definition, function findForeignKeys(def, key) {
+    _.each(WLModel.definition, function findForeignKeys(def) {
       if (_.has(def, 'foreignKey') && def.foreignKey) {
         var attrName = def.columnName;
         if (_.has(record, attrName) && !_.isUndefined(record[attrName])) {
@@ -52,7 +52,7 @@ module.exports = function preProcessRecord(options) {
             // If the objectified is equal to the value then it's a mongo id. This works
             // because when a valid ObjectID is created it's preserved.
             if (objectified.toString() === record[attrName]) {
-              return record[attrName] = objectified;
+              record[attrName] = objectified;
             }
           } catch (e) {
             return;

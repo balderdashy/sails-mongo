@@ -75,7 +75,6 @@ module.exports = require('machine').build({
   fn: function create(inputs, exits) {
     // Dependencies
     var _ = require('@sailshq/lodash');
-    var utils = require('waterline-utils');
     var Helpers = require('./private');
 
     // Store the Query input for easier access

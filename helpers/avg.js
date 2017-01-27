@@ -104,7 +104,7 @@ module.exports = require('machine').build({
     ];
 
     // Run the aggregation on the collection.
-    collection.aggregate(aggregation, function(err, results) {
+    collection.aggregate(aggregation, function aggregateCb(err, results) {
       if (err) {
         return exits.error(err);
       }

@@ -45,7 +45,7 @@ module.exports = function processEachRecord(options) {
     }
 
     // Also transform any foreign key values to strings
-    _.each(WLModel.definition, function findForeignKeys(def, key) {
+    _.each(WLModel.definition, function findForeignKeys(def) {
       if (_.has(def, 'foreignKey') && def.foreignKey) {
         var attrName = def.columnName;
         if (_.has(record, attrName) && !_.isUndefined(record[attrName])) {
@@ -55,7 +55,7 @@ module.exports = function processEachRecord(options) {
             // If the objectified is equal to the value then it's a mongo id. This works
             // because when a valid ObjectID is created it's preserved.
             if (objectified.toString() === record[attrName].toString()) {
-              return record[attrName] = objectified.toString();
+              record[attrName] = objectified.toString();
             }
           } catch (e) {
             return;

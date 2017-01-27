@@ -20,7 +20,7 @@ module.exports = function createManager(url, config, cb) {
   Mongo.createManager({
     connectionString: url,
     meta: config
-  }).exec(function(err, report) {
+  }).exec(function createCb(err, report) {
     if (err) {
       return cb(err);
     }

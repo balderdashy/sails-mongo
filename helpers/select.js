@@ -91,14 +91,14 @@ module.exports = require('machine').build({
     }
 
     // Transform the stage-3 query sort array into a Mongo sort dictionary.
-    var sort = _.reduce(query.criteria.sort, function(memo, sortObj) {
+    var sort = _.reduce(query.criteria.sort, function reduceSort(memo, sortObj) {
       var key = _.first(_.keys(sortObj));
       memo[key] = sortObj[key].toLowerCase() === 'asc' ? 1 : -1;
       return memo;
     }, {});
 
     // Transform the stage-3 query select array into a Mongo projection dictionary.
-    var projection = _.reduce(query.criteria.select, function(memo, colName) {
+    var projection = _.reduce(query.criteria.select, function reduceProjection(memo, colName) {
       memo[colName] = 1;
       return memo;
     }, {});
@@ -117,9 +117,9 @@ module.exports = require('machine').build({
     }
 
     // Find the documents in the db.
-    findQuery.toArray(function(err, records) {
+    findQuery.toArray(function findCb(err, records) {
       if (err) {
-        return cb(err);
+        return exits.error(err);
       }
 
       var selectRecords = records;

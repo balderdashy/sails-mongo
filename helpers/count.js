@@ -62,7 +62,6 @@ module.exports = require('machine').build({
 
   fn: function count(inputs, exits) {
     // Dependencies
-    var _ = require('@sailshq/lodash');
     var Helpers = require('./private');
 
 

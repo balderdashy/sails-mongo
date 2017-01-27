@@ -118,11 +118,6 @@ module.exports = require('machine').build({
     }
 
 
-    // Find the Primary Key
-    var primaryKeyField = model.primaryKey;
-    var primaryKeyColumnName = model.definition[primaryKeyField].columnName;
-
-
     // Get mongo collection (and spawn a new connection)
     var collection = inputs.datastore.manager.collection(query.using);
 
@@ -156,7 +151,7 @@ module.exports = require('machine').build({
       }
 
       // Update the documents in the db.
-      collection.updateMany(where, { '$set': query.valuesToSet }, function(err, results) {
+      collection.updateMany(where, { '$set': query.valuesToSet }, function updateManyCb(err) {
         if (err) {
           if (err.errorType === 'uniqueViolated') {
             err.footprint = {
@@ -165,13 +160,13 @@ module.exports = require('machine').build({
 
             // If we can infer which attribute this refers to, add a `keys` array to the error.
             // First, see if only one value in the new record matches the value that triggered the uniqueness violation.
-            var errKeys = _.filter(_.values(_.first(query.newRecords)), function (val) {
+            var errKeys = _.filter(_.values(_.first(query.newRecords)), function filterFn(val) {
               return val === err.key;
             });
 
-            if(errKeys.length === 1) {
+            if (errKeys.length === 1) {
               // If so, find the key (i.e. column name) that this value was assigned to, add set that in the `keys` array.
-              var footprintKey = _.findKey(_.first(query.newRecords), function(val) {
+              var footprintKey = _.findKey(_.first(query.newRecords), function findFn(val) {
                 return val === err.key;
               });
 
@@ -194,7 +189,7 @@ module.exports = require('machine').build({
           });
 
           // Do a find using the id's found previously
-          collection.find({ _id: { '$in': matchedRecords }}).toArray(function fetchCb(err, foundRecords) {
+          collection.find({ _id: { '$in': matchedRecords } }).toArray(function fetchCb(err, foundRecords) {
             if (err) {
               return exits.error(err);
             }
