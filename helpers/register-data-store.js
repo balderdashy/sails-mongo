@@ -74,7 +74,7 @@ module.exports = require('machine').build({
   fn: function registerDataStore(inputs, exits) {
     // Dependencies
     var _ = require('@sailshq/lodash');
-    var Mongo = require('machinepack-mongodb');
+    var Mongo = require('machinepack-mongo');
     var Helpers = require('./private');
 
     // Validate that the datastore isn't already initialized

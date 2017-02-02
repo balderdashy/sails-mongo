@@ -14,7 +14,7 @@
 //
 // Release an open database connection.
 
-var Mongo = require('machinepack-mongodb');
+var Mongo = require('machinepack-mongo');
 
 module.exports = function releaseConnection(connection, cb) {
   Mongo.releaseConnection({

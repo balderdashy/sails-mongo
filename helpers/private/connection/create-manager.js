@@ -14,7 +14,7 @@
 //
 // Create a new connection manager to use.
 
-var Mongo = require('machinepack-mongodb');
+var Mongo = require('machinepack-mongo');
 
 module.exports = function createManager(url, config, cb) {
   Mongo.createManager({

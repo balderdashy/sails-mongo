@@ -14,7 +14,7 @@
 //
 // Instantiate a new connection from the connection manager.
 
-var Mongo = require('machinepack-mongodb');
+var Mongo = require('machinepack-mongo');
 
 module.exports = function spawnConnection(datastore, cb) {
   // Validate datastore
