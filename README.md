@@ -204,7 +204,7 @@ MIT
 
 &copy; 2013 Ted Kulp, Robin Persson, Cody Stoltman, Mike McNeil, Balderdash Design Co.
 &copy; 2014 Balderdash Design Co.
-&copy; 2015-2016 The Treeline Co.
+&copy; 2015-2017 The Sails Co.
 
 Like the [Sails framework](http://sailsjs.com), this adapter is free and open-source under the [MIT License](http://sailsjs.com/license).
 
