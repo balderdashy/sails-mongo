@@ -98,6 +98,11 @@ module.exports = require('machine').build({
       collections: inputs.models
     };
 
+    // Check for empty array which will error out.
+    if (query.newRecords.length === 0) {
+      return exits.success();
+    }
+
 
     //  ╔═╗╦═╗╔═╗  ╔═╗╦═╗╔═╗╔═╗╔═╗╔═╗╔═╗  ┬─┐┌─┐┌─┐┌─┐┬─┐┌┬┐┌─┐
     //  ╠═╝╠╦╝║╣───╠═╝╠╦╝║ ║║  ║╣ ╚═╗╚═╗  ├┬┘├┤ │  │ │├┬┘ ││└─┐
