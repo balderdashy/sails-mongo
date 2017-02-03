@@ -7,7 +7,7 @@
     "test": "NODE_ENV=test node test/adapter/integration/runner",
     "fasttest": "NODE_ENV=test node test/adapter/integration/runner",
     "pretest": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi",
-    "lint": "eslint lib helpers",
+    "lint": "eslint lib helpers test",
     "docker": "docker-compose run adapter bash"
   },
   "keywords": [
