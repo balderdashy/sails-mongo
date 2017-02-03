@@ -14,7 +14,7 @@
 //
 // Destroys a connection manager.
 
-var Mongo = require('machinepack-mongodb');
+var Mongo = require('machinepack-mongo');
 
 module.exports = function destroyManager(manager, cb) {
   Mongo.destroyManager({
