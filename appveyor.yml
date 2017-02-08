@@ -39,6 +39,10 @@ test_script:
   # Run the actual tests.
   - npm run fasttest
 
+# Setup Mongo Database
+services:
+  - mongodb
+
 
 # Don't actually build.
 # (Not sure what this is for, it's just in Appveyor's example.
