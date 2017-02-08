@@ -29,7 +29,7 @@
     "machine": "^13.0.0-17",
     "machinepack-mongo": "^1.0.0-3",
     "mongodb": "2.2.22",
-    "waterline-utils": "^1.3.2"
+    "waterline-utils": "^1.3.4"
   },
   "devDependencies": {
     "benchmark": "2.1.1",
