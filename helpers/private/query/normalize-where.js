@@ -9,6 +9,11 @@ module.exports = function normalizeWhereClause(_whereClause) {
   // Clone the where clause so that we don't modify the original query object.
   var whereClause = _.cloneDeep(_whereClause);
 
+  // Handle empty where clause
+  if (_.isPlainObject(whereClause) && !_.keys(whereClause).length) {
+    return whereClause;
+  }
+
   return (function transformBranch(branch) {
     var loneKey = _.first(_.keys(branch));
     var val = branch[loneKey];
