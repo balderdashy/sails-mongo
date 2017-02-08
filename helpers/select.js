@@ -107,7 +107,12 @@ module.exports = require('machine').build({
     }, {});
 
     // Create the initial adapter query.
-    var findQuery = collection.find(where, projection).sort(sort);
+    var findQuery;
+    try {
+      findQuery = collection.find(where).project(projection).sort(sort);
+    } catch (err) {
+      return exits.error(err);
+    }
 
     // Add in limit if necessary.
     if (query.criteria.limit) {
