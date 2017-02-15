@@ -14,18 +14,17 @@
  */
 
 var util = require('util');
-var mocha = require('mocha');
-var log = require('captains-log')();
 var TestRunner = require('waterline-adapter-tests');
-var Adapter = require('../../lib/adapter');
+var Adapter = require('../../../lib/adapter');
 
 
 // Grab targeted interfaces from this adapter's `package.json` file:
-var package = {},
-  interfaces = [],
-  features = [];
+var package = {};
+var interfaces = [];
+var features = [];
+
 try {
-  package = require('../../package.json');
+  package = require('../../../package.json');
   interfaces = package.waterlineAdapter.interfaces;
   features = package.waterlineAdapter.features;
 } catch (e) {
@@ -38,28 +37,26 @@ try {
 }
 
 
-log.info('Testing `' + package.name + '`, a Sails/Waterline adapter.');
-log.info('Running `waterline-adapter-tests` against ' + interfaces.length + ' interfaces...');
-log.info('( ' + interfaces.join(', ') + ' )');
-console.log();
-log('Latest draft of Waterline adapter interface spec:');
-log('http://links.sailsjs.org/docs/plugins/adapters/interfaces');
-console.log();
+console.log('Testing `' + package.name + '`, a Sails/Waterline adapter.');
+console.log('Running `waterline-adapter-tests` against ' + interfaces.length + ' interfaces...');
+console.log('( ' + interfaces.join(', ') + ' )');
+console.log('Latest draft of Waterline adapter interface spec:');
+console.log('http://links.sailsjs.org/docs/plugins/adapters/interfaces');
 
 
 
-/**
- * Integration Test Runner
- *
- * Uses the `waterline-adapter-tests` module to
- * run mocha tests against the specified interfaces
- * of the currently-implemented Waterline adapter API.
- */
+//
+// Integration Test Runner
+//
+// Uses the `waterline-adapter-tests` module to
+// run mocha tests against the specified interfaces
+// of the currently-implemented Waterline adapter API.
 new TestRunner({
 
   // Mocha opts
   mocha: {
-    bail: true
+    bail: true,
+    reporter: 'spec'
   },
 
   // Load the adapter module.
@@ -82,12 +79,6 @@ new TestRunner({
   // The set of adapter features to test against.
   // (grabbed these from this adapter's package.json file above)
   features: features,
-
-  // Mocha options
-  // reference: https://github.com/mochajs/mocha/wiki/Using-mocha-programmatically
-  mocha: {
-    reporter: 'spec'
-  },
 
   mochaChainableMethods: {},
 
