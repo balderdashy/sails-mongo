@@ -38,8 +38,11 @@ module.exports = function processEachRecord(options) {
     throw new Error('Invalid option used in options argument. Missing or invalid orm.');
   }
 
+
   // Run all the records through the iterator so that they can be normalized.
   eachRecordDeep(options.records, function iterator(record, WLModel) {
+
+    // TODO: share this logic w/ preProcessRecord, where possible
     if (_.has(record, '_id')) {
       record._id = new ObjectID(record._id).toString();
     }
@@ -64,4 +67,5 @@ module.exports = function processEachRecord(options) {
       }
     });
   }, false, options.identity, options.orm);
+  // ^^TODO: use `true` instead of `false` here
 };

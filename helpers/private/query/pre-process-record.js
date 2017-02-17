@@ -40,30 +40,41 @@ module.exports = function preProcessRecord(options) {
 
   // Run all the records through the iterator so that they can be normalized.
   eachRecordDeep(options.records, function iterator(record, WLModel) {
-    // If trying to change the _id value, remove it.
+
+    // TODO: adjust to work like this:
+    //
+    // If trying to set the _id value explicitly, store it as an
+    // ObjectID rather than a string.
     if (_.has(record, '_id')) {
       delete record._id;
     }
 
-    // Find any foreign key values and store them as ObjectIDs rather than
-    // strings.
+    // For each singular association where an explicit foreign key value was provided
+    // in this new record, first validate that it is a valid Mongo ID string, then
+    // instantiate a new Mongo ObjectID instance and swap out the original string in
+    // the new record before proceeding.
     _.each(WLModel.definition, function findForeignKeys(def) {
-      if (_.has(def, 'foreignKey') && def.foreignKey) {
-        var attrName = def.columnName;
-        if (_.has(record, attrName) && !_.isUndefined(record[attrName])) {
-          try {
-            var objectified = new ObjectID(record[attrName]);
+      if (!def.foreignKey) { return; }
+      var pRecordKey = def.columnName;
+      if (_.isUndefined(record[pRecordKey])) { return; }
 
-            // If the objectified is equal to the value then it's a mongo id. This works
-            // because when a valid ObjectID is created it's preserved.
-            if (objectified.toString() === record[attrName]) {
-              record[attrName] = objectified;
-            }
-          } catch (e) {
-            return;
-          }
+      try {
+        var mongoid = new ObjectID(record[pRecordKey]);
+
+        // If, after objectifying this into a Mongo ID instance and then toStringing it,
+        // we determine that it is equal to the original value, then it's a mongo id.
+        // This works because when a valid ObjectID is created it's preserved.
+        if (mongoid.toString() === record[pRecordKey]) {
+          record[pRecordKey] = mongoid;
         }
+
+      } catch (e) {
+        // TODO: throw a prettified version of this error
+        return;
       }
-    });
+
+    });//</_.each()>
+
   }, false, options.identity, options.orm);
+  // ^^TODO: use `true` instead of `false` here
 };
