@@ -14,7 +14,7 @@
 //
 
 var _ = require('@sailshq/lodash');
-var ObjectID = require('mongodb').ObjectID;
+var ObjectID = require('machinepack-mongo').mongodb.ObjectID;
 var utils = require('waterline-utils');
 var eachRecordDeep = utils.eachRecordDeep;
 

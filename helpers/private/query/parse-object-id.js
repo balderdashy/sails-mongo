@@ -21,7 +21,7 @@
 //
 
 var _ = require('@sailshq/lodash');
-var ObjectID = require('mongodb').ObjectID;
+var ObjectID = require('machinepack-mongo').mongodb.ObjectID;
 
 module.exports = function parseObjectIds(val) {
   if (!_.isString(val)) {

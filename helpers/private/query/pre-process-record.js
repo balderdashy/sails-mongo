@@ -15,7 +15,7 @@
 
 var _ = require('@sailshq/lodash');
 var utils = require('waterline-utils');
-var ObjectID = require('mongodb').ObjectID;
+var ObjectID = require('machinepack-mongo').mongodb.ObjectID;
 var eachRecordDeep = utils.eachRecordDeep;
 
 module.exports = function preProcessRecord(options) {
