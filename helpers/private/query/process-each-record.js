@@ -66,6 +66,7 @@ module.exports = function processEachRecord(options) {
         }
       }
     });
-  }, false, options.identity, options.orm);
-  // ^^TODO: use `true` instead of `false` here
+
+  }, true, options.identity, options.orm);
+
 };

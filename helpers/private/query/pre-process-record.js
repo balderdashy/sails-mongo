@@ -38,8 +38,12 @@ module.exports = function preProcessRecord(options) {
     throw new Error('Invalid option used in options argument. Missing or invalid orm.');
   }
 
-  // Run all the records through the iterator so that they can be normalized.
-  eachRecordDeep(options.records, function iterator(record, WLModel) {
+  // Iterate over the incoming records in order to perform database-specific
+  // validations and normalizations.
+  // > (This should *never* go more than one level deep!)
+  eachRecordDeep(options.records, function iteratee(record, WLModel, depth) {
+    if (depth !== 1) { throw new Error('Consistency violation: Incoming new records in a s3q should never necessitate deep iteration!  If you are seeing this error, it is probably because of a bug in this adapter, or in Waterline core.'); }
+
 
     // TODO: adjust to work like this:
     //
@@ -53,9 +57,10 @@ module.exports = function preProcessRecord(options) {
     // in this new record, first validate that it is a valid Mongo ID string, then
     // instantiate a new Mongo ObjectID instance and swap out the original string in
     // the new record before proceeding.
-    _.each(WLModel.definition, function findForeignKeys(def) {
-      if (!def.foreignKey) { return; }
-      var pRecordKey = def.columnName;
+    var dryAttrDefs = WLModel.definition;
+    _.each(dryAttrDefs, function normalizeForeignKeys(dryAttrDef) {
+      if (!dryAttrDef.foreignKey) { return; }
+      var pRecordKey = dryAttrDef.columnName;
       if (_.isUndefined(record[pRecordKey])) { return; }
 
       try {
@@ -75,6 +80,6 @@ module.exports = function preProcessRecord(options) {
 
     });//</_.each()>
 
-  }, false, options.identity, options.orm);
-  // ^^TODO: use `true` instead of `false` here
+  }, true, options.identity, options.orm);
+
 };
