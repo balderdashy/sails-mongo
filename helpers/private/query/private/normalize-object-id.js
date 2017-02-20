@@ -89,7 +89,7 @@ module.exports = function normalizeObjectId(supposedId) {
     throw flaverr('E_CANNOT_INTERPRET_AS_OBJECTID', new Error(
       'Cannot interpret `'+supposedId+'` as a Mongo id.\n'+
       '(Usually, this is the result of a bug in application logic.)\n'+
-      'For more info on Mongo Ids, see:\n'+
+      'For more info on Mongo ids, see:\n'+
       '• https://docs.mongodb.com/manual/reference/bson-types/#objectid\n'+
       '• http://sailsjs.com/support'
     ));
