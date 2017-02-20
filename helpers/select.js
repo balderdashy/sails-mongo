@@ -44,18 +44,10 @@ module.exports = require('machine').build({
 
     success: {
       description: 'The results of the select query.',
-      outputVariableName: 'records',
-      example: '==='
+      outputFriendlyName: 'Report',
+      outputDescription: 'The `records` key is an array of physical records.  The `meta` key is reserved for passing back adapter-specific information to userland and/or Waterline.',
+      outputExample: '===' //{ records: [ {===} ], meta: '===' }
     },
-
-    invalidDatastore: {
-      description: 'The datastore used is invalid. It is missing key pieces.'
-    },
-
-    badConnection: {
-      friendlyName: 'Bad connection',
-      description: 'A connection either could not be obtained or there was an error using the connection.'
-    }
 
   },
 
@@ -68,18 +60,17 @@ module.exports = require('machine').build({
 
     // Store the Query input for easier access
     var query = inputs.query;
-    query.meta = query.meta || {};
 
 
     // Find the model definition
     var model = inputs.models[query.using];
     if (!model) {
-      return exits.invalidDatastore();
-    }
+      return exits.error(new Error('No `'+query.using+'` model has been registered with this adapter.  Were any unexpected modifications made to the stage 3 query?  Could the adapter\'s internal state have been corrupted?  (This error is usually due to a bug in this adapter\'s implementation.)'));
+    }//-•
 
 
     // Get mongo collection (and spawn a new connection)
-    var collection = inputs.datastore.manager.collection(query.using);
+    var mongoCollection = inputs.datastore.manager.collection(query.using);
 
 
     // Normalize the WHERE criteria into a mongo style where clause
@@ -100,53 +91,49 @@ module.exports = require('machine').build({
       return sortCriteria;
     });
 
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // TODO: deal with case where `select` is not defined (i.e. when a model is `schema: false`)
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
     // Transform the stage-3 query select array into a Mongo projection dictionary.
     var projection = _.reduce(query.criteria.select, function reduceProjection(memo, colName) {
       memo[colName] = 1;
       return memo;
     }, {});
 
-    // Create the initial adapter query.
-    var findQuery;
+    // Create the initial Mongo query.
+    var mongoDeferred;
     try {
-      findQuery = collection.find(where).project(projection).sort(sort);
-    } catch (err) {
-      return exits.error(err);
-    }
+      mongoDeferred = mongoCollection.find(where).project(projection).sort(sort);
+    } catch (err) { return exits.error(err); }
 
     // Add in limit if necessary.
     if (query.criteria.limit) {
-      findQuery.limit(query.criteria.limit);
+      mongoDeferred.limit(query.criteria.limit);
     }
 
     // Add in skip if necessary.
     if (query.criteria.skip) {
-      findQuery.skip(query.criteria.skip);
+      mongoDeferred.skip(query.criteria.skip);
     }
 
     // Find the documents in the db.
-    findQuery.toArray(function findCb(err, records) {
+    mongoDeferred.toArray(function findCb(err, records) {
       if (err) {
         return exits.error(err);
       }
 
-      var selectRecords = records;
-      var orm = {
-        collections: inputs.models
-      };
-
       // Process each record to normalize output
       try {
         Helpers.query.processEachRecord({
-          records: selectRecords,
+          records: records,
           identity: model.identity,
-          orm: orm
+          orm: { collections: inputs.models }
         });
-      } catch (e) {
-        return exits.error(e);
-      }
+      } catch (e) { return exits.error(e); }
 
-      return exits.success({ records: selectRecords });
-    }); // </ findQuery >
+      return exits.success({ records: records });
+
+    }); // </ mongoDeferred.toArray() >
   }
 });
