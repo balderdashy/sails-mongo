@@ -12,11 +12,14 @@
 //  ██████╔╝██║  ██║   ██║   ██║  ██║    ███████║   ██║   ╚██████╔╝██║  ██║███████╗
 //  ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚═╝  ╚═╝    ╚══════╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝╚══════╝
 //
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// FUTURE: Pull this into Waterline core.
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 module.exports = require('machine').build({
 
 
-  friendlyName: 'Register Datastore',
+  friendlyName: 'Register datastore',
 
 
   description: 'Register a new datastore for making connections.',

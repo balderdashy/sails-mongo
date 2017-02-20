@@ -12,7 +12,7 @@ module.exports = require('machine').build({
   friendlyName: 'Create',
 
 
-  description: 'Insert a record into a table in the database.',
+  description: 'Create a new physical record in the database.',
 
 
   inputs: {
@@ -48,15 +48,6 @@ module.exports = require('machine').build({
       example: '==='
     },
 
-    invalidDatastore: {
-      description: 'The datastore used is invalid. It is missing key pieces.'
-    },
-
-    badConnection: {
-      friendlyName: 'Bad connection',
-      description: 'A connection either could not be obtained or there was an error using the connection.'
-    },
-
     notUnique: {
       friendlyName: 'Not Unique',
       example: '==='
@@ -76,8 +67,8 @@ module.exports = require('machine').build({
     // Find the model definition
     var model = inputs.models[query.using];
     if (!model) {
-      return exits.invalidDatastore();
-    }
+      return exits.error(new Error('No `'+query.using+'` model has been registered with this adapter.  Were any unexpected modifications made to the stage 3 query?  Could the adapter\'s internal state have been corrupted?  (This error is usually due to a bug in this adapter\'s implementation.)'));
+    }//-•
 
     // Set a flag to determine if records are being returned
     var fetchRecords = false;
@@ -113,25 +104,25 @@ module.exports = require('machine').build({
       fetchRecords = true;
     }
 
-    // Find the Primary Key
-    var primaryKeyField = model.primaryKey;
-    var primaryKeyColumnName = model.definition[primaryKeyField].columnName;
+    // // Find the Primary Key
+    // var primaryKeyAttrName = model.primaryKey;
+    // var primaryKeyColumnName = model.definition[primaryKeyAttrName].columnName;
 
     // TODO: this should go away, afaik:
     // ------------------------------------------------------------------------
-    // Remove primary key if the value is NULL. This allows the auto-increment
-    // to work properly if set.
-    if (_.isNull(query.newRecord[primaryKeyColumnName])) {
-      delete query.newRecord[primaryKeyColumnName];
-    }
+    // // Remove primary key if the value is NULL. This allows the auto-increment
+    // // to work properly if set.
+    // if (_.isNull(query.newRecord[primaryKeyColumnName])) {
+    //   delete query.newRecord[primaryKeyColumnName];
+    // }
 
-    // Always make sure either _id is set to something valid or removed.
-    // Default value for _id is an empty string which blows up on Mongo.
-    if (_.has(query.newRecord, '_id')) {
-      if (query.newRecord._id === '') {
-        delete query.newRecord._id;
-      }
-    }
+    // // Always make sure either _id is set to something valid or removed.
+    // // Default value for _id is an empty string which blows up on Mongo.
+    // if (_.has(query.newRecord, '_id')) {
+    //   if (query.newRecord._id === '') {
+    //     delete query.newRecord._id;
+    //   }
+    // }
     // ------------------------------------------------------------------------
 
     // Get mongo collection (and spawn a new connection)

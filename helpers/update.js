@@ -48,15 +48,6 @@ module.exports = require('machine').build({
       example: '==='
     },
 
-    invalidDatastore: {
-      description: 'The datastore used is invalid. It is missing key pieces.'
-    },
-
-    badConnection: {
-      friendlyName: 'Bad connection',
-      description: 'A connection either could not be obtained or there was an error using the connection.'
-    },
-
     notUnique: {
       friendlyName: 'Not Unique',
       example: '==='
@@ -73,23 +64,20 @@ module.exports = require('machine').build({
 
     // Store the Query input for easier access
     var query = inputs.query;
-    query.meta = query.meta || {};
 
 
     // Find the model definition
     var model = inputs.models[query.using];
     if (!model) {
-      return exits.invalidDatastore();
-    }
+      return exits.error(new Error('No `'+query.using+'` model has been registered with this adapter.  Were any unexpected modifications made to the stage 3 query?  Could the adapter\'s internal state have been corrupted?  (This error is usually due to a bug in this adapter\'s implementation.)'));
+    }//-•
 
 
     // Set a flag to determine if records are being returned
     var fetchRecords = false;
 
     // Build a faux ORM for use in processEachRecords
-    var fauxOrm = {
-      collections: inputs.models
-    };
+    var fauxOrm = { collections: inputs.models };
 
 
     //  ╔═╗╦═╗╔═╗  ╔═╗╦═╗╔═╗╔═╗╔═╗╔═╗╔═╗  ┬─┐┌─┐┌─┐┌─┐┬─┐┌┬┐┌─┐
@@ -119,7 +107,7 @@ module.exports = require('machine').build({
 
 
     // Get mongo collection (and spawn a new connection)
-    var collection = inputs.datastore.manager.collection(query.using);
+    var mongoCollection = inputs.datastore.manager.collection(query.using);
 
 
     // Normalize the WHERE criteria into a mongo style where clause
@@ -138,7 +126,7 @@ module.exports = require('machine').build({
       }
 
       // Otherwise find the _id property of the matching records
-      collection.find(where, { _id: 1 }).toArray(function findCb(err, report) {
+      mongoCollection.find(where, { _id: 1 }).toArray(function findCb(err, report) {
         if (err) {
           return proceed(err);
         }
@@ -151,7 +139,7 @@ module.exports = require('machine').build({
       }
 
       // Update the documents in the db.
-      collection.updateMany(where, { '$set': query.valuesToSet }, function updateManyCb(err) {
+      mongoCollection.updateMany(where, { '$set': query.valuesToSet }, function updateManyCb(err) {
         if (err) {
           if (err.code === 11000 || err.code === 11001) {
             err.footprint = {
@@ -189,7 +177,7 @@ module.exports = require('machine').build({
           });
 
           // Do a find using the id's found previously
-          collection.find({ _id: { '$in': matchedRecords } }).toArray(function fetchCb(err, foundRecords) {
+          mongoCollection.find({ _id: { '$in': matchedRecords } }).toArray(function fetchCb(err, foundRecords) {
             if (err) {
               return exits.error(err);
             }
@@ -212,7 +200,7 @@ module.exports = require('machine').build({
         }
 
         return exits.success();
-      }); // </ collection.update >
+      }); // </ mongoCollection.update >
     });
   }
 });

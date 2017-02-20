@@ -55,15 +55,6 @@ module.exports = require('machine').build({
       example: '==='
     },
 
-    invalidDatastore: {
-      description: 'The datastore used is invalid. It is missing key pieces.'
-    },
-
-    badConnection: {
-      friendlyName: 'Bad connection',
-      description: 'A connection either could not be obtained or there was an error using the connection.'
-    },
-
     notUnique: {
       friendlyName: 'Not Unique',
       example: '==='
@@ -79,14 +70,13 @@ module.exports = require('machine').build({
 
     // Store the Query input for easier access
     var query = inputs.query;
-    query.meta = query.meta || {};
 
 
     // Find the model definition
     var model = inputs.models[query.using];
     if (!model) {
-      return exits.invalidDatastore();
-    }
+      return exits.error(new Error('No `'+query.using+'` model has been registered with this adapter.  Were any unexpected modifications made to the stage 3 query?  Could the adapter\'s internal state have been corrupted?  (This error is usually due to a bug in this adapter\'s implementation.)'));
+    }//-•
 
 
     // Set a flag to determine if records are being returned
@@ -129,24 +119,24 @@ module.exports = require('machine').build({
       fetchRecords = true;
     }
 
-    // Find the Primary Key
-    var primaryKeyField = model.primaryKey;
-    var primaryKeyColumnName = model.definition[primaryKeyField].columnName;
+    // // Find the Primary Key
+    // var primaryKeyAttrName = model.primaryKey;
+    // var primaryKeyColumnName = model.definition[primaryKeyAttrName].columnName;
 
-    // Remove primary key if the value is NULL AND always make sure either _id
-    // is set to something valid or removed.
-    _.each(query.newRecords, function removeNullPrimaryKey(record) {
-      if (_.isNull(record[primaryKeyColumnName])) {
-        delete record[primaryKeyColumnName];
-      }
+    // // Remove primary key if the value is NULL AND always make sure either _id
+    // // is set to something valid or removed.
+    // _.each(query.newRecords, function removeNullPrimaryKey(record) {
+    //   if (_.isNull(record[primaryKeyColumnName])) {
+    //     delete record[primaryKeyColumnName];
+    //   }
 
-      // Default value for _id is an empty string which blows up on Mongo.
-      if (_.has(record, '_id')) {
-        if (record._id === '') {
-          delete record._id;
-        }
-      }
-    });
+    //   // Default value for _id is an empty string which blows up on Mongo.
+    //   if (_.has(record, '_id')) {
+    //     if (record._id === '') {
+    //       delete record._id;
+    //     }
+    //   }
+    // });
 
 
     // Get mongo collection (and spawn a new connection)

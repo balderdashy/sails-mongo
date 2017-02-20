@@ -48,15 +48,6 @@ module.exports = require('machine').build({
       example: '==='
     },
 
-    invalidDatastore: {
-      description: 'The datastore used is invalid. It is missing key pieces.'
-    },
-
-    badConnection: {
-      friendlyName: 'Bad connection',
-      description: 'A connection either could not be obtained or there was an error using the connection.'
-    }
-
   },
 
 
@@ -73,8 +64,8 @@ module.exports = require('machine').build({
     // Find the model definition
     var model = inputs.models[query.using];
     if (!model) {
-      return exits.invalidDatastore();
-    }
+      return exits.error(new Error('No `'+query.using+'` model has been registered with this adapter.  Were any unexpected modifications made to the stage 3 query?  Could the adapter\'s internal state have been corrupted?  (This error is usually due to a bug in this adapter\'s implementation.)'));
+    }//-•
 
 
     // Set a flag to determine if records are being returned
