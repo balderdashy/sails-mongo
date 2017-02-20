@@ -81,14 +81,14 @@ module.exports = require('machine').build({
       return exits.error(e);
     }
 
-    // Transform the stage-3 query sort array into a Mongo sort dictionary.
-    var sort = _.map(query.criteria.sort, function mapSort(sortObj) {
-      var key = _.first(_.keys(sortObj));
-      var sortCriteria = [];
-      var sortDirection = sortObj[key].toLowerCase() === 'asc' ? 1 : -1;
-      sortCriteria.push(key);
-      sortCriteria.push(sortDirection);
-      return sortCriteria;
+    // Transform the `sort` clause from a stage 3 query into a Mongo sort.
+    var sort = _.map(query.criteria.sort, function mapSort(s3qSortDirective) {
+      var key = _.first(_.keys(s3qSortDirective));
+      var mongoSortDirective = [];
+      var sortDirection = s3qSortDirective[key].toLowerCase() === 'asc' ? 1 : -1;
+      mongoSortDirective.push(key);
+      mongoSortDirective.push(sortDirection);
+      return mongoSortDirective;
     });
 
 
@@ -100,7 +100,7 @@ module.exports = require('machine').build({
 
 
     // Add in `select` if necessary.
-    // (note that `select` may not be defined--i.e. when a model is `schema: false`)
+    // (note that `select` _could_ be undefined--i.e. when a model is `schema: false`)
     if (query.criteria.select) {
 
       // Transform the stage-3 query select array into a Mongo projection dictionary.
