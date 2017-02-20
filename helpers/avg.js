@@ -43,9 +43,9 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The results of the avg query.',
-      outputVariableName: 'records',
-      example: '==='
+      description: 'The average value of the given property across all records.',
+      outputFriendlyName: 'Average (mean)',
+      outputExample: -48.1293
     },
 
     invalidDatastore: {
@@ -109,8 +109,8 @@ module.exports = require('machine').build({
         return exits.error(err);
       }
 
-      var avg = _.first(results).avg;
-      return exits.success(avg);
+      var mean = _.first(results).avg;
+      return exits.success(mean);
     });
   }
 });

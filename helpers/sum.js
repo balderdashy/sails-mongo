@@ -43,9 +43,9 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The results of the sum query.',
-      outputVariableName: 'records',
-      example: '==='
+      description: 'The sum of the given property across all matching records.',
+      outputFriendlyName: 'Total (sum)',
+      example: 999.99
     },
 
     invalidDatastore: {

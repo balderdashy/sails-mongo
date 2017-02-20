@@ -43,9 +43,9 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The results of the count query.',
-      outputVariableName: 'records',
-      example: '==='
+      description: 'The number of matching records.',
+      outputFriendlyName: 'Total (# of records)',
+      example: 59
     },
 
     invalidDatastore: {
