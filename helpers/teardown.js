@@ -18,19 +18,21 @@ module.exports = require('machine').build({
   inputs: {
 
     identity: {
-      description: 'The datastore identity to teardown.',
+      description: 'The identity of the datastore.',
       required: true,
       example: '==='
     },
 
     datastores: {
-      description: 'An object containing all of the datastores that have been registered.',
+      description: 'A reference to the dictionary containing all of the datastores that have been registered with this adapter.',
+      extendedDescription: 'This will be mutated in place!',
       required: true,
       example: '==='
     },
 
     modelDefinitions: {
-      description: 'An object containing all of the model definitions that have been registered.',
+      description: 'A reference to the dictionary containing all of the model definitions that have been registered with this adapter.',
+      extendedDescription: 'This will be mutated in place!',
       required: true,
       example: '==='
     }
@@ -41,7 +43,9 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The datastore was successfully destroyed.'
+      description: 'The datastore was successfully torn down.',
+      outputFriendlyName: 'Meta (maybe)',
+      outputExample: '==='
     }
 
   },
@@ -53,9 +57,8 @@ module.exports = require('machine').build({
 
     var datastore = inputs.datastores[inputs.identity];
     if (!datastore) {
-      return exits.error(new Error('Invalid datastore identity. No datastore exist with that identity.'));
+      return exits.error(new Error('No datastore exists with that identity (`'+inputs.identity+'`).'));
     }
-
 
     //  ╔╦╗╔═╗╔═╗╔╦╗╦═╗╔═╗╦ ╦  ┌┬┐┌─┐┌┐┌┌─┐┌─┐┌─┐┬─┐
     //   ║║║╣ ╚═╗ ║ ╠╦╝║ ║╚╦╝  │││├─┤│││├─┤│ ┬├┤ ├┬┘
@@ -65,22 +68,27 @@ module.exports = require('machine').build({
       return exits.error(new Error('Consistency violation: Missing manager for this datastore. (This datastore may already be in the process of being destroyed.)'));
     }
 
+    WLDriver.destroyManager({ manager: manager }, {
+      error: function(err) { return exits.error(new Error('Encountered unexpected error when attempting to destroy the connection manager.\n\n' + err.stack)); },
+      failed: function(report) {
+        var err = new Error('Datastore (`'+inputs.identity+'`) could not be torn down, because of a failure when attempting to destroy the connection manager.\n\n' + report.error.stack);
+        if (report.meta) { err.meta = report.meta; }
+        return exits.error(err);
+      },
+      success: function (report) {
 
-    WLDriver.destroyManager({manager: manager}, function destroyManagerCb_(err) {
-      if (err) {
-        return exits.error(new Error('There was an error destroying the connection manager.\n\n' + err.stack));
-      }
+        try {
+          // Delete the rest of the data from the datastore
+          delete inputs.datastores[inputs.identity];
 
-      try {
-        // Delete the rest of the data from the datastore
-        delete inputs.datastores[inputs.identity];
+          // Delete the model definitions
+          delete inputs.modelDefinitions[inputs.identity];
+        } catch (e) { return exits.error(e); }
 
-        // Delete the model definitions
-        delete inputs.modelDefinitions[inputs.identity];
-      } catch (e) { return exits.error(e); }
+        return exits.success(report.meta);
 
-      return exits.success();
-    });
+      }//•-success>
+    });//destroyManager()>
   }
 
 

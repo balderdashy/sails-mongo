@@ -62,11 +62,14 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The datastore was registered successfully.'
+      description: 'The datastore was registered successfully.',
+      outputFriendlyName: 'Meta (maybe)',
+      outputExample: '==='
     },
 
     badConfiguration: {
       description: 'The configuration was invalid.',
+      outputFriendlyName: 'Error',
       outputExample: '==='
     }
 
@@ -108,7 +111,7 @@ module.exports = require('machine').build({
     //  └─┘ ┴ ┴└─┴┘└┘└─┘  └─┘┴└─┴─┘
     // If the connection details were not supplied as a URL, make them into one.
     // This is required for the underlying driver in use.
-    if (!_.has(inputs.config, 'url')) {
+    if (!hasURL) {
       var url = 'mongodb://';
       var port = inputs.config.port || '27017';
 
@@ -128,37 +131,52 @@ module.exports = require('machine').build({
     WLDriver.createManager({
       connectionString: inputs.config.url,
       meta: inputs.config
-    }, function(err, report) {
-      if (err) { return exits.error(err); }
+    }, {
+      error: function(err) { return exits.error(err); },
+      malformed: function(report) {
+        if (report.meta) { report.error.meta = report.meta; }
+        return exits.badConfiguration(report.error);
+      },
+      failed: function(report) {
+        var err = new Error('Could not connect to Mongo with the given datastore configuration.  Details: '+report.error.stack);
+        if (report.meta) { err.meta = report.meta; }
+        return exits.error(err);
+      },
+      success: function (report) {
+        try {
 
-      // Build up a database schema for this connection that can be used
-      // throughout the adapter
-      var dbSchema = {};
+          // Build up a database schema for this connection that can be used
+          // throughout the adapter
+          var dbSchema = {};
 
-      _.each(inputs.models, function eachModel(model) {
-        var identity = model.identity;
-        var tableName = model.tableName;
-        var definition = model.definition;
+          _.each(inputs.models, function eachModel(model) {
+            var identity = model.identity;
+            var tableName = model.tableName;
+            var definition = model.definition;
 
-        dbSchema[tableName] = {
-          identity: identity,
-          tableName: tableName,
-          definition: definition,
-          primaryKey: model.primaryKey
-        };
-      });
+            dbSchema[tableName] = {
+              identity: identity,
+              tableName: tableName,
+              definition: definition,
+              primaryKey: model.primaryKey
+            };
+          });
 
-      // Store the connection
-      inputs.datastores[inputs.identity] = {
-        manager: report.manager,
-        config: inputs.config,
-        driver: WLDriver
-      };
+          // Store the connection
+          inputs.datastores[inputs.identity] = {
+            manager: report.manager,
+            config: inputs.config,
+            driver: WLDriver
+          };
 
-      // Store the db schema for the connection
-      inputs.modelDefinitions[inputs.identity] = dbSchema;
+          // Store the db schema for the connection
+          inputs.modelDefinitions[inputs.identity] = dbSchema;
 
-      return exits.success();
-    });
+        } catch (e) { return exits.error(e); }
+
+        return exits.success(undefined, report.meta);
+
+      }//•-success>
+    });//createManager()>
   }
 });
