@@ -24,7 +24,7 @@ module.exports = require('machine').build({
     },
 
     datastores: {
-      description: 'An object containing all of the data stores that have been registered.',
+      description: 'An object containing all of the datastores that have been registered.',
       required: true,
       example: '==='
     },
@@ -53,7 +53,7 @@ module.exports = require('machine').build({
 
     var datastore = inputs.datastores[inputs.identity];
     if (!datastore) {
-      return exits.error(new Error('Invalid datastore identity. No data store exist with that identity.'));
+      return exits.error(new Error('Invalid datastore identity. No datastore exist with that identity.'));
     }
 
 
@@ -72,7 +72,7 @@ module.exports = require('machine').build({
       }
 
       try {
-        // Delete the rest of the data from the data store
+        // Delete the rest of the data from the datastore
         delete inputs.datastores[inputs.identity];
 
         // Delete the model definitions

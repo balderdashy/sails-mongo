@@ -12,7 +12,7 @@ module.exports = require('machine').build({
   friendlyName: 'Describe',
 
 
-  description: 'Describe a table in the related data store.',
+  description: 'Describe a table in the related datastore.',
 
 
   inputs: {

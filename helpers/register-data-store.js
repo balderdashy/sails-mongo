@@ -16,7 +16,7 @@
 module.exports = require('machine').build({
 
 
-  friendlyName: 'Register Data Store',
+  friendlyName: 'Register Datastore',
 
 
   description: 'Register a new datastore for making connections.',
@@ -25,31 +25,33 @@ module.exports = require('machine').build({
   inputs: {
 
     identity: {
-      description: 'A unique identitifer for the connection.',
-      example: 'localPostgres',
+      description: 'A unique identitifer for the datastore.',
+      example: 'default',
       required: true
     },
 
     config: {
-      description: 'The configuration to use for the data store.',
+      description: 'A dictionary of configuration to use for this datastore.',
       required: true,
       example: '==='
     },
 
     models: {
-      description: 'The Waterline models that will be used with this data store.',
+      description: 'The Waterline models that will be used with this datastore.',
       required: true,
       example: '==='
     },
 
     datastores: {
-      description: 'An object containing all of the data stores that have been registered.',
+      description: 'A reference to the dictionary containing all of the datastores that have been registered with this adapter.',
+      extendedDescription: 'This will be mutated in place!',
       required: true,
       example: '==='
     },
 
     modelDefinitions: {
-      description: 'An object containing all of the model definitions that have been registered.',
+      description: 'A reference to the dictionary containing all of the model definitions that have been registered with this adapter.',
+      extendedDescription: 'This will be mutated in place!',
       required: true,
       example: '==='
     }
@@ -60,7 +62,7 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The data store was initialized successfully.'
+      description: 'The datastore was registered successfully.'
     },
 
     badConfiguration: {
