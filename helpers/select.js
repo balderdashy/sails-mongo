@@ -91,28 +91,28 @@ module.exports = require('machine').build({
       return sortCriteria;
     });
 
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // TODO: deal with case where `select` is not defined (i.e. when a model is `schema: false`)
-    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    // Transform the stage-3 query select array into a Mongo projection dictionary.
-    var projection = _.reduce(query.criteria.select, function reduceProjection(memo, colName) {
-      memo[colName] = 1;
-      return memo;
-    }, {});
 
     // Create the initial Mongo query.
     var mongoDeferred;
     try {
-      mongoDeferred = mongoCollection.find(where).project(projection).sort(sort);
+      mongoDeferred = mongoCollection.find(where).limit(query.criteria.limit).sort(sort);
     } catch (err) { return exits.error(err); }
 
-    // Add in limit if necessary.
-    if (query.criteria.limit) {
-      mongoDeferred.limit(query.criteria.limit);
+
+    // Add in `select` if necessary.
+    // (note that `select` may not be defined--i.e. when a model is `schema: false`)
+    if (query.criteria.select) {
+
+      // Transform the stage-3 query select array into a Mongo projection dictionary.
+      var projection = _.reduce(query.criteria.select, function reduceProjection(memo, colName) {
+        memo[colName] = 1;
+        return memo;
+      }, {});
+      mongoDeferred = mongoDeferred.project(projection);
     }
 
     // Add in skip if necessary.
+    // (if it is zero, no reason to mess with mixing it in)
     if (query.criteria.skip) {
       mongoDeferred.skip(query.criteria.skip);
     }

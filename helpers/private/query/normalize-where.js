@@ -30,6 +30,10 @@ module.exports = function convertWhereClause(_whereClause) {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // ^^^that might clobber instances like already-instantiated ObjectIds!
   // Instead, clone on the fly.
+  //
+  // Also note that we might just be able to let it do this destructively, depending
+  // on how this is used. (TODO: double-check usage of this utility in mp-mongo and
+  // also polypopulate in WL core)
 
   // Recursively build and return a transformed `where` clause for use with Mongo.
   var mongoQueryFilter = (function transformBranch(branch) {
