@@ -133,16 +133,16 @@ module.exports = require('machine').build({
       // throughout the adapter
       var dbSchema = {};
 
-      _.each(inputs.models, function buildSchema(val) {
-        var identity = val.identity;
-        var tableName = val.tableName;
-        var definition = val.definition;
+      _.each(inputs.models, function eachModel(model) {
+        var identity = model.identity;
+        var tableName = model.tableName;
+        var definition = model.definition;
 
         dbSchema[tableName] = {
           identity: identity,
           tableName: tableName,
           definition: definition,
-          primaryKey: val.primaryKey
+          primaryKey: model.primaryKey
         };
       });
 
