@@ -54,7 +54,7 @@ module.exports = function convertWhereClause(_whereClause) {
       // TODO: don't do this unless this constraint actually refers to an attribute
       // for which we might expect a mongo id
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      branch[loneKey] = parseObjectId(val);
+      branch[loneKey] = normalizeObjectId(val);
       return branch;
     }
 
@@ -88,7 +88,7 @@ module.exports = function convertWhereClause(_whereClause) {
         // TODO: don't do this unless this constraint actually refers to an attribute
         // for which we might expect a mongo id
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        val['$ne'] = parseObjectId(modified);
+        val['$ne'] = normalizeObjectId(modified);
         break;
 
       case 'nin':
@@ -98,7 +98,7 @@ module.exports = function convertWhereClause(_whereClause) {
         // for which we might expect an array of mongo ids.
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         modified = _.map(modified, function parse(item) {
-          return parseObjectId(item);
+          return normalizeObjectId(item);
         });
 
         val['$nin'] = modified;
@@ -111,7 +111,7 @@ module.exports = function convertWhereClause(_whereClause) {
         // for which we might expect an array of mongo ids.
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         modified = _.map(modified, function parse(item) {
-          return parseObjectId(item);
+          return normalizeObjectId(item);
         });
 
         val['$in'] = modified;

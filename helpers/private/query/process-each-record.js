@@ -39,7 +39,7 @@ module.exports = function processEachRecord(options) {
 
 
   // Run all the records through the iterator so that they can be normalized.
-  eachRecordDeep(options.records, function iterator(record, WLModel) {
+  eachRecordDeep(options.records, function iterator(record, WLModel, depth) {
 
     // Check for a depth other than 1.
     // > Rarely, this might occur if existing data in Mongo happened to be a dictionary or array for
