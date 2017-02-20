@@ -14,9 +14,8 @@
 //
 
 var _ = require('@sailshq/lodash');
-var utils = require('waterline-utils');
 var ObjectID = require('machinepack-mongo').mongodb.ObjectID;
-var eachRecordDeep = utils.eachRecordDeep;
+var eachRecordDeep = require('waterline-utils').eachRecordDeep;
 
 module.exports = function preProcessRecord(options) {
   //  ╦  ╦╔═╗╦  ╦╔╦╗╔═╗╔╦╗╔═╗  ┌─┐┌─┐┌┬┐┬┌─┐┌┐┌┌─┐
@@ -58,25 +57,46 @@ module.exports = function preProcessRecord(options) {
     // instantiate a new Mongo ObjectID instance and swap out the original string in
     // the new record before proceeding.
     var dryAttrDefs = WLModel.definition;
-    _.each(dryAttrDefs, function normalizeForeignKeys(dryAttrDef) {
+    _.each(dryAttrDefs, function normalizeForeignKeys(dryAttrDef, attrName) {
       if (!dryAttrDef.foreignKey) { return; }
       var pRecordKey = dryAttrDef.columnName;
+      var isAttrNameSameAsColumnName = (pRecordKey === attrName);
       if (_.isUndefined(record[pRecordKey])) { return; }
 
-      try {
-        var mongoid = new ObjectID(record[pRecordKey]);
-
-        // If, after objectifying this into a Mongo ID instance and then toStringing it,
-        // we determine that it is equal to the original value, then it's a mongo id.
-        // This works because when a valid ObjectID is created it's preserved.
-        if (mongoid.toString() === record[pRecordKey]) {
-          record[pRecordKey] = mongoid;
-        }
-
-      } catch (e) {
-        // TODO: throw a prettified version of this error
+      // If the FK was provided as `null`, then it's automatically OK.
+      if (_.isNull(record[pRecordKey])) {
         return;
+      }//-•
+
+      // But otherwise, we'll attempt to convert it into an ObjectID instance.
+      // (this way it'll be in the right format when we send it to Mongo later)
+      var originalString = record[pRecordKey];
+      try {
+        record[pRecordKey] = new ObjectID(originalString);
+      } catch (e) {
+        throw new Error(
+          'Could not instantiate a Mongo ObjectID instance from `'+originalString+'`, the value '+
+          'provided for '+(
+            'attribute `'+attrName+'`'+(isAttrNameSameAsColumnName?'':' (in mongo, key: `'+pRecordKey+'`)')
+          )+'.  Details: '+e.stack
+        );
       }
+
+      // Then finally, as a failsafe:
+      // If, after objectifying this into a ObjectID instance and then toStringing it,
+      // we determine that it is NOT equal to the original string, then we know that
+      // the original string must NOT have been a valid mongo id, in some way.
+      if (record[pRecordKey].toString() !== originalString) {
+        throw new Error(
+          'Unexpected behavior when attempting to instantiate a Mongo ObjectID instance '+
+          'from `'+originalString+'` for '+(
+            'attribute `'+attrName+'`'+(isAttrNameSameAsColumnName?'':' (in mongo, key: `'+pRecordKey+'`)')
+          )+'.  After a bit of inspection, it is clear all is not what it seems with this newly instantiated '+
+          'ObjectID...  When `.toString()` is run on it, the result (`'+record[pRecordKey].toString()+'`) '+
+          'is DIFFERENT than the originally-provided string (`'+originalString+'`) that this ObjectID '+
+          'was instantiated from!'
+        );
+      }//-•
 
     });//</_.each()>
 
