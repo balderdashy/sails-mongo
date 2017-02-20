@@ -5,7 +5,7 @@ module.exports = {
   createEach: require('./create-each'),
   define: require('./define'),
   destroy: require('./destroy'),
-  registerDatastore: require('./register-data-store'),
+  registerDatastore: require('./register-datastore'),
   select: require('./select'),
   sum: require('./sum'),
   teardown: require('./teardown'),
