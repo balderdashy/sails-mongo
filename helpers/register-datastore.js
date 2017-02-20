@@ -174,7 +174,7 @@ module.exports = require('machine').build({
 
         } catch (e) { return exits.error(e); }
 
-        return exits.success(undefined, report.meta);
+        return exits.success(report.meta);
 
       }//•-success>
     });//createManager()>
