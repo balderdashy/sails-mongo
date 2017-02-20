@@ -77,7 +77,7 @@ module.exports = function preProcessRecord(options) {
         throw new Error(
           'Could not instantiate a Mongo ObjectID instance from `'+originalString+'`, the value '+
           'provided for '+(
-            'attribute `'+attrName+'`'+(isAttrNameSameAsColumnName?'':' (in mongo, key: `'+pRecordKey+'`)')
+            'attribute `'+attrName+'`'+(isAttrNameSameAsColumnName?'':'-- or in mongo (because of a custom "columnName"), key: `'+pRecordKey+'`)')
           )+'.  Details: '+e.stack
         );
       }
@@ -90,7 +90,7 @@ module.exports = function preProcessRecord(options) {
         throw new Error(
           'Unexpected behavior when attempting to instantiate a Mongo ObjectID instance '+
           'from `'+originalString+'` for '+(
-            'attribute `'+attrName+'`'+(isAttrNameSameAsColumnName?'':' (in mongo, key: `'+pRecordKey+'`)')
+            'attribute `'+attrName+'`'+(isAttrNameSameAsColumnName?'':'-- or in mongo (because of a custom "columnName"), key: `'+pRecordKey+'`)')
           )+'.  After a bit of inspection, it is clear all is not what it seems with this newly instantiated '+
           'ObjectID...  When `.toString()` is run on it, the result (`'+record[pRecordKey].toString()+'`) '+
           'is DIFFERENT than the originally-provided string (`'+originalString+'`) that this ObjectID '+
