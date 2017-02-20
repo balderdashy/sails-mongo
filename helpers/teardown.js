@@ -12,7 +12,7 @@ module.exports = require('machine').build({
   friendlyName: 'Teardown',
 
 
-  description: 'Destroys a connection manager so that a server can be shut down cleanly.',
+  description: 'Shut down and wipe a datastore from memory, destroying its connection manager (e.g. so that the process can be shut down cleanly.)',
 
 
   inputs: {
@@ -41,11 +41,7 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The data store was initialized successfully.'
-    },
-
-    badConfiguration: {
-      description: 'The configuration was invalid.'
+      description: 'The datastore was successfully destroyed.'
     }
 
   },
@@ -53,11 +49,11 @@ module.exports = require('machine').build({
 
   fn: function teardown(inputs, exits) {
     // Dependencies
-    var Helpers = require('./private');
+    var WLDriver = require('machinepack-mongo');
 
     var datastore = inputs.datastores[inputs.identity];
     if (!datastore) {
-      return exits.error(new Error('Invalid data store identity. No data store exist with that identity.'));
+      return exits.error(new Error('Invalid datastore identity. No data store exist with that identity.'));
     }
 
 
@@ -66,22 +62,26 @@ module.exports = require('machine').build({
     //  ═╩╝╚═╝╚═╝ ╩ ╩╚═╚═╝ ╩   ┴ ┴┴ ┴┘└┘┴ ┴└─┘└─┘┴└─
     var manager = datastore.manager;
     if (!manager) {
-      return exits.error(new Error('Missing manager for this data store. The data store may be in the process of being destroyed.'));
+      return exits.error(new Error('Consistency violation: Missing manager for this datastore. (This datastore may already be in the process of being destroyed.)'));
     }
 
 
-    Helpers.connection.destroyManager(manager, function destroyManagerCb(err) {
+    WLDriver.destroyManager({manager: manager}, function destroyManagerCb_(err) {
       if (err) {
-        return exits.error(err);
+        return exits.error(new Error('There was an error destroying the connection manager.\n\n' + err.stack));
       }
 
-      // Delete the rest of the data from the data store
-      delete inputs.datastores[inputs.identity];
+      try {
+        // Delete the rest of the data from the data store
+        delete inputs.datastores[inputs.identity];
 
-      // Delete the model definitions
-      delete inputs.modelDefinitions[inputs.identity];
+        // Delete the model definitions
+        delete inputs.modelDefinitions[inputs.identity];
+      } catch (e) { return exits.error(e); }
 
       return exits.success();
     });
   }
+
+
 });

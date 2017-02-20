@@ -74,8 +74,7 @@ module.exports = require('machine').build({
   fn: function registerDataStore(inputs, exits) {
     // Dependencies
     var _ = require('@sailshq/lodash');
-    var Mongo = require('machinepack-mongo');
-    var Helpers = require('./private');
+    var WLDriver = require('machinepack-mongo');
 
     // Validate that the datastore isn't already initialized
     if (inputs.datastores[inputs.identity]) {
@@ -124,10 +123,11 @@ module.exports = require('machine').build({
     //  ╔═╗╦═╗╔═╗╔═╗╔╦╗╔═╗  ┌┬┐┌─┐┌┐┌┌─┐┌─┐┌─┐┬─┐
     //  ║  ╠╦╝║╣ ╠═╣ ║ ║╣   │││├─┤│││├─┤│ ┬├┤ ├┬┘
     //  ╚═╝╩╚═╚═╝╩ ╩ ╩ ╚═╝  ┴ ┴┴ ┴┘└┘┴ ┴└─┘└─┘┴└─
-    Helpers.connection.createManager(inputs.config.url, inputs.config, function createManagerCb(err, report) {
-      if (err) {
-        return exits.error(err);
-      }
+    WLDriver.createManager({
+      connectionString: inputs.config.url,
+      meta: inputs.config
+    }, function(err, report) {
+      if (err) { return exits.error(err); }
 
       // Build up a database schema for this connection that can be used
       // throughout the adapter
@@ -150,7 +150,7 @@ module.exports = require('machine').build({
       inputs.datastores[inputs.identity] = {
         manager: report.manager,
         config: inputs.config,
-        driver: Mongo
+        driver: WLDriver
       };
 
       // Store the db schema for the connection
