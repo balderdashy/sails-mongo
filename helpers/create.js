@@ -70,10 +70,8 @@ module.exports = require('machine').build({
     var _ = require('@sailshq/lodash');
     var Helpers = require('./private');
 
-
-    // Store the Query input for easier access
+    // Local var for the stage 3 query, for easier access.
     var query = inputs.query;
-    query.meta = query.meta || {};
 
     // Find the model definition
     var model = inputs.models[query.using];
@@ -115,11 +113,12 @@ module.exports = require('machine').build({
       fetchRecords = true;
     }
 
-
     // Find the Primary Key
     var primaryKeyField = model.primaryKey;
     var primaryKeyColumnName = model.definition[primaryKeyField].columnName;
 
+    // TODO: this should go away, afaik:
+    // ------------------------------------------------------------------------
     // Remove primary key if the value is NULL. This allows the auto-increment
     // to work properly if set.
     if (_.isNull(query.newRecord[primaryKeyColumnName])) {
@@ -133,6 +132,7 @@ module.exports = require('machine').build({
         delete query.newRecord._id;
       }
     }
+    // ------------------------------------------------------------------------
 
     // Get mongo collection (and spawn a new connection)
     var collection = inputs.datastore.manager.collection(query.using);

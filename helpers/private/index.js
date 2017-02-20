@@ -12,7 +12,6 @@ module.exports = {
     create: require('./query/create'),
     createEach: require('./query/create-each'),
     normalizeWhere: require('./query/normalize-where'),
-    parseObjectId: require('./query/parse-object-id'),
     processEachRecord: require('./query/process-each-record'),
     preProcessRecord: require('./query/pre-process-record'),
   },

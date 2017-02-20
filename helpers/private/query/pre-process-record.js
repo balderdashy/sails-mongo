@@ -57,7 +57,7 @@ module.exports = function preProcessRecord(options) {
     // instantiate a new Mongo ObjectID instance and swap out the original string in
     // the new record before proceeding.
     var dryAttrDefs = WLModel.definition;
-    _.each(dryAttrDefs, function normalizeForeignKeys(dryAttrDef, attrName) {
+    _.each(dryAttrDefs, function (dryAttrDef, attrName) {
       if (!dryAttrDef.foreignKey) { return; }
       var pRecordKey = dryAttrDef.columnName;
       var isAttrNameSameAsColumnName = (pRecordKey === attrName);
