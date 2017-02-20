@@ -41,10 +41,22 @@ module.exports = function processEachRecord(options) {
   // Run all the records through the iterator so that they can be normalized.
   eachRecordDeep(options.records, function iterator(record, WLModel) {
 
+    // Check for a depth other than 1.
+    // > Rarely, this might occur if existing data in Mongo happened to be a dictionary or array for
+    // > a key that happens to be an association attribute.  But if this is happening, we definitely
+    // > don't want to try and process it.
+    if (depth !== 1) {
+      return;
+    }
+
     // TODO: share this logic w/ preProcessRecord, where possible
     if (_.has(record, '_id')) {
+
+      // This might already be an objectID instance (TODO: check for that and use if possible.  If we're having to instantiate, then log a warning, because it means that a non-object ID was stored at some point.)
       record._id = new ObjectID(record._id).toString();
     }
+    // TODO: if the record does not have `_id`, then log a warning and add its index in the array
+    // to a list of records that will be excluded from the results below.
 
     // Also transform any foreign key values to strings
     _.each(WLModel.definition, function findForeignKeys(def) {
