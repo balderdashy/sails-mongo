@@ -49,7 +49,14 @@ module.exports = function processEachRecord(options) {
       return;
     }
 
-    // TODO: share this logic w/ preProcessRecord, where possible
+    // TODO: adjust to work like this:
+    // ===========================================================================
+    // // Find the Primary Key
+    // var primaryKeyAttrName = model.primaryKey;
+    // var primaryKeyColumnName = model.definition[primaryKeyAttrName].columnName;
+    // ===========================================================================
+    // Instead of:
+    // -----------
     if (_.has(record, '_id')) {
 
       // This might already be an objectID instance (TODO: check for that and use if possible.  If we're having to instantiate, then log a warning, because it means that a non-object ID was stored at some point.)
@@ -57,6 +64,8 @@ module.exports = function processEachRecord(options) {
     }
     // TODO: if the record does not have `_id`, then log a warning and add its index in the array
     // to a list of records that will be excluded from the results below.
+
+
 
     // Also transform any foreign key values to strings
     _.each(WLModel.definition, function findForeignKeys(def) {

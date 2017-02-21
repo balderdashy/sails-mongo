@@ -104,29 +104,8 @@ module.exports = require('machine').build({
       fetchRecords = true;
     }
 
-    // // Find the Primary Key
-    // var primaryKeyAttrName = model.primaryKey;
-    // var primaryKeyColumnName = model.definition[primaryKeyAttrName].columnName;
-
-    // TODO: this should go away, afaik:
-    // ------------------------------------------------------------------------
-    // // Remove primary key if the value is NULL. This allows the auto-increment
-    // // to work properly if set.
-    // if (_.isNull(query.newRecord[primaryKeyColumnName])) {
-    //   delete query.newRecord[primaryKeyColumnName];
-    // }
-
-    // // Always make sure either _id is set to something valid or removed.
-    // // Default value for _id is an empty string which blows up on Mongo.
-    // if (_.has(query.newRecord, '_id')) {
-    //   if (query.newRecord._id === '') {
-    //     delete query.newRecord._id;
-    //   }
-    // }
-    // ------------------------------------------------------------------------
-
     // Get mongo collection (and spawn a new connection)
-    var collection = inputs.datastore.manager.collection(query.using);
+    var mongoCollection = inputs.datastore.manager.collection(query.using);
 
 
     //  ╦╔╗╔╔═╗╔═╗╦═╗╔╦╗  ┬─┐┌─┐┌─┐┌─┐┬─┐┌┬┐
@@ -134,7 +113,7 @@ module.exports = require('machine').build({
     //  ╩╝╚╝╚═╝╚═╝╩╚═ ╩   ┴└─└─┘└─┘└─┘┴└──┴┘
     // Insert the record and return the new values
     Helpers.query.create({
-      collection: collection,
+      collection: mongoCollection,
       query: query
     },
 
@@ -156,9 +135,7 @@ module.exports = require('machine').build({
             identity: model.identity,
             orm: fauxOrm
           });
-        } catch (e) {
-          return exits.error(e);
-        }
+        } catch (e) { return exits.error(e); }
 
         // Only return the first record (there should only ever be one)
         var insertedRecord = _.first(insertedRecords);

@@ -44,8 +44,15 @@ module.exports = function preProcessRecord(options) {
     if (depth !== 1) { throw new Error('Consistency violation: Incoming new records in a s3q should never necessitate deep iteration!  If you are seeing this error, it is probably because of a bug in this adapter, or in Waterline core.'); }
 
 
+
     // TODO: adjust to work like this:
-    //
+    // ===========================================================================
+    // // Find the Primary Key
+    // var primaryKeyAttrName = model.primaryKey;
+    // var primaryKeyColumnName = model.definition[primaryKeyAttrName].columnName;
+    // ===========================================================================
+    // Instead of:
+    // -----------
     // If trying to set the _id value explicitly, store it as an
     // ObjectID rather than a string.
     if (_.has(record, '_id')) {

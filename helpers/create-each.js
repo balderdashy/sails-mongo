@@ -119,25 +119,6 @@ module.exports = require('machine').build({
       fetchRecords = true;
     }
 
-    // // Find the Primary Key
-    // var primaryKeyAttrName = model.primaryKey;
-    // var primaryKeyColumnName = model.definition[primaryKeyAttrName].columnName;
-
-    // // Remove primary key if the value is NULL AND always make sure either _id
-    // // is set to something valid or removed.
-    // _.each(query.newRecords, function removeNullPrimaryKey(record) {
-    //   if (_.isNull(record[primaryKeyColumnName])) {
-    //     delete record[primaryKeyColumnName];
-    //   }
-
-    //   // Default value for _id is an empty string which blows up on Mongo.
-    //   if (_.has(record, '_id')) {
-    //     if (record._id === '') {
-    //       delete record._id;
-    //     }
-    //   }
-    // });
-
 
     // Get mongo collection (and spawn a new connection)
     var collection = inputs.datastore.manager.collection(query.using);
@@ -150,9 +131,7 @@ module.exports = require('machine').build({
     Helpers.query.createEach({
       collection: collection,
       query: query
-    },
-
-    function createEachCb(err, insertedRecords) {
+    }, function createEachCb(err, insertedRecords) {
       // If there was an error return it.
       if (err) {
         if (err.footprint && err.footprint.identity === 'notUnique') {
