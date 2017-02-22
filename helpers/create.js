@@ -10,11 +10,16 @@ module.exports = require('machine').build({
   inputs: {
 
     datastore: {
-      description: 'The datastore to use for connections.',
-      extendedDescription: 'Datastores represent the config and manager required to obtain an active database connection.',
+      description: 'The datastore entry to use.',
+      extendedDescription: 'Datastores represent the config+manager required to obtain an active database connection.',
       required: true,
       readOnly: true,
-      example: '==='
+      example: '===',
+      // example: {
+      //   manager: '===',
+      //   config: '===',//{===},
+      //   driver: '==='//{ ? :'->' }
+      // }
     },
 
     models: {
@@ -24,7 +29,7 @@ module.exports = require('machine').build({
     },
 
     query: {
-      description: 'A valid stage three Waterline query.',
+      description: 'A stage three Waterline query.',
       required: true,
       example: '==='
     }
@@ -35,7 +40,7 @@ module.exports = require('machine').build({
   exits: {
 
     success: {
-      description: 'The record was successfully inserted.',
+      description: 'The record was successfully created.',
       outputFriendlyName: 'Report',
       outputDescription: 'The `record` property is either `null` or (if `fetch:true`) a dictionary representing the new record.  The `meta` property is reserved for internal use.',
       example: '==='// {record: '===', meta: '==='}
@@ -141,6 +146,6 @@ module.exports = require('machine').build({
         record: phRecord
       });
 
-    }); // </ mongoCollection.insertOne(); >
+    }); // </ mongoCollection.insertOne() >
   }
 });
