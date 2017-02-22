@@ -7,7 +7,7 @@ var normalizeObjectId = require('./private/normalize-object-id');
 
 
 /**
- * convertWhereClause()
+ * reifyWhereClause()
  *
  * Build a Mongo "query filter" from the specified S3Q `where` clause.
  * > Note: The provided `where` clause is NOT mutated.
@@ -15,7 +15,7 @@ var normalizeObjectId = require('./private/normalize-object-id');
  * @param  {Dictionary} whereClause [`where` clause from the criteria of a S3Q]
  * @returns {Dictionary}            [Mongo "query filter"]
  */
-module.exports = function convertWhereClause(whereClause) {
+module.exports = function reifyWhereClause(whereClause) {
 
   // Handle empty `where` clause.
   if (_.keys(whereClause).length === 0) {
