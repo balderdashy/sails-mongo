@@ -15,18 +15,17 @@ var normalizeObjectId = require('./private/normalize-object-id');
  * @param  {Dictionary} whereClause [`where` clause from the criteria of a S3Q]
  * @returns {Dictionary}            [Mongo "query filter"]
  */
-module.exports = function convertWhereClause(_whereClause) {
+module.exports = function convertWhereClause(whereClause) {
 
-  // Handle empty `where` clause
-  if (_.keys(_whereClause).length === 0) {
-    return _whereClause;
+  // Handle empty `where` clause.
+  if (_.keys(whereClause).length === 0) {
+    return whereClause;
   }
-
 
   // TODO: don't do this
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // Clone the where clause so that we don't modify the original query object.
-  var whereClause = _.cloneDeep(_whereClause);
+  whereClause = _.cloneDeep(whereClause);
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // ^^^that might clobber instances like already-instantiated ObjectIds!
   // Instead, clone on the fly.
@@ -36,55 +35,64 @@ module.exports = function convertWhereClause(_whereClause) {
   // also polypopulate in WL core)
 
   // Recursively build and return a transformed `where` clause for use with Mongo.
-  var mongoQueryFilter = (function transformBranch(branch) {
+  var mongoQueryFilter = (function recurse(branch) {
     var loneKey = _.first(_.keys(branch));
-    var val = branch[loneKey];
 
     //  ╔═╗╦═╗╔═╗╔╦╗╦╔═╗╔═╗╔╦╗╔═╗
     //  ╠═╝╠╦╝║╣  ║║║║  ╠═╣ ║ ║╣
     //  ╩  ╩╚═╚═╝═╩╝╩╚═╝╩ ╩ ╩ ╚═╝
     if (loneKey === 'and' || loneKey === 'or') {
-      branch['$' + loneKey] = _.map(val, transformBranch);
+      var conjunctsOrDisjuncts = branch[loneKey];
+      branch['$' + loneKey] = _.map(conjunctsOrDisjuncts, function(conjunctOrDisjunct){
+        return recurse(conjunctOrDisjunct);
+      });
       delete branch[loneKey];
       return branch;
     }
 
+    // IWMIH, we're dealing with a constraint of some kind.
+    var constraint = branch[loneKey];
+
     //  ╔═╗╔═╗   ╔═╗╔═╗╔╗╔╔═╗╔╦╗╦═╗╔═╗╦╔╗╔╔╦╗
     //  ║╣ ║═╬╗  ║  ║ ║║║║╚═╗ ║ ╠╦╝╠═╣║║║║ ║
     //  ╚═╝╚═╝╚  ╚═╝╚═╝╝╚╝╚═╝ ╩ ╩╚═╩ ╩╩╝╚╝ ╩
-    if (!_.isObject(val)) {
-      // Parse the val and check for an ObjectId as a string
+    if (_.isString(constraint)) {
+
+      // If this constraint applies to an attribute for which we might expect
+      // a Mongo ObjectId, then normalize the eq constraint to ensure that it
+      // is an ObjectId instance (if it is a string, it will be instantiated
+      // automatically)
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // TODO: don't do this unless this constraint actually refers to an attribute
       // for which we might expect a mongo id
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      branch[loneKey] = normalizeObjectId(val);
+      branch[loneKey] = normalizeObjectId(constraint);
       return branch;
     }
 
     //  ╔═╗╔═╗╔╦╗╔═╗╦  ╔═╗═╗ ╦  ╔═╗╔═╗╔╗╔╔═╗╔╦╗╦═╗╔═╗╦╔╗╔╔╦╗
     //  ║  ║ ║║║║╠═╝║  ║╣ ╔╩╦╝  ║  ║ ║║║║╚═╗ ║ ╠╦╝╠═╣║║║║ ║
     //  ╚═╝╚═╝╩ ╩╩  ╩═╝╚═╝╩ ╚═  ╚═╝╚═╝╝╚╝╚═╝ ╩ ╩╚═╩ ╩╩╝╚╝ ╩
-    var modifier = _.first(_.keys(val));
-    var modified = val[modifier];
-    delete val[modifier];
+    var modifierKind = _.first(_.keys(constraint));
+    var modifier = constraint[modifierKind];
+    delete constraint[modifierKind];
 
-    switch (modifier) {
+    switch (modifierKind) {
 
       case '<':
-        val['$lt'] = modified;
+        val['$lt'] = modifier;
         break;
 
       case '<=':
-        val['$lte'] = modified;
+        val['$lte'] = modifier;
         break;
 
       case '>':
-        val['$gt'] = modified;
+        val['$gt'] = modifier;
         break;
 
       case '>=':
-        val['$gte'] = modified;
+        val['$gte'] = modifier;
         break;
 
       case '!=':
@@ -92,7 +100,7 @@ module.exports = function convertWhereClause(_whereClause) {
         // TODO: don't do this unless this constraint actually refers to an attribute
         // for which we might expect a mongo id
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        val['$ne'] = normalizeObjectId(modified);
+        val['$ne'] = normalizeObjectId(modifier);
         break;
 
       case 'nin':
@@ -101,11 +109,11 @@ module.exports = function convertWhereClause(_whereClause) {
         // TODO: don't do this unless this constraint actually refers to an attribute
         // for which we might expect an array of mongo ids.
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        modified = _.map(modified, function parse(item) {
+        modifier = _.map(modifier, function parse(item) {
           return normalizeObjectId(item);
         });
 
-        val['$nin'] = modified;
+        val['$nin'] = modifier;
         break;
 
       case 'in':
@@ -114,19 +122,19 @@ module.exports = function convertWhereClause(_whereClause) {
         // TODO: don't do this unless this constraint actually refers to an attribute
         // for which we might expect an array of mongo ids.
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        modified = _.map(modified, function parse(item) {
+        modifier = _.map(modifier, function parse(item) {
           return normalizeObjectId(item);
         });
 
-        val['$in'] = modified;
+        val['$in'] = modifier;
         break;
 
       case 'like':
-        val['$regex'] = new RegExp('^' + _.escapeRegExp(modified).replace(/^%/, '.*').replace(/([^\\])%/g, '$1.*').replace(/\\%/g, '%') + '$');
+        val['$regex'] = new RegExp('^' + _.escapeRegExp(modifier).replace(/^%/, '.*').replace(/([^\\])%/g, '$1.*').replace(/\\%/g, '%') + '$');
         break;
 
       default:
-        throw new Error('Consistency violation: where-clause modifier `' + modifier + '` is not valid!  This should never happen-- a stage 3 query should have already been normalized in Waterline core.');
+        throw new Error('Consistency violation: `where` clause modifier `' + modifierKind + '` is not valid!  This should never happen-- a stage 3 query should have already been normalized in Waterline core.');
 
     }
 
