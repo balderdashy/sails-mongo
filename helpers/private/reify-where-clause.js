@@ -3,7 +3,7 @@
  */
 
 var _ = require('@sailshq/lodash');
-var normalizeObjectId = require('./private/normalize-object-id');
+var normalizeMongoObjectId = require('./normalize-mongo-object-id');
 
 
 /**
@@ -66,7 +66,7 @@ module.exports = function reifyWhereClause(whereClause) {
       // TODO: don't do this unless this constraint actually refers to an attribute
       // for which we might expect a mongo id
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      branch[loneKey] = normalizeObjectId(constraint);
+      branch[loneKey] = normalizeMongoObjectId(constraint);
       return branch;
     }
 
@@ -100,7 +100,7 @@ module.exports = function reifyWhereClause(whereClause) {
         // TODO: don't do this unless this constraint actually refers to an attribute
         // for which we might expect a mongo id
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        val['$ne'] = normalizeObjectId(modifier);
+        val['$ne'] = normalizeMongoObjectId(modifier);
         break;
 
       case 'nin':
@@ -110,7 +110,7 @@ module.exports = function reifyWhereClause(whereClause) {
         // for which we might expect an array of mongo ids.
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         modifier = _.map(modifier, function parse(item) {
-          return normalizeObjectId(item);
+          return normalizeMongoObjectId(item);
         });
 
         val['$nin'] = modifier;
@@ -123,7 +123,7 @@ module.exports = function reifyWhereClause(whereClause) {
         // for which we might expect an array of mongo ids.
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
         modifier = _.map(modifier, function parse(item) {
-          return normalizeObjectId(item);
+          return normalizeMongoObjectId(item);
         });
 
         val['$in'] = modifier;

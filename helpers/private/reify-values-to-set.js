@@ -5,7 +5,7 @@
 var assert = require('assert');
 var _ = require('@sailshq/lodash');
 var ObjectID = require('machinepack-mongo').mongodb.ObjectID;
-
+var normalizeMongoObjectId = require('./normalize-mongo-object-id');
 
 
 /**
