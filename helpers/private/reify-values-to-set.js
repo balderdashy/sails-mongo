@@ -12,6 +12,7 @@ var ObjectID = require('machinepack-mongo').mongodb.ObjectID;
  * reifyValuesToSet()
  *
  * Prepare a dictionary of values to be used in a native database operation.
+ * > The provided `valuesToSet` will be mutated in-place.
  *
  * @param {Ref} valuesToSet
  * @param {Ref} WLModel
@@ -21,7 +22,7 @@ module.exports = function reifyValuesToSet(valuesToSet, WLModel) {
   assert(!_.isUndefined(valuesToSet),'1st argument is required');
   assert(_.isObject(valuesToSet) && !_.isArray(valuesToSet) && !_.isFunction(valuesToSet),'1st argument must be a dictionary');
   assert(!_.isUndefined(WLModel),'2nd argument is required');
-  assert(_.isObject(valuesToSet) && !_.isArray(valuesToSet) && !_.isFunction(valuesToSet),'1st argument must be a WLModel, and it has to have a `definition` property for this utility to work.');
+  assert(_.isObject(valuesToSet) && !_.isArray(valuesToSet) && !_.isFunction(valuesToSet),'2nd argument must be a WLModel, and it has to have a `definition` property for this utility to work.');
 
 
   // TODO: adjust to work like this:

@@ -79,7 +79,7 @@ module.exports = require('machine').build({
   },
 
 
-  fn: function registerDataStore(inputs, exits) {
+  fn: function registerDatastore(inputs, exits) {
     // Dependencies
     var _ = require('@sailshq/lodash');
     var WLDriver = require('machinepack-mongo');
@@ -165,14 +165,15 @@ module.exports = require('machine').build({
             };
           });
 
-          // Store the connection
+          // Store the datastore
           inputs.datastores[inputs.identity] = {
             manager: report.manager,
             config: inputs.config,
             driver: WLDriver
           };
 
-          // Store the db schema for the connection
+          // Store the entire db schema for the model
+          // (TODO: why?)
           inputs.modelDefinitions[inputs.identity] = dbSchema;
 
         } catch (e) { return exits.error(e); }
