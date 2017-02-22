@@ -44,7 +44,6 @@ module.exports = function preProcessRecord(options) {
     if (depth !== 1) { throw new Error('Consistency violation: Incoming new records in a s3q should never necessitate deep iteration!  If you are seeing this error, it is probably because of a bug in this adapter, or in Waterline core.'); }
 
 
-
     // TODO: adjust to work like this:
     // ===========================================================================
     // // Find the Primary Key
