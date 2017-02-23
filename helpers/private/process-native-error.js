@@ -61,7 +61,7 @@ module.exports = function processNativeError(err) {
     // //
     // // > FUTURE: see if there's any way we can improve the accuracy here.
     // var problematicValue = err.key;
-    // _.any(<<VALUES BEING SET GO HERE (BUT CONSIDER CREATEEACH...) >>, function (val, key){
+    // _.any(<<VALUES BEING SET GO HERE (BUT CONSIDER CREATEEACH...?!?!) >>, function (val, key){
     //   if (problematicValue !== val) {
     //     return;//(continue)
     //   }

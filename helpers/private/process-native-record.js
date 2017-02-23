@@ -25,6 +25,16 @@ module.exports = function processNativeRecord(nativeRecord, WLModel) {
   assert(!_.isUndefined(WLModel),'2nd argument is required');
   assert(_.isObject(nativeRecord) && !_.isArray(nativeRecord) && !_.isFunction(nativeRecord),'2nd argument must be a WLModel, and it has to have a `definition` property for this utility to work.');
 
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  // FUTURE: if the nativeRecord does not have `_id`, then throw a special error.
+  // (This could be used to leave the decision of what to do entirely up to the
+  // caller to  e.g. log a warning and add its index in the array to a list of records
+  // that will be excluded from the results)
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  // TODO: move all this stuff together
+
   // TODO: adjust to work like this:
   // ===========================================================================
   // // Find the Primary Key
@@ -38,11 +48,6 @@ module.exports = function processNativeRecord(nativeRecord, WLModel) {
     // This might already be an objectID instance (TODO: check for that and use if possible.  If we're having to instantiate, then log a warning, because it means that a non-object ID was stored at some point.)
     nativeRecord._id = new ObjectID(nativeRecord._id).toString();
   }
-
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  // TODO: if the nativeRecord does not have `_id`, then throw a warning
-  // (this can be used by the caller to e.g. log a warning and add its index in the array to a list of records that will be excluded from the results)
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 

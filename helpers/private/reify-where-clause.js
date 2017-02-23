@@ -56,12 +56,11 @@ module.exports = function reifyWhereClause(whereClause) {
     //  ╔═╗╔═╗   ╔═╗╔═╗╔╗╔╔═╗╔╦╗╦═╗╔═╗╦╔╗╔╔╦╗
     //  ║╣ ║═╬╗  ║  ║ ║║║║╚═╗ ║ ╠╦╝╠═╣║║║║ ║
     //  ╚═╝╚═╝╚  ╚═╝╚═╝╝╚╝╚═╝ ╩ ╩╚═╩ ╩╩╝╚╝ ╩
-    if (_.isString(constraint)) {
+    if (_.isString(constraint) || _.isNumber(constraint) || _.isBoolean(constraint) || _.isNull(constraint)) {
 
-      // If this constraint applies to an attribute for which we might expect
-      // a Mongo ObjectId, then normalize the eq constraint to ensure that it
-      // is an ObjectId instance (if it is a string, it will be instantiated
-      // automatically)
+      // If this constraint applies to an attribute for which we expect a string
+      // that can be instantiated into a Mongo ObjectId, then convert this primitive
+      // into an ObjectId instance.
       // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
       // TODO: don't do this unless this constraint actually refers to an attribute
       // for which we might expect a mongo id
@@ -77,22 +76,23 @@ module.exports = function reifyWhereClause(whereClause) {
     var modifier = constraint[modifierKind];
     delete constraint[modifierKind];
 
+
     switch (modifierKind) {
 
       case '<':
-        val['$lt'] = modifier;
+        constraint['$lt'] = modifier;
         break;
 
       case '<=':
-        val['$lte'] = modifier;
+        constraint['$lte'] = modifier;
         break;
 
       case '>':
-        val['$gt'] = modifier;
+        constraint['$gt'] = modifier;
         break;
 
       case '>=':
-        val['$gte'] = modifier;
+        constraint['$gte'] = modifier;
         break;
 
       case '!=':
@@ -100,7 +100,7 @@ module.exports = function reifyWhereClause(whereClause) {
         // TODO: don't do this unless this constraint actually refers to an attribute
         // for which we might expect a mongo id
         // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-        val['$ne'] = normalizeMongoObjectId(modifier);
+        constraint['$ne'] = normalizeMongoObjectId(modifier);
         break;
 
       case 'nin':
@@ -113,7 +113,7 @@ module.exports = function reifyWhereClause(whereClause) {
           return normalizeMongoObjectId(item);
         });
 
-        val['$nin'] = modifier;
+        constraint['$nin'] = modifier;
         break;
 
       case 'in':
@@ -126,11 +126,11 @@ module.exports = function reifyWhereClause(whereClause) {
           return normalizeMongoObjectId(item);
         });
 
-        val['$in'] = modifier;
+        constraint['$in'] = modifier;
         break;
 
       case 'like':
-        val['$regex'] = new RegExp('^' + _.escapeRegExp(modifier).replace(/^%/, '.*').replace(/([^\\])%/g, '$1.*').replace(/\\%/g, '%') + '$');
+        constraint['$regex'] = new RegExp('^' + _.escapeRegExp(modifier).replace(/^%/, '.*').replace(/([^\\])%/g, '$1.*').replace(/\\%/g, '%') + '$');
         break;
 
       default:

@@ -28,8 +28,8 @@ module.exports = function reifyValuesToSet(valuesToSet, WLModel) {
   // TODO: adjust to work like this:
   // ===========================================================================
   // // Find the Primary Key
-  // var primaryKeyAttrName = model.primaryKey;
-  // var primaryKeyColumnName = model.definition[primaryKeyAttrName].columnName;
+  // var primaryKeyAttrName = WLModel.primaryKey;
+  // var primaryKeyColumnName = WLModel.definition[primaryKeyAttrName].columnName;
   // ===========================================================================
   // Instead of:
   // -----------

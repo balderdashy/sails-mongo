@@ -7,7 +7,7 @@ var flaverr = require('flaverr');
 var ObjectId = require('machinepack-mongo').mongodb.ObjectID || require('machinepack-mongo').mongodb.ObjectId;
 
 /**
- * normalizeObjectId()
+ * normalizeMongoObjectId()
  *
  * Ensure that the provided reference is either an Object Id instance;
  * or if it isn't, then attempt to construct one from it.
@@ -63,7 +63,7 @@ var ObjectId = require('machinepack-mongo').mongodb.ObjectID || require('machine
  * ```
  * - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  */
-module.exports = function normalizeObjectId(supposedId) {
+module.exports = function normalizeMongoObjectId(supposedId) {
 
   // First of all, if the supposed id is a Mongo ObjectId instance,
   // then just return it, straight away.
