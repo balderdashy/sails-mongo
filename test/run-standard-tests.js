@@ -4,6 +4,7 @@
  * Module dependencies
  */
 
+var util = require('util');
 var TestRunner = require('waterline-adapter-tests');
 var packageMD = require('../package.json');
 var Adapter = require('../');
@@ -25,12 +26,12 @@ var Adapter = require('../');
 try {
   packageMD.waterlineAdapter.interfaces;
 } catch (e) {
- throw new Error(
-   '\n' +
-   'Could not read supported interfaces from `waterlineAdapter.interfaces`' + '\n' +
-   'in this adapter\'s `package.json` file ::' + '\n' +
-   util.inspect(e)
- );
+  throw new Error(
+    '\n' +
+    'Could not read supported interfaces from `waterlineAdapter.interfaces`' + '\n' +
+    'in this adapter\'s `package.json` file ::' + '\n' +
+    util.inspect(e)
+  );
 }
 
 
