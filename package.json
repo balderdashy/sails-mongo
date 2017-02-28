@@ -4,18 +4,21 @@
   "description": "Mongo DB adapter for Sails.js",
   "main": "./lib/adapter.js",
   "scripts": {
-    "test": "NODE_ENV=test node test/adapter/integration/runner",
+    "test": "node test/run-standard-tests",
     "fasttest": "node test/adapter/integration/runner",
     "pretest": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi",
-    "lint": "eslint lib helpers test",
+    "lint": "node ./node_modules/eslint/bin/eslint *.js **/*.js",
     "docker": "docker-compose run adapter bash"
   },
   "keywords": [
     "mongo",
     "mongodb",
-    "orm",
+    "adapter",
+    "sails",
+    "sails.js",
     "waterline",
-    "sails"
+    "orm",
+    "database-adapter"
   ],
   "license": "MIT",
   "readmeFilename": "README.md",
@@ -34,20 +37,14 @@
   "devDependencies": {
     "benchmark": "2.1.1",
     "eslint": "3.5.0",
-    "mocha": "3.0.2",
-    "waterline-adapter-tests": "^1.0.0-5"
+    "waterline-adapter-tests": "^1.0.0-6"
   },
   "waterlineAdapter": {
-    "waterlineVersion": "^0.13.0",
     "interfaces": [
       "semantic",
       "queryable",
-      "associations",
       "migratable"
     ],
-    "features": [
-      "cross-adapter",
-      "unique"
-    ]
+    "features": []
   }
 }

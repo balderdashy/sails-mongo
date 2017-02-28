@@ -1,26 +1,60 @@
-[![](https://camo.githubusercontent.com/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67)](http://sailsjs.com)
+[![Node.js and MongoDB on Sails.js/Waterline](https://camo.githubusercontent.com/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67)](http://sailsjs.com)
 
 # sails-mongo
 [![npm version](https://badge.fury.io/js/sails-mongo.svg)](http://badge.fury.io/js/sails-mongo)
 
 Sails.js/Waterline adapter for MongoDB.
 
+> Provides easy access to MongoDB from Sails.js & Waterline.
+> This module is a Sails/Waterline adapter maintained by the core team.  Its goal is to provide robust, easy-to-use access to MongoDB from Sails.js and Waterline.
+>
+> As an adapter, this module implements a set of declarative interfaces, conventions, and best-practices for integrating with Mongo databases.
+> Strict adherence to an adapter specification enables the (re)use of built-in generic test suites, standardized documentation, reasonable expectations around the API for your users, and overall, a more pleasant development experience for everyone.
+
+
 ## Installation
 
-Install from NPM.
+To install this adapter, run:
 
 ```bash
 $ npm install sails-mongo
 ```
 
-## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/sails-mongo.svg)](http://npmjs.com/package/sails-mongo)
+Then [connect the adapter](http://sailsjs.com/documentation/reference/configuration/sails-config-datastores) to one or more of your app's datastores.
 
-To report a bug, [click here](http://sailsjs.com/bugs).
+## Usage
+
+Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
 
-## Help
+## Compatibility
 
-If you have questions or need help, click [here](http://sailsjs.com/support).
+This adapter implements the following methods:
+
+| Method               | Status            | Category      |
+|:---------------------|:------------------|:--------------|
+| registerDatastore    | Implemented       | LIFECYCLE     |
+| teardown             | Implemented       | LIFECYCLE     |
+| create               | Implemented       | DML           |
+| createEach           | Implemented       | DML           |
+| update               | Implemented       | DML           |
+| destroy              | Implemented       | DML           |
+| find                 | Implemented       | DQL           |
+| join                 | _not supported_   | DQL           |
+| count                | Implemented       | DQL           |
+| sum                  | Implemented       | DQL           |
+| avg                  | Implemented       | DQL           |
+| define               | Implemented       | DDL           |
+| drop                 | Implemented       | DDL           |
+| setSequence          | _not supported_   | DDL           |
+
+
+## Questions?
+
+See [Extending Sails > Adapters > Custom Adapters](http://sailsjs.com/documentation/concepts/extending-sails/adapters/custom-adapters) in the [Sails documentation](http://sailsjs.com/documentation), or check out [recommended support options](http://sailsjs.com/support).
+
+<a href="http://sailsjs.com" target="_blank" title="Node.js framework for building realtime APIs."><img src="https://github-camo.global.ssl.fastly.net/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67" width=60 alt="Sails.js logo (small)"/></a>
+
 
 ## Contributing &nbsp; [![Build Status](https://travis-ci.org/balderdashy/sails-mongo.svg?branch=master)](https://travis-ci.org/balderdashy/sails-mongo) &nbsp; [![Build status on Windows](https://ci.appveyor.com/api/projects/status/u0i1o62tsw6ymbjd/branch/master?svg=true)](https://ci.appveyor.com/project/mikermcneil/sails-mongo/branch/master)
 
@@ -34,8 +68,17 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin Persson ([@prssn](https://twitter.com/prssn)) for building the first version of this adapter back in 2013.  Since then, it has evolved into a core adapter within the framework.
 
 
+## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/sails-mongo.svg)](http://npmjs.com/package/sails-mongo)
+
+To report a bug, [click here](http://sailsjs.com/bugs).
+
+
 
 ## License
 
-The [Sails framework](http://sailsjs.com) is free and open-source under the [MIT License](http://sailsjs.com/license).
+This core adapter is available under the **MIT license**.
 
+As for [Waterline](http://waterlinejs.org) and the [Sails framework](http://sailsjs.com)?  They're free and open-source under the [MIT License](http://sailsjs.com/license).
+
+
+![image_squidhome@2x.png](http://i.imgur.com/RIvu9.png)
