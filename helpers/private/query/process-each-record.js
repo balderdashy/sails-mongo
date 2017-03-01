@@ -15,6 +15,7 @@
 
 var _ = require('@sailshq/lodash');
 var ObjectID = require('mongodb').ObjectID;
+var Binary = require('machinepack-mongo').mongodb.Binary;
 var utils = require('waterline-utils');
 var eachRecordDeep = utils.eachRecordDeep;
 
@@ -44,10 +45,12 @@ module.exports = function processEachRecord(options) {
       record._id = new ObjectID(record._id).toString();
     }
 
-    // Also transform any foreign key values to strings
-    _.each(WLModel.definition, function findForeignKeys(def) {
+    // Normalize field values as necessary.
+    _.each(WLModel.definition, function (def) {
+      var attrName = def.columnName;
+
+      // Transform any foreign key values to strings
       if (_.has(def, 'foreignKey') && def.foreignKey) {
-        var attrName = def.columnName;
         if (_.has(record, attrName) && !_.isUndefined(record[attrName])) {
           try {
             var objectified = new ObjectID(record[attrName]);
@@ -62,6 +65,14 @@ module.exports = function processEachRecord(options) {
           }
         }
       }
-    });
+
+      // If the column has `type: ref` and the value is a Mongo binary object with a buffer, just
+      // return the buffer to be consistent w/ how other core adapters handle refs.
+      if (def.type === 'ref' && record[attrName] instanceof Binary && record[attrName].buffer) {
+        record[attrName] = record[attrName].buffer;
+      }
+
+    }); // </_.each() field in record>
+
   }, false, options.identity, options.orm);
 };
