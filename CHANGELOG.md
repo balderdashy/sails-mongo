@@ -1,4 +1,8 @@
-# Sails-Mongo Changelog
+# sails-mongo Changelog
+
+### 1.0.0
+
+* [COMPATIBILITY] Upgrade to v1 of the Waterline adapter API.
 
 ### 0.12.2
 
