@@ -1,7 +1,6 @@
 [![Node.js and MongoDB on Sails.js/Waterline](https://camo.githubusercontent.com/9e49073459ed4e0e2687b80eaf515d87b0da4a6b/687474703a2f2f62616c64657264617368792e6769746875622e696f2f7361696c732f696d616765732f6c6f676f2e706e67)](http://sailsjs.com)
 
 # sails-mongo
-[![npm version](https://badge.fury.io/js/sails-mongo.svg)](http://badge.fury.io/js/sails-mongo)
 
 Sails.js/Waterline adapter for MongoDB.
 
@@ -31,22 +30,23 @@ Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the doc
 
 This adapter implements the following methods:
 
-| Method               | Status            | Category      |
+| Method               | Status            | Layer         |
 |:---------------------|:------------------|:--------------|
-| registerDatastore    | Implemented       | LIFECYCLE     |
-| teardown             | Implemented       | LIFECYCLE     |
-| create               | Implemented       | DML           |
-| createEach           | Implemented       | DML           |
-| update               | Implemented       | DML           |
-| destroy              | Implemented       | DML           |
-| find                 | Implemented       | DQL           |
-| join                 | _not supported_   | DQL           |
-| count                | Implemented       | DQL           |
-| sum                  | Implemented       | DQL           |
-| avg                  | Implemented       | DQL           |
-| define               | Implemented       | DDL           |
-| drop                 | Implemented       | DDL           |
-| setSequence          | _not supported_   | DDL           |
+| ~~registerDatastore~~| ~~Implemented~~   | _N/A_         |
+| ~~teardown~~         | ~~Implemented~~   | _N/A_         |
+| validateModelDef     | Implemented       | Modeled       |
+| createRecord         | Implemented       | Modeled (DML) |
+| createEachRecord     | Implemented       | Modeled (DML) |
+| updateRecords        | Implemented       | Modeled (DML) |
+| destroyRecords       | Implemented       | Modeled (DML) |
+| findRecords          | Implemented       | Modeled (DQL) |
+| join                 | _not supported_   | Modeled (DQL) |
+| countRecords         | Implemented       | Modeled (DQL) |
+| sumRecords           | Implemented       | Modeled (DQL) |
+| avgRecords           | Implemented       | Modeled (DQL) |
+| definePhysicalModel  | Implemented       | Migratable    |
+| dropPhysicalModel    | Implemented       | Migratable    |
+| setPhysicalSequence  | _not supported_   | Migratable    |
 
 
 ## Questions?
@@ -76,9 +76,10 @@ To report a bug, [click here](http://sailsjs.com/bugs).
 
 ## License
 
-This core adapter is available under the **MIT license**.
+This [core adapter](http://sailsjs.com/documentation/concepts/extending-sails/adapters/available-adapters) is available under the **MIT license**.
 
 As for [Waterline](http://waterlinejs.org) and the [Sails framework](http://sailsjs.com)?  They're free and open-source under the [MIT License](http://sailsjs.com/license).
 
+&copy; [The Sails Co.](http://sailsjs.com/about)
 
 ![image_squidhome@2x.png](http://i.imgur.com/RIvu9.png)
