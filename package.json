@@ -7,7 +7,7 @@
     "test": "node test/run-standard-tests",
     "fasttest": "node test/run-standard-tests",
     "pretest": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi",
-    "lint": "node ./node_modules/eslint/bin/eslint *.js **/*.js",
+    "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0",
     "docker": "docker-compose run adapter bash"
   },
   "keywords": [
