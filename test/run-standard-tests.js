@@ -55,7 +55,7 @@ if (!process.env.WATERLINE_ADAPTER_TESTS_URL) {
   console.error('Tip: You can use an environment variable to configure this.');
   console.error('For example:');
   console.error('```');
-  console.error('    WATERLINE_ADAPTER_TESTS_URL=root@localhost:3306/testdb npm test');
+  console.error('    WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb npm test');
   console.error('```');
   console.error('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
   process.exit(1);
