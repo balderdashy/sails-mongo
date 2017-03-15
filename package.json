@@ -40,7 +40,7 @@
   },
   "waterlineAdapter": {
     "interfaces": [
-      "sql"
+      "associations"
     ],
     "features": []
   }
