@@ -40,6 +40,8 @@
   },
   "waterlineAdapter": {
     "interfaces": [
+      "semantic",
+      "queryable",
       "associations"
     ],
     "features": []
