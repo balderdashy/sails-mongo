@@ -8,15 +8,15 @@ describe('dontUseObjectIds', function() {
   var waterline;
   var models = {};
 
-  afterEach(function(done) {
-    models = {};
-    if (waterline) {
-      return waterline.teardown(done);
-    }
-    return done();
-  });
-
   describe('Without associations', function() {
+
+    afterEach(function(done) {
+      models = {};
+      if (waterline) {
+        return waterline.teardown(done);
+      }
+      return done();
+    });
 
     beforeEach(function(done) {
       setup(
@@ -61,9 +61,10 @@ describe('dontUseObjectIds', function() {
     describe('Updating a single record', function() {
 
       it('should update the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager.collection('user').insert({_id: 123, name: 'bob'}, function(err, record) {
+        models.user._adapter.datastores.test.manager.collection('user').insert({_id: 123, name: 'bob'}, function(err) {
           if (err) {return done(err);}
           models.user.update({id: 123}, {name: 'joe'}).exec(function(err, records) {
+            if (err) {return done(err);}
             assert.equal(records[0].id, 123);
             assert.equal(records[0].name, 'joe');
             return done();
@@ -79,7 +80,7 @@ describe('dontUseObjectIds', function() {
 
       it('should update the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err, record) {
+        models.user._adapter.datastores.test.manager.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
           if (err) {return done(err);}
           models.user.update({id: {'>': 0}}, {name: 'joe'}).exec(function(err, records) {
             if (err) {return done(err);}
@@ -100,7 +101,8 @@ describe('dontUseObjectIds', function() {
 
       it('should find a record w/ a numeric ID', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insert({_id: 123, name: 'bob'}, function(err, record) {
+        models.user._adapter.datastores.test.manager.collection('user').insert({_id: 123, name: 'bob'}, function(err) {
+          if (err) {return done(err);}
           models.user.findOne({id: 123}).exec(function(err, record) {
             if (err) {return done(err);}
             assert.equal(record.id, 123);
@@ -117,7 +119,7 @@ describe('dontUseObjectIds', function() {
 
       it('should find the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err, record) {
+        models.user._adapter.datastores.test.manager.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
           if (err) {return done(err);}
           models.user.find({id: {'>': 0}}).exec(function(err, records) {
             if (err) {return done(err);}
@@ -136,9 +138,9 @@ describe('dontUseObjectIds', function() {
     describe('Deleting a single record', function() {
 
       it('should delete the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager.collection('user').insert({_id: 123, name: 'bob'}, function(err, record) {
+        models.user._adapter.datastores.test.manager.collection('user').insert({_id: 123, name: 'bob'}, function(err) {
           if (err) {return done(err);}
-          models.user.destroy({id: 123}).exec(function(err, records) {
+          models.user.destroy({id: 123}).exec(function(err) {
             if (err) {return done(err);}
             models.user._adapter.datastores.test.manager.collection('user').find({}).toArray(function(err, records) {
               if (err) {return done(err);}
@@ -158,9 +160,9 @@ describe('dontUseObjectIds', function() {
 
       it('should delete the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err, record) {
+        models.user._adapter.datastores.test.manager.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
           if (err) {return done(err);}
-          models.user.destroy({id: {'>': 0}}).exec(function(err, records) {
+          models.user.destroy({id: {'>': 0}}).exec(function(err) {
             if (err) {return done(err);}
             models.user._adapter.datastores.test.manager.collection('user').find({}).toArray(function(err, records) {
               if (err) {return done(err);}
@@ -178,35 +180,410 @@ describe('dontUseObjectIds', function() {
 
   describe('With associations', function() {
 
-    describe('Where a single model using ObjectID belongsTo a model using number keys', function() {
-
-    });
-
     describe('Where a single model using number keys belongsTo a model using ObjectID', function() {
 
+      before(function(done) {
+        setup(
+          [createModel('user', {toOne: 'pet'}), createModel('pet', {dontUseObjectIds: true})],
+          models,
+          done
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully', function(done) {
+
+        models.pet.create({id: 123, name: 'alice'}).exec(function(err) {
+          if (err) {return done(err);}
+          models.user.create({name: 'scott', friend: 123}).exec(function(err, user) {
+            if (err) {return done(err);}
+            models.user.findOne({id: user.id}).populate('friend').exec(function(err, record) {
+              if (err) {return done(err);}
+              assert.equal(record.name, 'scott');
+              assert(record.friend);
+              assert.equal(record.friend.id, 123);
+              assert.equal(record.friend.name, 'alice');
+              return done();
+            });
+          });
+        });
+
+      });
+
     });
 
-    describe('Where a collection using ObjectID belongsTo a model using number keys ', function() {
 
+    describe('Where a single model using ObjectID belongsTo a model using number keys', function() {
+
+      before(function(done) {
+        setup(
+          [createModel('user', {toOne: 'pet', dontUseObjectIds: true}), createModel('pet')],
+          models,
+          done
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully', function(done) {
+
+        models.pet.create({name: 'alice'}).exec(function(err, pet) {
+          if (err) {return done(err);}
+          models.user.create({id: 123, name: 'scott', friend: pet.id}).exec(function(err, user) {
+            if (err) {return done(err);}
+            models.user.findOne({id: user.id}).populate('friend').exec(function(err, record) {
+              if (err) {return done(err);}
+              assert.equal(record.name, 'scott');
+              assert(record.friend);
+              assert.equal(record.friend.id, pet.id);
+              assert.equal(record.friend.name, 'alice');
+              return done();
+            });
+          });
+        });
+
+      });
     });
 
     describe('Where a collection using number keys belongsTo a model using ObjectID ', function() {
 
+      var userId;
+
+      before(function(done) {
+        setup(
+          [createModel('user', {oneToMany: 'pet'}), createModel('pet', {toOne: 'user', dontUseObjectIds: true})],
+          models,
+          function(err) {
+            if (err) {return done(err);}
+            models.pet.create({id: 123, name: 'alice'}).exec(function(err) {
+              if (err) {return done(err);}
+              models.user.create({name: 'scott', friends: [123]}).exec(function(err, user) {
+                if (err) {return done(err);}
+                userId = user.id;
+                return done();
+              });
+            });
+          }
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully from the "hasMany" side', function(done) {
+
+        models.user.findOne({id: userId}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'scott');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, 123);
+          assert.equal(record.friends[0].name, 'alice');
+          return done();
+        });
+
+      });
+
+      it('Should be able to create and retrieve the association successfully from the "hasOne" side', function(done) {
+
+        models.pet.findOne({id: 123}).populate('friend').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'alice');
+          assert(record.friend);
+          assert.equal(record.friend.id, userId);
+          assert.equal(record.friend.name, 'scott');
+          return done();
+        });
+
+      });
+
+
     });
 
-    describe('Where a collection using ObjectID belongsTo a model using number keys (vialess)', function() {
+    describe('Where a collection using ObjectID belongsTo a model using number keys', function() {
+
+      var petId;
+
+      before(function(done) {
+        setup(
+          [createModel('user', {oneToMany: 'pet', dontUseObjectIds: true}), createModel('pet', {toOne: 'user'})],
+          models,
+          function(err) {
+            if (err) {return done(err);}
+            models.pet.create({name: 'alice'}).exec(function(err, pet) {
+              if (err) {return done(err);}
+              petId = pet.id;
+              models.user.create({id: 123, name: 'scott', friends: [pet.id]}).exec(function(err) {
+                if (err) {return done(err);}
+                return done();
+              });
+            });
+          }
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully from the "hasMany" side', function(done) {
+
+        models.user.findOne({id: 123}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'scott');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, petId);
+          assert.equal(record.friends[0].name, 'alice');
+          return done();
+        });
+
+      });
+
+      it('Should be able to create and retrieve the association successfully from the "hasOne" side', function(done) {
+
+        models.pet.findOne({id: petId}).populate('friend').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'alice');
+          assert(record.friend);
+          assert.equal(record.friend.id, 123);
+          assert.equal(record.friend.name, 'scott');
+          return done();
+        });
+
+      });
 
     });
 
     describe('Where a collection using number keys belongsTo a model using ObjectID (vialess)', function() {
 
+      var userId;
+
+      before(function(done) {
+        setup(
+          [createModel('user', {toManyVialess: 'pet'}), createModel('pet', {dontUseObjectIds: true})],
+          models,
+          function(err) {
+            if (err) {return done(err);}
+            models.pet.create({id: 123, name: 'alice'}).exec(function(err) {
+              if (err) {return done(err);}
+              models.user.create({name: 'scott', friends: [123]}).exec(function(err, user) {
+                if (err) {return done(err);}
+                userId = user.id;
+                return done();
+              });
+            });
+          }
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully from the "hasMany" side', function(done) {
+
+        models.user.findOne({id: userId}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'scott');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, 123);
+          assert.equal(record.friends[0].name, 'alice');
+          return done();
+        });
+
+      });
+
+    });
+
+    describe('Where a collection using ObjectID belongsTo a model using number keys (vialess)', function() {
+
+      var petId;
+      // eslint-disable-next-line no-unused-vars
+      var userId;
+
+      before(function(done) {
+        setup(
+          [createModel('user', {toManyVialess: 'pet', dontUseObjectIds: true}), createModel('pet')],
+          models,
+          function(err) {
+            if (err) {return done(err);}
+            models.pet.create({name: 'alice'}).exec(function(err, pet) {
+              if (err) {return done(err);}
+              petId = pet.id;
+              models.user.create({id: 123, name: 'scott', friends: [petId]}).exec(function(err, user) {
+                if (err) {return done(err);}
+                userId = user.id;
+                return done();
+              });
+            });
+          }
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully from the "hasMany" side', function(done) {
+
+        models.user.findOne({id: 123}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'scott');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, petId);
+          assert.equal(record.friends[0].name, 'alice');
+          return done();
+        });
+
+      });
+
     });
 
     describe('Where a collection using ObjectID has many-to-many relationship with a model using number keys', function() {
 
+      var petId;
+
+      before(function(done) {
+        setup(
+          [createModel('user', {manyToMany: 'pet', dontUseObjectIds: true}), createModel('pet', {manyToMany: 'user'})],
+          models,
+          function(err) {
+            if (err) {return done(err);}
+            models.pet.create({name: 'alice'}).exec(function(err, pet) {
+              if (err) {return done(err);}
+              petId = pet.id;
+              models.user.create({id: 123, name: 'scott', friends: [pet.id]}).exec(function(err) {
+                if (err) {return done(err);}
+                return done();
+              });
+            });
+          }
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully from the side w/out ObjectID', function(done) {
+
+        models.user.findOne({id: 123}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'scott');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, petId);
+          assert.equal(record.friends[0].name, 'alice');
+          return done();
+        });
+
+      });
+
+      it('Should be able to create and retrieve the association successfully from the side w/ ObjectID', function(done) {
+        models.pet.findOne({id: petId}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'alice');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, 123);
+          assert.equal(record.friends[0].name, 'scott');
+          return done();
+        });
+
+      });
+
     });
 
     describe('Where a collection using number keys has many-to-many relationship with a model using number keys', function() {
+
+      before(function(done) {
+        setup(
+          [createModel('user', {manyToMany: 'pet', dontUseObjectIds: true}), createModel('pet', {manyToMany: 'user', dontUseObjectIds: true})],
+          models,
+          function(err) {
+            if (err) {return done(err);}
+            models.pet.create({id: 555, name: 'alice'}).exec(function(err) {
+              if (err) {return done(err);}
+              models.user.create({id: 123, name: 'scott', friends: [555]}).exec(function(err) {
+                if (err) {return done(err);}
+                return done();
+              });
+            });
+          }
+        );
+      });
+
+      after(function(done) {
+        models = {};
+        if (waterline) {
+          return waterline.teardown(done);
+        }
+        return done();
+      });
+
+      it('Should be able to create and retrieve the association successfully from the first side', function(done) {
+
+        models.user.findOne({id: 123}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'scott');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, 555);
+          assert.equal(record.friends[0].name, 'alice');
+          return done();
+        });
+
+      });
+
+      it('Should be able to create and retrieve the association successfully from the second side', function(done) {
+        models.pet.findOne({id: 555}).populate('friends').exec(function(err, record) {
+          if (err) {return done(err);}
+          assert.equal(record.name, 'alice');
+          assert(record.friends);
+          assert.equal(record.friends.length, 1);
+          assert.equal(record.friends[0].id, 123);
+          assert.equal(record.friends[0].name, 'scott');
+          return done();
+        });
+
+      });
 
     });
 
@@ -247,7 +624,7 @@ describe('dontUseObjectIds', function() {
       }
 
       // Save a reference to the ORM
-      ORM = orm;
+      var ORM = orm;
 
       // Run migrations
       waterlineUtils.autoMigrations('drop', orm, function(err) {
@@ -266,6 +643,8 @@ describe('dontUseObjectIds', function() {
   }
 
   function createModel (identity, options) {
+
+    options = options || {};
 
     var model = {
       datastore: 'test',
@@ -287,9 +666,16 @@ describe('dontUseObjectIds', function() {
       };
     }
 
-    if (options.toMany) {
+    if (options.oneToMany) {
       model.attributes.friends = {
-        collection: options.toMany,
+        collection: options.oneToMany,
+        via: 'friend'
+      };
+    }
+
+    if (options.manyToMany) {
+      model.attributes.friends = {
+        collection: options.manyToMany,
         via: 'friends'
       };
     }
