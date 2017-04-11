@@ -4,7 +4,7 @@
   "description": "Mongo DB adapter for Sails.js/Waterline.",
   "main": "./lib",
   "scripts": {
-    "test": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi && node ./node_modules/mocha/bin/mocha test/run-mongo-specific-tests && node test/run-standard-tests",
+    "test": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi && node ./node_modules/mocha/bin/mocha test/run-adapter-specific-tests && node ./node_modules/mocha/bin/mocha test/connectable/ && node test/run-standard-tests",
     "fasttest": "node test/run-standard-tests",
     "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0",
     "docker": "docker-compose run adapter bash"
