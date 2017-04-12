@@ -1,4 +1,5 @@
-var Pack = require('../../');
+var createManager = require('machine').build(require('../../').createManager);
+var destroyManager = require('machine').build(require('../../').destroyManager);
 
 describe('Connectable ::', function() {
   describe('Destroy Manager', function() {
@@ -9,7 +10,7 @@ describe('Connectable ::', function() {
       // Needed to dynamically get the host using the docker container
       var host = process.env.MONGO_1_PORT_27017_TCP_ADDR || 'localhost';
 
-      Pack.createManager({
+      createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'
       })
       .exec(function(err, report) {
@@ -24,7 +25,7 @@ describe('Connectable ::', function() {
 
 
     it('should successfully destroy the manager', function(done) {
-      Pack.destroyManager({
+      destroyManager({
         manager: manager
       })
       .exec(function(err) {

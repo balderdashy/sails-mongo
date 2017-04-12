@@ -1,4 +1,6 @@
-var Pack = require('../../');
+var createManager = require('machine').build(require('../../').createManager);
+var getConnection = require('machine').build(require('../../').getConnection);
+var releaseConnection = require('machine').build(require('../../').releaseConnection);
 
 describe('Connectable ::', function() {
   describe('Release Connection', function() {
@@ -10,7 +12,7 @@ describe('Connectable ::', function() {
       // Needed to dynamically get the host using the docker container
       var host = process.env.MONGO_1_PORT_27017_TCP_ADDR || 'localhost';
 
-      Pack.createManager({
+      createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'
       })
       .exec(function(err, report) {
@@ -20,7 +22,7 @@ describe('Connectable ::', function() {
 
         manager = report.manager;
 
-        Pack.getConnection({
+        getConnection({
           manager: manager
         })
         .exec(function(err, report) {
@@ -36,7 +38,7 @@ describe('Connectable ::', function() {
 
     // The actual machine is a no-op so just ensure no error comes back.
     it('should successfully release a connection', function(done) {
-      Pack.releaseConnection({
+      releaseConnection({
         connection: connection
       })
       .exec(function(err) {

@@ -1,5 +1,6 @@
 var assert = require('assert');
-var Pack = require('../../');
+var createManager = require('machine').build(require('../../').createManager);
+var getConnection = require('machine').build(require('../../').getConnection);
 
 describe('Connectable ::', function() {
   describe('Get Connection', function() {
@@ -10,7 +11,7 @@ describe('Connectable ::', function() {
       // Needed to dynamically get the host using the docker container
       var host = process.env.MONGO_1_PORT_27017_TCP_ADDR || 'localhost';
 
-      Pack.createManager({
+      createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'
       })
       .exec(function(err, report) {
@@ -24,7 +25,7 @@ describe('Connectable ::', function() {
     });
 
     it('should successfully return a Mongo Server instance', function(done) {
-      Pack.getConnection({
+      getConnection({
         manager: manager
       })
       .exec(function(err, report) {

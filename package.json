@@ -4,8 +4,8 @@
   "description": "Mongo DB adapter for Sails.js/Waterline.",
   "main": "./lib",
   "scripts": {
-    "test": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi && node ./node_modules/mocha/bin/mocha test/run-adapter-specific-tests && node ./node_modules/mocha/bin/mocha test/connectable/ && node test/run-standard-tests",
-    "fasttest": "node test/run-standard-tests",
+    "test": "nodever=`node -e \"console.log('\\`node -v\\`'[1]);\"` && if [ $nodever != \"0\" ]; then npm run lint; fi && npm run custom-tests",
+    "custom-tests": "node ./node_modules/mocha/bin/mocha test/run-adapter-specific-tests && node ./node_modules/mocha/bin/mocha test/connectable/ && node test/run-standard-tests",
     "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0",
     "docker": "docker-compose run adapter bash"
   },
@@ -30,13 +30,13 @@
     "async": "2.0.1",
     "flaverr": "1.1.1",
     "machine": "^13.0.0-17",
-    "machinepack-mongo": "^1.0.0-3",
+    "mongodb": "2.2.25",
     "waterline-utils": "^1.3.4"
   },
   "devDependencies": {
     "benchmark": "2.1.1",
     "eslint": "3.5.0",
-    "mocha": "^3.2.0",
+    "mocha": "3.0.2",
     "waterline": "^0.13.0-rc6",
     "waterline-adapter-tests": "^1.0.0-6",
     "waterline-utils": "^1.3.12"
@@ -48,5 +48,21 @@
       "associations"
     ],
     "features": []
+  },
+  "machinepack": {
+    "friendlyName": "MongoDB",
+    "extendedDescription": "Uses the Node.js mongdb driver located at https://github.com/mongodb/node-mongodb-native",
+    "moreInfoUrl": "https://github.com/mongodb/node-mongodb-native",
+    "machineDir": "lib/private/machines/",
+    "machines": [
+      "create-manager",
+      "destroy-manager",
+      "get-connection",
+      "release-connection"
+    ],
+    "implements": {
+      "connectable": "1.0"
+    },
+    "testsUrl": "https://travis-ci.org/treelinehq/machinepack-mongo"
   }
 }
