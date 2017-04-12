@@ -30,7 +30,8 @@
     "async": "2.0.1",
     "flaverr": "1.1.1",
     "machine": "^13.0.0-17",
-    "mongodb": "2.2.25"
+    "mongodb": "2.2.25",
+    "qs": "6.4.0"
   },
   "devDependencies": {
     "benchmark": "2.1.1",
@@ -41,14 +42,22 @@
     "waterline-utils": "^1.3.12"
   },
   "waterlineAdapter": {
-    "interfaces": ["semantic","queryable","associations"],
+    "interfaces": [
+      "semantic",
+      "queryable",
+      "associations"
+    ],
     "features": []
   },
   "machinepack": {
     "friendlyName": "MongoDB",
     "extendedDescription": "Uses the Node.js mongdb driver located at http://npmjs.com/package/mongodb",
     "moreInfoUrl": "https://github.com/mongodb/node-mongodb-native",
-    "implements": [ "connectable", "modeled", "migratable" ],
+    "implements": [
+      "connectable",
+      "modeled",
+      "migratable"
+    ],
     "machineDir": "lib/private/machines/",
     "exportStyle": "dryDictionary",
     "testsUrl": "https://travis-ci.org/balderdashy/sails-mongo"

@@ -22,7 +22,7 @@ describe('Connectable ::', function() {
       .exec(function(err) {
         try {
           assert(err, 'Expected error of SOME kind, but didnt get one!');
-          assert.equal(err.exit, 'malformed');
+          assert.equal(err.exit, 'malformed', 'Expected it to exit from the `malformed` exit!  But it didndt... The error:'+err.stack);
         } catch (e) { return done(e); }
         return done();
       });
