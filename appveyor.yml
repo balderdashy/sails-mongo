@@ -37,7 +37,7 @@ test_script:
   - node --version
   - npm --version
   # Run the actual tests.
-  - npm run fasttest
+  - npm run test
 
 # Setup Mongo Database
 services:
