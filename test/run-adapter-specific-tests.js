@@ -2,6 +2,28 @@ var assert = require('assert');
 var _ = require('@sailshq/lodash');
 var Waterline = require('waterline');
 var waterlineUtils = require('waterline-utils');
+var normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
+
+describe('normalizeDatastoreConfig', function() {
+
+  it('Given a URL without a prefix, normalizeDatastoreConfig should add the prefix', function() {
+    var config = {
+      url: 'creepygiggles:shipyard4eva@localhost/test'
+    };
+    normalizeDatastoreConfig(config, undefined, 'mongodb');
+    assert.equal(config.url, 'mongodb://creepygiggles:shipyard4eva@localhost/test');
+  });
+
+  it('Given a URL with a comma in it (like a Mongo Atlas URL), normalizeDatastoreConfig should not modify the URL.', function() {
+    var url = 'mongodb://creepygiggles:shipyard4eva@cluster0-shard-00-00-ienyq.mongodb.net:27017,cluster0-shard-00-01-ienyq.mongodb.net:27017,cluster0-shard-00-02-ienyq.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
+    var config = {
+      url: 'mongodb://creepygiggles:shipyard4eva@cluster0-shard-00-00-ienyq.mongodb.net:27017,cluster0-shard-00-01-ienyq.mongodb.net:27017,cluster0-shard-00-02-ienyq.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin'
+    };
+    normalizeDatastoreConfig(config);
+    assert.equal(url, config.url);
+  });
+
+});
 
 describe('dontUseObjectIds', function() {
 
