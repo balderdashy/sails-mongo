@@ -47,7 +47,7 @@
       "queryable",
       "associations"
     ],
-    "features": []
+    "features": ["unique"]
   },
   "machinepack": {
     "friendlyName": "MongoDB",
