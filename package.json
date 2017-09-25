@@ -1,6 +1,6 @@
 {
   "name": "sails-mongo",
-  "version": "1.0.0-9",
+  "version": "1.0.0-10",
   "description": "Mongo DB adapter for Sails.js/Waterline.",
   "main": "./lib",
   "scripts": {
@@ -47,7 +47,9 @@
       "queryable",
       "associations"
     ],
-    "features": ["unique"]
+    "features": [
+      "unique"
+    ]
   },
   "machinepack": {
     "friendlyName": "MongoDB",
