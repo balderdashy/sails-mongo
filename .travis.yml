@@ -24,3 +24,6 @@ branches:
 notifications:
   email:
     - ci@sailsjs.com
+
+services:
+  - mongodb
