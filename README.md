@@ -19,7 +19,7 @@ To install this adapter, run:
 $ npm install sails-mongo
 ```
 
-Then [connect the adapter](http://sailsjs.com/documentation/reference/configuration/sails-config-datastores) to one or more of your app's datastores.
+Then [connect the adapter](http://next.sailsjs.com/documentation/reference/configuration/sails-config-datastores) to one or more of your app's datastores.
 
 ## Usage
 
