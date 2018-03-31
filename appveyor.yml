@@ -21,17 +21,20 @@ environment:
     - nodejs_version: "8"
     - nodejs_version: "9"
 
-# Install scripts. (runs after repo cloning)
+# Install and run MongoDB
+services:
+  - mongodb
+
+# Install scripts.
 install:
   # Get the latest stable version of Node.js
-  # (Not sure what this is for, it's just in Appveyor's example.)
   - ps: Install-Product node $env:nodejs_version
   - choco install make
   # Install declared dependencies
   - npm install
 
 
-# Post-install test scripts.
+#  Test scripts.
 test_script:
   # Output Node and NPM version info.
   # (Presumably just in case Appveyor decides to try any funny business?
@@ -41,20 +44,4 @@ test_script:
   # Run the actual tests.
   - npm test
 
-
-# Don't actually build.
-# (Not sure what this is for, it's just in Appveyor's example.
-#  I'm not sure what we're not building... but I'm OK with not
-#  building it.  I guess.)
 build: off
-
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# TODO: Set up appveyor + mongo*:
-# https://www.appveyor.com/docs/services-databases/
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-services:
-  - mongodb
