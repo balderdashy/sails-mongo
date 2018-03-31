@@ -55,3 +55,6 @@ build: off
 # https://www.appveyor.com/docs/services-databases/
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+services:
+  - mongodb
