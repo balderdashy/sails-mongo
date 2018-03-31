@@ -21,8 +21,6 @@ environment:
     - nodejs_version: "8"
     - nodejs_version: "9"
 
-image: ubuntu
-
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js
