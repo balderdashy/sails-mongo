@@ -1,5 +1,10 @@
 # Sails-Mongo Changelog
 
+### 0.12.4
+
+* [INTERNAL] Bump `mongodb` version for
+* [INTERNAL] Cleanup `.find()` and `.destroy()`.
+
 ### 0.12.2
 
 * [INTERNAL] Bump and pin dependency versions
