@@ -9,7 +9,6 @@
 # https://www.appveyor.com/docs/lang/nodejs-iojs/ #
 # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-
 # Test against these versions of Node.js.
 environment:
   matrix:
@@ -19,6 +18,10 @@ environment:
     - nodejs_version: "5"
     - nodejs_version: "6"
     - nodejs_version: "7"
+    - nodejs_version: "8"
+    - nodejs_version: "9"
+
+image: ubuntu
 
 # Install scripts. (runs after repo cloning)
 install:
