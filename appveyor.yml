@@ -26,6 +26,7 @@ install:
   # Get the latest stable version of Node.js
   # (Not sure what this is for, it's just in Appveyor's example.)
   - ps: Install-Product node $env:nodejs_version
+  - choco install make
   # Install declared dependencies
   - npm install
 
