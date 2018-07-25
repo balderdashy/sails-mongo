@@ -33,7 +33,6 @@ install:
   # Install declared dependencies
   - npm install
 
-
 #  Test scripts.
 test_script:
   # Output Node and NPM version info.
