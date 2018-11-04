@@ -14,7 +14,6 @@
 environment:
   WATERLINE_ADAPTER_TESTS_URL: root@localhost/testdb
   matrix:
-    - nodejs_version: "4"
     - nodejs_version: "6"
     - nodejs_version: "8"
     - nodejs_version: "10"
