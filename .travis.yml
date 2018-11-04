@@ -46,6 +46,7 @@ after_script:
 branches:
   only:
     - master
+    - fix-aggregate-mongodb34
 
 notifications:
   email:
