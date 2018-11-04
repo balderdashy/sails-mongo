@@ -61,6 +61,15 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 [![NPM](https://nodei.co/npm/sails-mongo.png?downloads=true)](http://npmjs.com/package/sails-mongo)
 
 
+This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
+
+The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version 
+(at this time, up to 3.4).
+For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
+
+To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
+From there you can run `npm test` to run the tests as many times as you need. 
+
 #### Special thanks
 
 Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin Persson ([@prssn](https://twitter.com/prssn)) for building the first version of this adapter back in 2013.  Since then, it has evolved into a core adapter within the framework.

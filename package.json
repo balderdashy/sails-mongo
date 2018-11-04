@@ -5,9 +5,10 @@
   "main": "./lib",
   "scripts": {
     "test": "npm run lint && npm run custom-tests",
-    "custom-tests": "node ./node_modules/mocha/bin/mocha test/run-adapter-specific-tests && node ./node_modules/mocha/bin/mocha test/connectable/ && node test/run-standard-tests",
-    "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0",
-    "docker": "docker-compose run adapter bash"
+    "custom-tests": "mocha test/run-adapter-specific-tests && mocha test/connectable/ && node test/run-standard-tests",
+    "lint": "eslint . --max-warnings=0",
+    "docker": "docker-compose run adapter bash",
+    "docker-test": "docker-compose up --exit-code-from adapter && docker-compose down"
   },
   "keywords": [
     "mongo",
