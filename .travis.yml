@@ -15,10 +15,34 @@ node_js:
   - "4"
   - "6"
   - "8"
-  - "node"
+  - "9"
 
 env:
   - WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb
+  matrix:
+  - MONGODB=3.4.16
+  - MONGODB=3.6.6
+  - MONGODB=4.0.0
+  - MONGODB=4.1.1
+
+matrix:
+  fast_finish: true
+
+install:
+- wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB}.tgz
+- tar xzf mongodb-linux-x86_64-${MONGODB}.tgz
+- ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --version
+- npm install
+
+before_script:
+- mkdir ${PWD}/mongodb-linux-x86_64-${MONGODB}/data
+- ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/data --logpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/mongodb.log --fork
+
+script:
+- npm test
+
+after_script:
+- pkill mongod
 
 branches:
   only:
@@ -27,6 +51,3 @@ branches:
 notifications:
   email:
     - ci@sailsjs.com
-
-services:
-  - mongodb
