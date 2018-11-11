@@ -18,6 +18,7 @@ node_js:
 
 env:
   - WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb
+  - WATERLINE_ADAPTER_TESTS_HOST=localhost
   matrix:
   - MONGODB=3.4.16
   - MONGODB=3.6.6
