@@ -1,12 +1,19 @@
 adapter:
-  build: .
+  image: nodesource/node:4.2
   volumes:
    - .:/usr/src/app
   links:
    - mongo
   environment:
    - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
+   - WATERLINE_ADAPTER_TESTS_URL=mongo/testdb
+   - WATERLINE_ADAPTER_TESTS_HOST=mongo
    - NODE_ENV=test
+  command: "npm test"
 
 mongo:
   image: mongo:4
+  restart: always
+  command: "--smallfiles --logpath=/dev/null"
+  ports:
+    - "27017:27017"
