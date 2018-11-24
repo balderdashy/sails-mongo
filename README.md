@@ -25,13 +25,10 @@ Then [connect the adapter](http://sailsjs.com/documentation/reference/configurat
 
 Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
-### sails-mongo backward compatibility
+### sails-mongo breaking compatibility issues
 
 Since the latest node mongodb drivers, the internal `connection` method now returns a client instead of a database.
-From now on, `manager` is the MongoClient. If you want it to return the database configured as in previous versions,
-set `legacyManager: true` as one of your options.
-
-As a fallback mechanism, the client is returned as an `_client` attribute.
+From now on, `manager` is the MongoClient. To get the database, you have to call the method [`db`](http://mongodb.github.io/node-mongodb-native/3.1/api/MongoClient.html#db) on the manager (MongoClient).
 
 ## TODO
 - Support multiple protocol

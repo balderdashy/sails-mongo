@@ -145,7 +145,7 @@ describe('dontUseObjectIds', function() {
     describe('Updating a single record', function() {
 
       it('should update the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager._WPdb.collection('user').insert({_id: 123, name: 'bob'}, function(err) {
+        models.user._adapter.datastores.test.manager._WPdb.collection('user').insertOne({_id: 123, name: 'bob'}, function(err) {
           if (err) {return done(err);}
           models.user.update({id: 123}, {name: 'joe'}).exec(function(err, records) {
             if (err) {return done(err);}
@@ -164,7 +164,7 @@ describe('dontUseObjectIds', function() {
 
       it('should update the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager._WPdb.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
+        models.user._adapter.datastores.test.manager._WPdb.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
           if (err) {return done(err);}
           models.user.update({id: {'>': 0}}, {name: 'joe'}).exec(function(err, records) {
             if (err) {return done(err);}
@@ -185,7 +185,7 @@ describe('dontUseObjectIds', function() {
 
       it('should find a record w/ a numeric ID', function(done) {
 
-        models.user._adapter.datastores.test.manager._WPdb.collection('user').insert({_id: 123, name: 'bob'}, function(err) {
+        models.user._adapter.datastores.test.manager._WPdb.collection('user').insertOne({_id: 123, name: 'bob'}, function(err) {
           if (err) {return done(err);}
           models.user.findOne({id: 123}).exec(function(err, record) {
             if (err) {return done(err);}
@@ -203,7 +203,7 @@ describe('dontUseObjectIds', function() {
 
       it('should find the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager._WPdb.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
+        models.user._adapter.datastores.test.manager._WPdb.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
           if (err) {return done(err);}
           models.user.find({id: {'>': 0}}).exec(function(err, records) {
             if (err) {return done(err);}
@@ -222,7 +222,7 @@ describe('dontUseObjectIds', function() {
     describe('Deleting a single record', function() {
 
       it('should delete the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager._WPdb.collection('user').insert({_id: 123, name: 'bob'}, function(err) {
+        models.user._adapter.datastores.test.manager._WPdb.collection('user').insertOne({_id: 123, name: 'bob'}, function(err) {
           if (err) {return done(err);}
           models.user.destroy({id: 123}).exec(function(err) {
             if (err) {return done(err);}
@@ -244,7 +244,7 @@ describe('dontUseObjectIds', function() {
 
       it('should delete the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager._WPdb.collection('user').insert([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
+        models.user._adapter.datastores.test.manager._WPdb.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
           if (err) {return done(err);}
           models.user.destroy({id: {'>': 0}}).exec(function(err) {
             if (err) {return done(err);}
