@@ -1,15 +1,16 @@
 adapter:
-  image: nodesource/node:4.2
+  image: node:6
   volumes:
-   - .:/usr/src/app
+    - $PWD:/home/node
   links:
-   - mongo
+    - mongo
   environment:
-   - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
-   - WATERLINE_ADAPTER_TESTS_URL=mongo/testdb
-   - WATERLINE_ADAPTER_TESTS_HOST=mongo
-   - NODE_ENV=test
-  command: "npm test"
+    - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
+    - WATERLINE_ADAPTER_TESTS_URL=mongo/testdb
+    - WATERLINE_ADAPTER_TESTS_HOST=mongo
+    - NODE_ENV=test
+  command:
+    - bash -c "cd /home/node && npm test"
 
 mongo:
   image: mongo:4

@@ -25,6 +25,17 @@ Then [connect the adapter](http://sailsjs.com/documentation/reference/configurat
 
 Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
+### sails-mongo backward compatibility
+
+Since the latest node mongodb drivers, the internal `connection` method now returns a client instead of a database.
+From now on, `manager` is the MongoClient. If you want it to return the database configured as in previous versions,
+set `legacyManager: true` as one of your options.
+
+As a fallback mechanism, the client is returned as an `_client` attribute.
+
+## TODO
+- Support multiple protocol
+-
 
 ## Compatibility
 
@@ -63,12 +74,12 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 
 This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
 
-The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version 
+The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version
 (at this time, up to 3.4).
 For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
 
 To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
-From there you can run `npm test` to run the tests as many times as you need. 
+From there you can run `npm test` to run the tests as many times as you need.
 
 #### Special thanks
 
