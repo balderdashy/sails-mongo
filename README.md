@@ -12,6 +12,7 @@ Sails.js/Waterline adapter for MongoDB.
 
 # BREAKING CHANGES
 
+## MongoDB Driver
 From `sails-mongo` version 2.0.0 and above, the adapter uses a new mongodb driver. These driver changes the way it handles connections,
 and implements the concept of [MongoClient](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html).
 
@@ -20,7 +21,29 @@ Because of that, `manager` now returns MongoClient, instead of just a connection
 This enables a lot more flexibility and allows the use of the latest MongoDb improvements, like (ClientSession)[http://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html],
 and with it, transactions, change streams, and other new features.
 
+## Access to Database object
 If you need to get the database, you have to call the [`db`](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#db) method on the manager (MongoClient).
+
+## Configuration options
+The 0.x and 1.x versions of the adapter use (MongoDb 2.2.x connection options)[http://mongodb.github.io/node-mongodb-native/2.2/api/MongoClient.html#.connect].
+Since the 2.x versions of the adapter, it uses (MongoDb 3.2.x connection options)[http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#.connect].
+
+New/updated options:
+ - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MONGODB-X509, or SCRAM-SHA-1
+ - `auto_reconnect`: Defaults to `true`. `autoReconnect` still exists, and it takes precedence over the new `auto_reconnect` (https://github.com/mongodb/node-mongodb-native/blob/36c591d7b0a1ee4ad593d1352b9d7eb4e1282afd/lib/topologies/mongos.js#L141)
+ - `compression`: Type of compression to use: snappy or zlib
+ - `fsync`: Defaults to `false`. Specify a file sync write concern
+ - `keepAliveInitialDelay`: Defaults to `30000`. The number of milliseconds to wait before initiating keepAlive on the TCP socket
+ - `minSize`: If present, the connection pool will be initialized with minSize connections, and will never dip below minSize connections
+ - `numberOfRetries`: The number of retries for a tailable cursor (defaults to 5)
+ - `readPreferenceTags`: Read preference tags
+ - `sslValidate`: Defaults to `true`. Validate mongod server certificate against Certificate Authority
+
+### Warnings
+
+`keepAlive` is now a boolean, and `keepAliveInitialDelay` takes the value that the old `keepAlive` used to use.
+
+Check the documentation for more details.
 
 # Installation
 
