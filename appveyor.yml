@@ -12,8 +12,10 @@
 
 # Test against these versions of Node.js.
 environment:
-  WATERLINE_ADAPTER_TESTS_URL: root@localhost/testdb
+  WATERLINE_ADAPTER_TESTS_URL: localhost/testdb
   WATERLINE_ADAPTER_TESTS_HOST: localhost
+  WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
+  NODE_ENV: test
   matrix:
     - nodejs_version: "6"
     - nodejs_version: "8"
