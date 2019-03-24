@@ -28,20 +28,20 @@ matrix:
   fast_finish: true
 
 install:
-- wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB}.tgz
-- tar xzf mongodb-linux-x86_64-${MONGODB}.tgz
-- ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --version
-- npm install
+  - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB}.tgz
+  - tar xzf mongodb-linux-x86_64-${MONGODB}.tgz
+  - ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --version
+  - npm install
 
 before_script:
-- mkdir ${PWD}/mongodb-linux-x86_64-${MONGODB}/data
-- ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/data --logpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/mongodb.log --fork
+  - mkdir ${PWD}/mongodb-linux-x86_64-${MONGODB}/data
+  - ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/data --logpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/mongodb.log --fork
 
 script:
-- npm test
+  - npm test
 
 after_script:
-- pkill mongod
+  - pkill mongod
 
 branches:
   only:
