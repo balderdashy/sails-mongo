@@ -9,6 +9,7 @@
 # https://docs.travis-ci.com/user/customizing-the-build #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+---
 language: node_js
 
 node_js:
@@ -17,12 +18,13 @@ node_js:
   - "10"
 
 env:
-  - WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb
-  - WATERLINE_ADAPTER_TESTS_HOST=localhost
+  global:
+    - WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb
+    - WATERLINE_ADAPTER_TESTS_HOST=localhost
   matrix:
-  - MONGODB=3.4.16
-  - MONGODB=3.6.6
-  - MONGODB=4.0.0
+    - MONGODB=3.4.16
+    - MONGODB=3.6.6
+    - MONGODB=4.0.0
 
 matrix:
   fast_finish: true
