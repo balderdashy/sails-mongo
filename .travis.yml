@@ -49,6 +49,7 @@ branches:
   only:
     - master
     - fix-aggregate-mongodb34
+    - upgrade-mongodb-drivers
 
 notifications:
   email:
