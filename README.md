@@ -10,8 +10,19 @@ Sails.js/Waterline adapter for MongoDB.
 > As an adapter, this module implements a set of declarative interfaces, conventions, and best-practices for integrating with Mongo databases.
 > Strict adherence to an adapter specification enables the (re)use of built-in generic test suites, standardized documentation, reasonable expectations around the API for your users, and overall, a more pleasant development experience for everyone.
 
+# BREAKING CHANGES
 
-## Installation
+From `sails-mongo` version 2.0.0 and above, the adapter uses a new mongodb driver. These driver changes the way it handles connections,
+and implements the concept of [MongoClient](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html).
+
+Because of that, `manager` now returns MongoClient, instead of just a connection.
+
+This enables a lot more flexibility and allows the use of the latest MongoDb improvements, like (ClientSession)[http://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html],
+and with it, transactions, change streams, and other new features.
+
+If you need to get the database, you have to call the [`db`](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#db) method on the manager (MongoClient).
+
+# Installation
 
 To install this adapter, run:
 
@@ -21,18 +32,16 @@ $ npm install sails-mongo
 
 Then [connect the adapter](http://sailsjs.com/documentation/reference/configuration/sails-config-datastores) to one or more of your app's datastores.
 
-## Usage
+# Usage
 
 Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
-### sails-mongo breaking compatibility issues
-
-Since the latest node mongodb drivers, the internal `connection` method now returns a client instead of a database.
-From now on, `manager` is the MongoClient. To get the database, you have to call the method [`db`](http://mongodb.github.io/node-mongodb-native/3.1/api/MongoClient.html#db) on the manager (MongoClient).
 
 ## TODO
-- Support multiple protocol
--
+- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDb documentation.
+  Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
+  It needs to be added to support MongoDB Atlas.
+
 
 ## Compatibility
 
