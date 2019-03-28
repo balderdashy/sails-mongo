@@ -12,11 +12,11 @@
 
 # Test against these versions of Node.js.
 environment:
+  WATERLINE_ADAPTER_TESTS_URL: root@localhost/testdb
   matrix:
-    - nodejs_version: "4"
-    - nodejs_version: "5"
     - nodejs_version: "6"
-    - nodejs_version: "7"
+    - nodejs_version: "8"
+    - nodejs_version: "10"
 
 # Install scripts. (runs after repo cloning)
 install:
@@ -26,6 +26,10 @@ install:
   # Install declared dependencies
   - npm install
 
+branches:
+  only:
+  - master
+  - fix-aggregate-mongodb34
 
 # Post-install test scripts.
 test_script:
@@ -35,7 +39,7 @@ test_script:
   - node --version
   - npm --version
   # Run the actual tests.
-  - npm run test
+  - npm run custom-tests
 
 # Setup Mongo Database
 services:

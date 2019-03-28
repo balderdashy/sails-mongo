@@ -15,6 +15,12 @@
 
   "env": {
     "mocha": true
+  },
+
+  "globals": {
+    // "assert": true,
+    // "util": true
+    // …plus any other convenience globals exposed in test suites
   }
 
 }
