@@ -10,9 +10,9 @@ Sails.js/Waterline adapter for MongoDB.
 > As an adapter, this module implements a set of declarative interfaces, conventions, and best-practices for integrating with Mongo databases.
 > Strict adherence to an adapter specification enables the (re)use of built-in generic test suites, standardized documentation, reasonable expectations around the API for your users, and overall, a more pleasant development experience for everyone.
 
-# BREAKING CHANGES
+## BREAKING CHANGES
 
-## MongoDB Driver
+#### MongoDB Driver
 From `sails-mongo` version 2.0.0 and above, the adapter uses a new mongodb driver. These driver changes the way it handles connections,
 and implements the concept of [MongoClient](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html).
 
@@ -39,7 +39,7 @@ New/updated options:
  - `readPreferenceTags`: Read preference tags
  - `sslValidate`: Defaults to `true`. Validate mongod server certificate against Certificate Authority
 
-### Warnings
+#### Warnings
 
 `keepAlive` is now a boolean, and `keepAliveInitialDelay` takes the value that the old `keepAlive` used to use.
 
@@ -105,7 +105,7 @@ To run tests while developing, you can run `npm run docker`. This command opens 
 From there you can run `npm test` to run the tests as many times as you need.
 
 
-### NEXT FEATURES TO BE IMPLEMENTED
+#### NEXT FEATURES TO BE IMPLEMENTED
 - Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDb documentation.
   Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
   It needs to be added to support MongoDB Atlas.
