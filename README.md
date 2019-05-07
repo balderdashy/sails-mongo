@@ -55,7 +55,7 @@ $ npm install sails-mongo
 
 Then [connect the adapter](http://sailsjs.com/documentation/reference/configuration/sails-config-datastores) to one or more of your app's datastores.
 
-# Usage
+## Usage
 
 Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
