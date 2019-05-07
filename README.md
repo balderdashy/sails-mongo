@@ -60,12 +60,6 @@ Then [connect the adapter](http://sailsjs.com/documentation/reference/configurat
 Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
 
-## TODO
-- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDb documentation.
-  Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
-  It needs to be added to support MongoDB Atlas.
-
-
 ## Compatibility
 
 This adapter implements the following methods:
@@ -109,6 +103,13 @@ For more information, check [MongoDB's Support Policy](https://www.mongodb.com/s
 
 To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
 From there you can run `npm test` to run the tests as many times as you need.
+
+
+### NEXT FEATURES TO BE IMPLEMENTED
+- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDb documentation.
+  Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
+  It needs to be added to support MongoDB Atlas.
+
 
 #### Special thanks
 
