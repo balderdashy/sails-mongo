@@ -18,7 +18,7 @@ and implements the concept of [MongoClient](http://mongodb.github.io/node-mongod
 
 Because of that, `manager` now returns MongoClient, instead of just a connection.
 
-This enables a lot more flexibility and allows the use of the latest MongoDb improvements, like (ClientSession)[http://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html],
+This enables a lot more flexibility and allows the use of the latest MongoDb improvements, like [ClientSession](http://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html),
 and with it, transactions, change streams, and other new features.
 
 ## Access to Database object
