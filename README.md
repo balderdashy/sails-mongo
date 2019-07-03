@@ -30,7 +30,7 @@ Since the 2.x versions of the adapter, it uses (MongoDb 3.2.x connection options
 
 New/updated options:
  - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MONGODB-X509, or SCRAM-SHA-1
- - `auto_reconnect`: Defaults to `true`. `autoReconnect` still exists, and it takes precedence over the new `auto_reconnect` (https://github.com/mongodb/node-mongodb-native/blob/36c591d7b0a1ee4ad593d1352b9d7eb4e1282afd/lib/topologies/mongos.js#L141)
+ - `autoReconnect`: Defaults to `true`
  - `compression`: Type of compression to use: snappy or zlib
  - `fsync`: Defaults to `false`. Specify a file sync write concern
  - `keepAliveInitialDelay`: Defaults to `30000`. The number of milliseconds to wait before initiating keepAlive on the TCP socket
