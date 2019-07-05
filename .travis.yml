@@ -38,11 +38,7 @@ matrix:
 
 before_install:
 install:
-  - pwd
-  - ls
-  - ls $HOME
-  - ls $HOME/balderdashy/sails-mongo
-  - $HOME/balderdashy/sails-mongo/scripts/travis/install_mongodb.sh
+  - $TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh
   - npm install
 
 before_script:
