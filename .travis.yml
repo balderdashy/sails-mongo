@@ -28,18 +28,21 @@ env:
     - MONGODB=3.6.13
     - MONGODB=4.0.10
 
+cache:
+  directories:
+    - "/opt/mongodb-linux-x86_64-${MONGODB}"
+    - "$HOME/.npm"
+
 matrix:
   fast_finish: true
 
+before_install:
 install:
-  - wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB}.tgz
-  - tar xzf mongodb-linux-x86_64-${MONGODB}.tgz
-  - ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --version
+  - ./scripts/travis/install_mongodb.sh
   - npm install
 
 before_script:
-  - mkdir ${PWD}/mongodb-linux-x86_64-${MONGODB}/data
-  - ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/data --logpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/mongodb.log --fork
+  - /opt/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath /opt/mongodb-linux-x86_64-${MONGODB}/data --logpath /opt/mongodb-linux-x86_64-${MONGODB}/mongodb.log --fork
 
 script:
   - npm test
