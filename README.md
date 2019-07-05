@@ -13,16 +13,16 @@ Sails.js/Waterline adapter for MongoDB.
 ## 2.x BREAKING CHANGES
 
 #### MongoDB Driver
-From `sails-mongo` version 2.0.0 and above, the adapter uses [MongoDB 3.2.x](https://www.npmjs.com/package/MongoDB). 
-This driver changes the way it handles connections, and implements the concept of [MongoClient](http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html).
+From `sails-mongo` version 2.0.0 and above, the adapter uses [MongoDB 3.2.x](https://www.npmjs.com/package/mongodb). 
+This driver changes the way it handles connections, and implements the concept of [MongoClient](https://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html).
 
 Because of that, `manager` now returns MongoClient, instead of just a connection.
 
-This adds a lot more flexibility and enables the use of the latest MongoDB improvements, like [ClientSession](http://MongoDB.github.io/node-MongoDB-native/3.2/api/ClientSession.html),
+This adds a lot more flexibility and enables the use of the latest MongoDB improvements, like [ClientSession](https://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html),
 and with it, transactions, change streams, and other new features.
 
 #### Access to MongoDB native Database object
-If you need to get the database, you have to call the [`db`](http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html#db) function on the manager (MongoClient):
+If you need to get the database, you have to call the [`db`](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#db) function on the manager (MongoClient):
 ```javascript
 Pet.getDatastore().manager.db('test')
 ```
@@ -63,7 +63,7 @@ try {
 ```
 
 ## Configuration options
-This version uses (MongoDB 3.2.x connection options)[http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html#.connect].
+This version uses (MongoDB 3.2.x connection options)[http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#.connect].
 
 New/updated options:
  - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MongoDB-X509, or SCRAM-SHA-1
@@ -150,8 +150,8 @@ To do a one single run of the tests, without starting your own MongoDB instance,
 #### Roadmap
 
 ##### NEXT FEATURES TO BE IMPLEMENTED
-- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `MongoDB`, as described in the (connection string)[https://docs.MongoDB.com/manual/reference/connection-string/] MongoDB documentation.
-  Since MongoDB 3.6, the protocol can be `MongoDB+srv`, allowing for (DNS Seedlist Connection)[https://docs.MongoDB.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
+- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `MongoDB`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDB documentation.
+  Since MongoDB 3.6, the protocol can be `MongoDB+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
   It needs to be added to support MongoDB Atlas.
 - Built-in transactions
 
