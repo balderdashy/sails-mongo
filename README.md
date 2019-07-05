@@ -21,8 +21,46 @@ Because of that, `manager` now returns MongoClient, instead of just a connection
 This adds a lot more flexibility and enables the use of the latest MongoDB improvements, like [ClientSession](http://MongoDB.github.io/node-MongoDB-native/3.2/api/ClientSession.html),
 and with it, transactions, change streams, and other new features.
 
-## Access to Database object
-If you need to get the database, you have to call the [`db`](http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html#db) function on the manager (MongoClient).
+#### Access to MongoDB native Database object
+If you need to get the database, you have to call the [`db`](http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html#db) function on the manager (MongoClient):
+```javascript
+Pet.getDatastore().manager.db('test')
+```
+
+#### `.native` still works but is marked as deprecated
+
+Basically, replace this kind of code:
+
+```javascript
+Pet.native(function (err, collection) {
+  if (err) {
+    return res.serverError(err);
+  }
+
+  collection.find({}, {
+    name: true
+  }).toArray(function (err, results) {
+    if (err) {
+      return res.serverError(err);
+    }
+    res.ok(results);
+  });
+});
+```
+
+with: 
+
+```javascript
+try {
+  const results = await Pet.getDatastore().manager.db('test')
+    .collection('pet')
+    .find({}, { name: 1 })
+    .toArray();
+  res.ok(results);
+} catch (err) {
+  res.serverError(err);
+}
+```
 
 ## Configuration options
 This version uses (MongoDB 3.2.x connection options)[http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html#.connect].
