@@ -48,3 +48,5 @@ nbproject
 dump.rdb
 
 *.iml
+
+\.config/configstore/update-notifier-npm\.json
