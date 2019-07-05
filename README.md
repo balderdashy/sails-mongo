@@ -10,6 +10,20 @@ Sails.js/Waterline adapter for MongoDB.
 > As an adapter, this module implements a set of declarative interfaces, conventions, and best-practices for integrating with Mongo databases.
 > Strict adherence to an adapter specification enables the (re)use of built-in generic test suites, standardized documentation, reasonable expectations around the API for your users, and overall, a more pleasant development experience for everyone.
 
+## Installation
+
+To install this adapter, run:
+
+```bash
+$ npm install sails-mongo
+```
+
+Then [connect the adapter](http://sailsjs.com/documentation/reference/configuration/sails-config-datastores) to one or more of your app's datastores.
+
+## Usage
+
+Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
+
 ## 2.x BREAKING CHANGES
 
 #### MongoDB Driver
@@ -82,20 +96,13 @@ New/updated options:
 
 Check the MongoDB module documentation for more details.
 
-## Installation
+## Roadmap
 
-To install this adapter, run:
-
-```bash
-$ npm install sails-mongo
-```
-
-Then [connect the adapter](http://sailsjs.com/documentation/reference/configuration/sails-config-datastores) to one or more of your app's datastores.
-
-## Usage
-
-Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
-
+#### NEXT FEATURES TO BE IMPLEMENTED
+- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDB documentation.
+  Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
+  It needs to be added to support MongoDB Atlas.
+- Built-in transactions
 
 ## Compatibility
 
@@ -146,14 +153,6 @@ Once you have MongoDB running, you can just run `npm test` as usual.
 To get a shell to the MongoDB docker instance running, you can use `npm run mongodb-shell`.
 
 To do a one single run of the tests, without starting your own MongoDB instance, use `npm run docker-test`.
-
-#### Roadmap
-
-##### NEXT FEATURES TO BE IMPLEMENTED
-- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDB documentation.
-  Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
-  It needs to be added to support MongoDB Atlas.
-- Built-in transactions
 
 
 #### Special thanks
