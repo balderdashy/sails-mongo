@@ -50,7 +50,6 @@ describe('aggregations', function() {
     });
 
     it('should not throw an error if the given critieria don\'t match any records', function(done) {
-      console.log(models.user);
       models.user.sum('id', {name: 'joe'}).exec(function(err, sum) {
         if (err) { return done(err); }
         assert.equal(sum, 0);
