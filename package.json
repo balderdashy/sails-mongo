@@ -10,6 +10,7 @@
     "start-mongodb": "docker-compose up -d mongo",
     "stop-mongodb": "docker-compose down",
     "docker": "docker-compose run adapter bash",
+    "mongodb-shell": "docker-compose exec mongo mongo",
     "docker-test": "docker-compose run adapter bash -c \"npm test\" && docker-compose down"
   },
   "keywords": [
