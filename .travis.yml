@@ -38,7 +38,7 @@ matrix:
 
 before_install:
 install:
-  - ./scripts/travis/install_mongodb.sh
+  - $HOME/scripts/travis/install_mongodb.sh
   - npm install
 
 before_script:
