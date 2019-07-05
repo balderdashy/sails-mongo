@@ -9,8 +9,10 @@ adapter:
     - WATERLINE_ADAPTER_TESTS_URL=mongo/testdb
     - WATERLINE_ADAPTER_TESTS_HOST=mongo
     - NODE_ENV=test
+  user: node
+  working_dir: /home/node
   command:
-    - bash -c "cd /home/node && npm test"
+    - bash -c "npm test"
 
 mongo:
   image: mongo:4
