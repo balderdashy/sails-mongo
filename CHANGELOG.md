@@ -4,6 +4,7 @@
 * [COMPATIBILITY] Upgrade mongodb driver to version 3.2.7. For more information about breaking changes, check the [Readme](./README.md) file. [@luislobo]
 * [DEPENDENCIES] Updates other dependencies to the latest available. [@luislobo]
 * [TEST] Travis now run tests on current Node LTS versions: 8, 10, 12 and MongoDB 3.4, 3.6, 4.0. [@luislobo]
+* [TEST] AppVeyor now run tests on current Node LTS versions: 8, 10, 12 and it's current MongoDB version [@luislobo]
 
 ### 1.0.1
 
