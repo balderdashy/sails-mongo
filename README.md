@@ -10,7 +10,7 @@ Sails.js/Waterline adapter for MongoDB.
 > As an adapter, this module implements a set of declarative interfaces, conventions, and best-practices for integrating with Mongo databases.
 > Strict adherence to an adapter specification enables the (re)use of built-in generic test suites, standardized documentation, reasonable expectations around the API for your users, and overall, a more pleasant development experience for everyone.
 
-## BREAKING CHANGES
+## 2.x BREAKING CHANGES
 
 #### MongoDB Driver
 From `sails-mongo` version 2.0.0 and above, the adapter uses [MongoDB 3.2.x](https://www.npmjs.com/package/MongoDB). 
