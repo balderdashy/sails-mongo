@@ -42,7 +42,7 @@ install:
   - npm install
 
 before_script:
-  - /opt/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath /opt/mongodb-linux-x86_64-${MONGODB}/data --logpath /opt/mongodb-linux-x86_64-${MONGODB}/mongodb.log --fork
+  - /opt/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath /mongodb/data --logpath /mongodb/logs/mongodb.log --fork
 
 script:
   - npm test

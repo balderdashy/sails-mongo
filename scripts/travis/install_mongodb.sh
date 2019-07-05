@@ -7,6 +7,7 @@ if [ ! -f "/opt/mongodb-linux-x86_64-${MONGODB}/bin/mongod" ]; then
   tar xzf mongodb-linux-x86_64-${MONGODB}.tgz
   rm -f mongodb-linux-x86_64-${MONGODB}.tgz
 fi
+mkdir -p /mongodb/data /mongodb/logs
 "/opt/mongodb-linux-x86_64-${MONGODB}/bin/mongod" --version
 
 popd
