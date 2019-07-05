@@ -1,5 +1,5 @@
 adapter:
-  image: node:8
+  image: node:10
   volumes:
     - $PWD:/home/node
   links:
