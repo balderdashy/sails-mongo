@@ -31,7 +31,7 @@ env:
 
 cache:
   directories:
-    - "$TRAVIS_BUILD_DIR/mongodb/mongodb-linux-x86_64-${MONGODB}"
+#    - "$TRAVIS_BUILD_DIR/mongodb/mongodb-linux-x86_64-${MONGODB}"
     - "$HOME/.npm"
 
 matrix:
