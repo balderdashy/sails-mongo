@@ -66,7 +66,7 @@ try {
 This version uses (MongoDB 3.2.x connection options)[http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#.connect].
 
 New/updated options:
- - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MongoDB-X509, or SCRAM-SHA-1
+ - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MONGODB-X509, or SCRAM-SHA-1
  - `autoReconnect`: Defaults to `true`
  - `compression`: Type of compression to use: snappy or zlib
  - `fsync`: Defaults to `false`. Specify a file sync write concern
@@ -136,22 +136,22 @@ To ease development, this module uses Docker. It uses an image of MongoDB 4.
 
 Included is a Docker Compose file that helps setting up the environment needed to develop and run the test.
 
-To start a MongoDB instance, use `npm run start-MongoDB`. It will start a docker instance with MongoDB running,
+To start a MongoDB instance, use `npm run start-mongodb`. It will start a docker instance with MongoDB running,
 in detached mode (in the background). It will be running until you stop the instance. 
 
-To stop the MongoDB instance, use `npm run stop-MongoDB`. 
+To stop the MongoDB instance, use `npm run stop-mongodb`. 
 
 Once you have MongoDB running, you can just run `npm test` as usual.
 
-To get a shell to the MongoDB docker instance running, you can use `npm run MongoDB-shell`.
+To get a shell to the MongoDB docker instance running, you can use `npm run mongodb-shell`.
 
 To do a one single run of the tests, without starting your own MongoDB instance, use `npm run docker-test`.
 
 #### Roadmap
 
 ##### NEXT FEATURES TO BE IMPLEMENTED
-- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `MongoDB`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDB documentation.
-  Since MongoDB 3.6, the protocol can be `MongoDB+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
+- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDB documentation.
+  Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
   It needs to be added to support MongoDB Atlas.
 - Built-in transactions
 
