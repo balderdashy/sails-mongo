@@ -1,7 +1,7 @@
 adapter:
   image: node:10
   volumes:
-    - $PWD:/home/node
+    - $PWD:/home/node/sails-mongo
   links:
     - mongo
   environment:
@@ -10,7 +10,7 @@ adapter:
     - WATERLINE_ADAPTER_TESTS_HOST=mongo
     - NODE_ENV=test
   user: node
-  working_dir: /home/node
+  working_dir: /home/node/sails-mongo
   command:
     - bash -c "npm test"
 
