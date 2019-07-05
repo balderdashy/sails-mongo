@@ -13,20 +13,19 @@ Sails.js/Waterline adapter for MongoDB.
 ## BREAKING CHANGES
 
 #### MongoDB Driver
-From `sails-mongo` version 2.0.0 and above, the adapter uses a new mongodb driver. These driver changes the way it handles connections,
-and implements the concept of [MongoClient](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html).
+From `sails-mongo` version 2.0.0 and above, the adapter uses [mongodb 3.2.x](https://www.npmjs.com/package/mongodb). 
+This driver changes the way it handles connections, and implements the concept of [MongoClient](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html).
 
 Because of that, `manager` now returns MongoClient, instead of just a connection.
 
-This enables a lot more flexibility and allows the use of the latest MongoDb improvements, like [ClientSession](http://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html),
+This adds a lot more flexibility and enables the use of the latest MongoDb improvements, like [ClientSession](http://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html),
 and with it, transactions, change streams, and other new features.
 
 ## Access to Database object
-If you need to get the database, you have to call the [`db`](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#db) method on the manager (MongoClient).
+If you need to get the database, you have to call the [`db`](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#db) function on the manager (MongoClient).
 
 ## Configuration options
-The 0.x and 1.x versions of the adapter use (MongoDb 2.2.x connection options)[http://mongodb.github.io/node-mongodb-native/2.2/api/MongoClient.html#.connect].
-Since the 2.x versions of the adapter, it uses (MongoDb 3.2.x connection options)[http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#.connect].
+This version uses (MongoDb 3.2.x connection options)[http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#.connect].
 
 New/updated options:
  - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MONGODB-X509, or SCRAM-SHA-1
@@ -43,7 +42,7 @@ New/updated options:
 
 `keepAlive` is now a boolean, and `keepAliveInitialDelay` takes the value that the old `keepAlive` used to use.
 
-Check the documentation for more details.
+Check the mongodb module documentation for more details.
 
 # Installation
 
@@ -119,7 +118,6 @@ Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin P
 ## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/sails-mongo.svg)](http://npmjs.com/package/sails-mongo)
 
 To report a bug, [click here](http://sailsjs.com/bugs).
-
 
 
 ## License
