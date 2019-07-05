@@ -13,23 +13,22 @@ Sails.js/Waterline adapter for MongoDB.
 ## BREAKING CHANGES
 
 #### MongoDB Driver
-From `sails-mongo` version 2.0.0 and above, the adapter uses a new mongodb driver. These driver changes the way it handles connections,
-and implements the concept of [MongoClient](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html).
+From `sails-mongo` version 2.0.0 and above, the adapter uses [MongoDB 3.2.x](https://www.npmjs.com/package/MongoDB). 
+This driver changes the way it handles connections, and implements the concept of [MongoClient](http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html).
 
 Because of that, `manager` now returns MongoClient, instead of just a connection.
 
-This enables a lot more flexibility and allows the use of the latest MongoDb improvements, like [ClientSession](http://mongodb.github.io/node-mongodb-native/3.2/api/ClientSession.html),
+This adds a lot more flexibility and enables the use of the latest MongoDB improvements, like [ClientSession](http://MongoDB.github.io/node-MongoDB-native/3.2/api/ClientSession.html),
 and with it, transactions, change streams, and other new features.
 
 ## Access to Database object
-If you need to get the database, you have to call the [`db`](http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#db) method on the manager (MongoClient).
+If you need to get the database, you have to call the [`db`](http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html#db) function on the manager (MongoClient).
 
 ## Configuration options
-The 0.x and 1.x versions of the adapter use (MongoDb 2.2.x connection options)[http://mongodb.github.io/node-mongodb-native/2.2/api/MongoClient.html#.connect].
-Since the 2.x versions of the adapter, it uses (MongoDb 3.2.x connection options)[http://mongodb.github.io/node-mongodb-native/3.2/api/MongoClient.html#.connect].
+This version uses (MongoDB 3.2.x connection options)[http://MongoDB.github.io/node-MongoDB-native/3.2/api/MongoClient.html#.connect].
 
 New/updated options:
- - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MONGODB-X509, or SCRAM-SHA-1
+ - `authMechanism`: Mechanism for authentication: MDEFAULT, GSSAPI, PLAIN, MongoDB-X509, or SCRAM-SHA-1
  - `autoReconnect`: Defaults to `true`
  - `compression`: Type of compression to use: snappy or zlib
  - `fsync`: Defaults to `false`. Specify a file sync write concern
@@ -43,9 +42,9 @@ New/updated options:
 
 `keepAlive` is now a boolean, and `keepAliveInitialDelay` takes the value that the old `keepAlive` used to use.
 
-Check the documentation for more details.
+Check the MongoDB module documentation for more details.
 
-# Installation
+## Installation
 
 To install this adapter, run:
 
@@ -94,21 +93,29 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 
 [![NPM](https://nodei.co/npm/sails-mongo.png?downloads=true)](http://npmjs.com/package/sails-mongo)
 
+#### Setting up the development environment
+To ease development, this module uses Docker. It uses an image of MongoDB 4.
 
-This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
+Included is a Docker Compose file that helps setting up the environment needed to develop and run the test.
 
-The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version
-(at this time, up to 3.4).
-For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
+To start a MongoDB instance, use `npm run start-MongoDB`. It will start a docker instance with MongoDB running,
+in detached mode (in the background). It will be running until you stop the instance. 
 
-To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
-From there you can run `npm test` to run the tests as many times as you need.
+To stop the MongoDB instance, use `npm run stop-MongoDB`. 
 
+Once you have MongoDB running, you can just run `npm test` as usual.
 
-#### NEXT FEATURES TO BE IMPLEMENTED
-- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `mongodb`, as described in the (connection string)[https://docs.mongodb.com/manual/reference/connection-string/] MongoDb documentation.
-  Since MongoDB 3.6, the protocol can be `mongodb+srv`, allowing for (DNS Seedlist Connection)[https://docs.mongodb.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
+To get a shell to the MongoDB docker instance running, you can use `npm run MongoDB-shell`.
+
+To do a one single run of the tests, without starting your own MongoDB instance, use `npm run docker-test`.
+
+#### Roadmap
+
+##### NEXT FEATURES TO BE IMPLEMENTED
+- Support multiple protocols. Right now, the adapter validates/checks that the protocol is equal to `MongoDB`, as described in the (connection string)[https://docs.MongoDB.com/manual/reference/connection-string/] MongoDB documentation.
+  Since MongoDB 3.6, the protocol can be `MongoDB+srv`, allowing for (DNS Seedlist Connection)[https://docs.MongoDB.com/manual/reference/connection-string/#dns-seedlist-connection-format] format.
   It needs to be added to support MongoDB Atlas.
+- Built-in transactions
 
 
 #### Special thanks
@@ -119,7 +126,6 @@ Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin P
 ## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/sails-mongo.svg)](http://npmjs.com/package/sails-mongo)
 
 To report a bug, [click here](http://sailsjs.com/bugs).
-
 
 
 ## License
