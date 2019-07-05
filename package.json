@@ -27,17 +27,17 @@
     "url": "git://github.com/balderdashy/sails-mongo.git"
   },
   "dependencies": {
-    "@sailshq/lodash": "^3.10.2",
-    "async": "2.6.2",
-    "flaverr": "1.9.2",
+    "@sailshq/lodash": "^3.10.3",
+    "async": "3.1.0",
+    "flaverr": "1.10.0",
     "machine": "^15.2.2",
     "mongodb": "3.2.7",
     "qs": "6.7.0"
   },
   "devDependencies": {
     "benchmark": "2.1.4",
-    "eslint": "5.15.3",
-    "mocha": "6.0.2",
+    "eslint": "6.0.1",
+    "mocha": "6.1.4",
     "waterline": "^0.13.6",
     "waterline-adapter-tests": "^1.0.1",
     "waterline-utils": "^1.4.2"
