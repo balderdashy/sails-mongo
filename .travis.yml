@@ -23,6 +23,7 @@ env:
     - WATERLINE_ADAPTER_TESTS_HOST=localhost
     - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
     - NODE_ENV=test
+
   matrix:
     - MONGODB=3.4.21
     - MONGODB=3.6.13
@@ -30,19 +31,18 @@ env:
 
 cache:
   directories:
-    - "/opt/mongodb-linux-x86_64-${MONGODB}"
+    - "$TRAVIS_BUILD_DIR/mongodb/mongodb-linux-x86_64-${MONGODB}"
     - "$HOME/.npm"
 
 matrix:
   fast_finish: true
 
-before_install:
 install:
-  - $TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh
   - npm install
+  - "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh"
 
 before_script:
-  - /opt/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath /mongodb/data --logpath /mongodb/logs/mongodb.log --fork
+  - "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
 
 script:
   - npm test
