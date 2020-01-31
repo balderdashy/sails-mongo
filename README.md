@@ -64,7 +64,7 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
 
 The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version 
-(at this time, up to 3.4).
+(at this time, up to 3.6).
 For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
 
 To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
