@@ -2,7 +2,7 @@
 
 # sails-mongo
 
-Sails.js/Waterline adapter for MongoDB.
+Sails.js/Waterline adapter for MongoDB. (See [compatibility](#compatibility) for more details.)
 
 > Provides easy access to MongoDB from Sails.js & Waterline.
 > This module is a Sails/Waterline adapter maintained by the core team.  Its goal is to provide robust, easy-to-use access to MongoDB from Sails.js and Waterline.
@@ -28,7 +28,7 @@ Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the doc
 
 ## Compatibility
 
-> The current version of the adapter has been tested with MongoDB versions 3.4 and 3.6.
+> This version of the adapter has been tested with MongoDB versions 3.4 and 3.6.
 
 This adapter implements the following methods:
 
