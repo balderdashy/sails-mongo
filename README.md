@@ -28,6 +28,8 @@ Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the doc
 
 ## Compatibility
 
+> The current version of the adapter has been tested with MongoDB versions 3.4 and 3.6.
+
 This adapter implements the following methods:
 
 | Method               | Status            | Layer         |
