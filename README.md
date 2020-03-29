@@ -2,7 +2,7 @@
 
 # sails-mongo
 
-Sails.js/Waterline adapter for MongoDB.
+Sails.js/Waterline adapter for MongoDB. (See [compatibility](#compatibility) for more details.)
 
 > Provides easy access to MongoDB from Sails.js & Waterline.
 > This module is a Sails/Waterline adapter maintained by the core team.  Its goal is to provide robust, easy-to-use access to MongoDB from Sails.js and Waterline.
@@ -27,6 +27,8 @@ Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the doc
 
 
 ## Compatibility
+
+> This version of the adapter has been tested with MongoDB versions 3.4 and 3.6.
 
 This adapter implements the following methods:
 
@@ -60,6 +62,15 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 
 [![NPM](https://nodei.co/npm/sails-mongo.png?downloads=true)](http://npmjs.com/package/sails-mongo)
 
+
+This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
+
+The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version 
+(at this time, up to 3.6).
+For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
+
+To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
+From there you can run `npm test` to run the tests as many times as you need. 
 
 #### Special thanks
 

@@ -4,6 +4,10 @@ var Waterline = require('waterline');
 var waterlineUtils = require('waterline-utils');
 var normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
 
+
+var waterline;
+var models = {};
+
 describe('normalizeDatastoreConfig', function() {
 
   it('Given a URL without a prefix, normalizeDatastoreConfig should add the prefix', function() {
@@ -25,10 +29,68 @@ describe('normalizeDatastoreConfig', function() {
 
 });
 
-describe('dontUseObjectIds', function() {
+describe('aggregations', function() {
 
-  var waterline;
-  var models = {};
+  describe('Using `sum`', function() {
+
+    before(function(done) {
+      setup(
+        [createModel('user', {dontUseObjectIds: true})],
+        models,
+        done
+      );
+    });
+
+    after(function(done) {
+      models = {};
+      if (waterline) {
+        return waterline.teardown(done);
+      }
+      return done();
+    });
+
+    it('should not throw an error if the given critieria don\'t match any records', function(done) {
+      models.user.sum('id', {name: 'joe'}).exec(function(err, sum) {
+        if (err) { return done(err); }
+        assert.equal(sum, 0);
+        return done();
+      });
+    });
+
+  });
+
+
+  describe('Using `avg`', function() {
+
+    before(function(done) {
+      setup(
+        [createModel('user', {dontUseObjectIds: true})],
+        models,
+        done
+      );
+    });
+
+    after(function(done) {
+      models = {};
+      if (waterline) {
+        return waterline.teardown(done);
+      }
+      return done();
+    });
+
+    it('should not throw an error if the given critieria don\'t match any records', function(done) {
+      models.user.avg('id', {name: 'joe'}).exec(function(err, avg) {
+        if (err) { return done(err); }
+        assert.equal(avg, 0);
+        return done();
+      });
+    });
+
+  });
+
+});
+
+describe('dontUseObjectIds', function() {
 
   describe('Without associations', function() {
 
@@ -611,107 +673,106 @@ describe('dontUseObjectIds', function() {
 
   });
 
-  function setup(fixtures, modelsContainer, cb) {
+});
 
-    var defaults = {
-      primaryKey: 'id',
-      datastore: 'test',
-      fetchRecordsOnUpdate: true,
-      fetchRecordsOnDestroy: true,
-      fetchRecordsOnCreate: true,
-      fetchRecordsOnCreateEach: true,
-      migrate: 'drop'
-    };
+function setup(fixtures, modelsContainer, cb) {
 
-    waterline = new Waterline();
+  var defaults = {
+    primaryKey: 'id',
+    datastore: 'test',
+    fetchRecordsOnUpdate: true,
+    fetchRecordsOnDestroy: true,
+    fetchRecordsOnCreate: true,
+    fetchRecordsOnCreateEach: true,
+    migrate: 'drop'
+  };
 
-    _.each(fixtures, function(val, key) {
-      var modelFixture = _.extend({}, defaults, fixtures[key]);
-      waterline.registerModel(Waterline.Collection.extend(modelFixture));
-    });
+  waterline = new Waterline();
 
-    var datastores = {
-      test: {
-        adapter: 'sails-mongo',
-        url: process.env.WATERLINE_ADAPTER_TESTS_URL || 'localhost/sails_mongo'
-      }
-    };
+  _.each(fixtures, function(val, key) {
+    var modelFixture = _.extend({}, defaults, fixtures[key]);
+    waterline.registerModel(Waterline.Collection.extend(modelFixture));
+  });
 
-    // Clear the adapter from memory.
-    delete require.cache[require.resolve('../')];
+  var datastores = {
+    test: {
+      adapter: 'sails-mongo',
+      url: process.env.WATERLINE_ADAPTER_TESTS_URL || 'localhost/sails_mongo'
+    }
+  };
 
-    waterline.initialize({ adapters: { 'sails-mongo': require('../') }, datastores: datastores, defaults: defaults }, function(err, orm) {
+  // Clear the adapter from memory.
+  delete require.cache[require.resolve('../')];
+
+  waterline.initialize({ adapters: { 'sails-mongo': require('../') }, datastores: datastores, defaults: defaults }, function(err, orm) {
+    if (err) {
+      return cb(err);
+    }
+
+    // Save a reference to the ORM
+    var ORM = orm;
+
+    // Run migrations
+    waterlineUtils.autoMigrations('drop', orm, function(err) {
       if (err) {
         return cb(err);
       }
 
-      // Save a reference to the ORM
-      var ORM = orm;
-
-      // Run migrations
-      waterlineUtils.autoMigrations('drop', orm, function(err) {
-        if (err) {
-          return cb(err);
-        }
-
-        // Globalize collections for normalization
-        _.each(ORM.collections, function(collection, identity) {
-          modelsContainer[identity] = collection;
-        });
-        return cb();
+      // Globalize collections for normalization
+      _.each(ORM.collections, function(collection, identity) {
+        modelsContainer[identity] = collection;
       });
+      return cb();
     });
+  });
 
+}
+
+function createModel (identity, options) {
+
+  options = options || {};
+
+  var model = {
+    datastore: 'test',
+    identity: identity,
+    attributes: {
+      id: { type: 'string', columnName: '_id', autoMigrations: { columnType: 'string', unique: true, autoIncrement: false } },
+      name: { type: 'string', autoMigrations: { columnType: 'string', unique: false, autoIncrement: false } }
+    }
+  };
+
+  if (options.dontUseObjectIds) {
+    model.dontUseObjectIds = true;
+    model.attributes.id = { type: 'number', columnName: '_id', autoMigrations: { columnType: 'string', unique: true, autoIncrement: false } };
   }
 
-  function createModel (identity, options) {
-
-    options = options || {};
-
-    var model = {
-      datastore: 'test',
-      identity: identity,
-      attributes: {
-        id: { type: 'string', columnName: '_id', autoMigrations: { columnType: 'string', unique: true, autoIncrement: false } },
-        name: { type: 'string', autoMigrations: { columnType: 'string', unique: false, autoIncrement: false } }
-      }
+  if (options.toOne) {
+    model.attributes.friend = {
+      model: options.toOne
     };
-
-    if (options.dontUseObjectIds) {
-      model.dontUseObjectIds = true;
-      model.attributes.id = { type: 'number', columnName: '_id', autoMigrations: { columnType: 'string', unique: true, autoIncrement: false } };
-    }
-
-    if (options.toOne) {
-      model.attributes.friend = {
-        model: options.toOne
-      };
-    }
-
-    if (options.oneToMany) {
-      model.attributes.friends = {
-        collection: options.oneToMany,
-        via: 'friend'
-      };
-    }
-
-    if (options.manyToMany) {
-      model.attributes.friends = {
-        collection: options.manyToMany,
-        via: 'friends'
-      };
-    }
-
-    if (options.toManyVialess) {
-      model.attributes.friends = {
-        collection: options.toManyVialess
-      };
-    }
-
-    return model;
-
   }
 
+  if (options.oneToMany) {
+    model.attributes.friends = {
+      collection: options.oneToMany,
+      via: 'friend'
+    };
+  }
 
-});
+  if (options.manyToMany) {
+    model.attributes.friends = {
+      collection: options.manyToMany,
+      via: 'friends'
+    };
+  }
+
+  if (options.toManyVialess) {
+    model.attributes.friends = {
+      collection: options.toManyVialess
+    };
+  }
+
+  return model;
+
+}
 

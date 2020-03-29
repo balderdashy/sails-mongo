@@ -9,4 +9,4 @@ adapter:
    - NODE_ENV=test
 
 mongo:
-  image: mongo
+  image: mongo:4

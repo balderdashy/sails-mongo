@@ -1,13 +1,14 @@
 {
   "name": "sails-mongo",
-  "version": "1.0.0-9",
+  "version": "1.1.0",
   "description": "Mongo DB adapter for Sails.js/Waterline.",
   "main": "./lib",
   "scripts": {
     "test": "npm run lint && npm run custom-tests",
-    "custom-tests": "node ./node_modules/mocha/bin/mocha test/run-adapter-specific-tests && node ./node_modules/mocha/bin/mocha test/connectable/ && node test/run-standard-tests",
-    "lint": "node ./node_modules/eslint/bin/eslint . --max-warnings=0",
-    "docker": "docker-compose run adapter bash"
+    "custom-tests": "mocha test/run-adapter-specific-tests && mocha test/connectable/ && node test/run-standard-tests",
+    "lint": "eslint . --max-warnings=0",
+    "docker": "docker-compose run adapter bash",
+    "docker-test": "docker-compose up --exit-code-from adapter && docker-compose down"
   },
   "keywords": [
     "mongo",
@@ -29,17 +30,17 @@
     "@sailshq/lodash": "^3.10.2",
     "async": "2.0.1",
     "flaverr": "1.1.1",
-    "machine": "^13.0.0-17",
+    "machine": "^15.0.0",
     "mongodb": "2.2.25",
     "qs": "6.4.0"
   },
   "devDependencies": {
     "benchmark": "2.1.1",
-    "eslint": "3.5.0",
+    "eslint": "4.19.1",
     "mocha": "3.0.2",
-    "waterline": "^0.13.0-rc6",
-    "waterline-adapter-tests": "^1.0.0-6",
-    "waterline-utils": "^1.3.12"
+    "waterline": "^0.13.4",
+    "waterline-adapter-tests": "^1.0.1",
+    "waterline-utils": "^1.3.25"
   },
   "waterlineAdapter": {
     "interfaces": [
@@ -47,7 +48,9 @@
       "queryable",
       "associations"
     ],
-    "features": []
+    "features": [
+      "unique"
+    ]
   },
   "machinepack": {
     "friendlyName": "MongoDB",

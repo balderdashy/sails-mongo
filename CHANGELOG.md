@@ -1,5 +1,9 @@
 # sails-mongo Changelog
 
+### In development
+
+* [BUG] Fix issue with aggregation with MongoDB version >=3.4. Now the cursor option is mandatory. [@luislobo](https://github.com/luislobo)
+
 ### 1.0.0
 
 * [COMPATIBILITY] Upgrade to v1 of the Waterline adapter API.
