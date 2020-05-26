@@ -4,6 +4,11 @@
 
 * [BUG] Fix issue with aggregation with MongoDB version >=3.4. Now the cursor option is mandatory. [@luislobo](https://github.com/luislobo)
 
+
+### 1.2.0
+
+* [ENHANCEMENT] Add support for `makeLikeModifierCaseInsensitive` meta key.  See [#470](https://github.com/balderdashy/sails-mongo/pull/470) for more details. Thanks [@anterodev](https://github.com/anterodev)!
+
 ### 1.0.0
 
 * [COMPATIBILITY] Upgrade to v1 of the Waterline adapter API.
