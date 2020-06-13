@@ -26,6 +26,8 @@ install:
   # Get the latest stable version of Node.js
   # (Not sure what this is for, it's just in Appveyor's example.)
   - ps: Install-Product node $env:nodejs_version
+  # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
+  - npm config set send-metrics false
   # Install declared dependencies
   - npm install --no-audit
 

@@ -42,6 +42,8 @@ before_install:
   - chmod +x "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh" "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
 
 install:
+  # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
+  - npm config set send-metrics false
   - npm i --no-audit
   - "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh"
 
