@@ -28,7 +28,7 @@ Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the doc
 
 ## Compatibility
 
-> This version of the adapter has been tested with MongoDB versions 3.4 and 3.6.
+> This version of the adapter has been tested with MongoDB versions 3.6, 4.0, and 4.2.
 
 This adapter implements the following methods:
 
@@ -63,14 +63,42 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 [![NPM](https://nodei.co/npm/sails-mongo.png?downloads=true)](http://npmjs.com/package/sails-mongo)
 
 
+#### Development and Test
+
 This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
 
-The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version 
-(at this time, up to 3.6).
+The `npm test` command expects a local MongoDB instance running.
+
+For convenience, some new npm scripts are available:
+- `npm run start-mongodb`: Starts MongoDB docker instance
+- `npm run stop-mongodb`: Stops MongoDB docker instance
+- `npm run mongodb-shell`: Runs the MongoDB shell CLI, connects to the instance started by the `npm run start-mongodb` command.
+
+This simplifies development as you do not need to have a MongoDB instance running on the development computer.
+
+Notice that if you do have a local MongoDB instance, then, there might be port conflicts if you run the docker version.
+The docker version is configured to run on the standard port 27017.
+
+The normal development workflow would now be:
+- When starting a development session, `npm run start-mongdb`
+- Now we can execute `npm test` as many times as needed
+- When finishing a development session, `npm run stop-mongdb`
+
+The `npm run docker-test` command runs the tests on a single run under the latest MongoDB version (at the time 4.2).
+It automatically starts a MongoDB docker instance, and it stops it. This is useful for one time local tests.
+Note that since this command stops MongoDB, `npm test` will fail.
+
+When running automation tests in Travis, the module is tested under a combination of Node.js 10, 12, 14 and
+MongoDB: 3.6, 4.0, 4.2.
+
+When running automation tests in AppVeyor, the module is tested under a combination of Node.js 10, 12, 14 and
+the MongoDB version that AppVeyor supports. Multiple MongoDB version are not tested in AppVeyor.
+
 For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
 
 To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
-From there you can run `npm test` to run the tests as many times as you need. 
+From there you can run `npm test` to run the tests as many times as you need.
+
 
 #### Special thanks
 

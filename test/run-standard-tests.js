@@ -37,9 +37,9 @@ try {
 
 // Log an intro message.
 console.log('Testing `' + packageMD.name + '`, a Sails/Waterline adapter.');
-console.log('Running `waterline-adapter-tests` against '+packageMD.waterlineAdapter.interfaces.length+' interface(s) and '+packageMD.waterlineAdapter.features.length+' feature(s)...');
-console.log('|   Interfaces:       '+(packageMD.waterlineAdapter.interfaces.join(', ')||'n/a')+'');
-console.log('|   Extra features:   '+((packageMD.waterlineAdapter.features||[]).join(', ')||'n/a')+'');
+console.log('Running `waterline-adapter-tests` against ' + packageMD.waterlineAdapter.interfaces.length + ' interface(s) and ' + packageMD.waterlineAdapter.features.length + ' feature(s)...');
+console.log('|   Interfaces:       ' + (packageMD.waterlineAdapter.interfaces.join(', ') || 'n/a') + '');
+console.log('|   Extra features:   ' + ((packageMD.waterlineAdapter.features || []).join(', ') || 'n/a') + '');
 console.log();
 console.log('> More info about building Waterline adapters:');
 console.log('> http://sailsjs.com/docs/concepts/extending-sails/adapters/custom-adapters');
@@ -48,17 +48,16 @@ console.log('> http://sailsjs.com/docs/concepts/extending-sails/adapters/custom-
 // Ensure a `url` was specified.
 // (http://sailsjs.com/config/datastores#?the-connection-url)
 if (!process.env.WATERLINE_ADAPTER_TESTS_URL) {
-  console.error();
-  console.error('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
-  console.error('Cannot run tests: No database connection `url` specified.');
-  console.error();
-  console.error('Tip: You can use an environment variable to configure this.');
-  console.error('For example:');
-  console.error('```');
-  console.error('    WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb npm test');
-  console.error('```');
-  console.error('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
-  process.exit(1);
+  console.warn();
+  console.warn('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
+  console.warn('Running using default test MongoDB url: mongo://localhost/testdb');
+  console.warn();
+  console.warn('Tip: You can use an environment variable to configure this.');
+  console.warn('For example:');
+  console.warn('```');
+  console.warn('    WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb npm test');
+  console.warn('```');
+  console.warn('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
 }//-•
 
 
@@ -72,7 +71,7 @@ new TestRunner({
 
   // Adapter config to use for tests.
   config: {
-    url: process.env.WATERLINE_ADAPTER_TESTS_URL,
+    url: process.env.WATERLINE_ADAPTER_TESTS_URL || 'localhost/testdb'
   },
 
   // The set of adapter interface layers & specific features to test against.
@@ -83,7 +82,7 @@ new TestRunner({
   mocha: {
     bail: true,
     reporter: 'spec'
-  },
+  }
 
 });
 

@@ -12,11 +12,14 @@
 
 # Test against these versions of Node.js.
 environment:
-  WATERLINE_ADAPTER_TESTS_URL: root@localhost/testdb
+  WATERLINE_ADAPTER_TESTS_URL: localhost/testdb
+  WATERLINE_ADAPTER_TESTS_HOST: localhost
+  WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
+  NODE_ENV: test
   matrix:
-    - nodejs_version: "6"
-    - nodejs_version: "8"
     - nodejs_version: "10"
+    - nodejs_version: "12"
+    - nodejs_version: "14"
 
 # Install scripts. (runs after repo cloning)
 install:
@@ -24,12 +27,13 @@ install:
   # (Not sure what this is for, it's just in Appveyor's example.)
   - ps: Install-Product node $env:nodejs_version
   # Install declared dependencies
-  - npm install
+  - npm install --no-audit
 
 branches:
   only:
   - master
-  - fix-aggregate-mongodb34
+  - upgrade-mongodb-drivers
+  - update-test-environment
 
 # Post-install test scripts.
 test_script:
@@ -39,7 +43,7 @@ test_script:
   - node --version
   - npm --version
   # Run the actual tests.
-  - npm run custom-tests
+  - npm test
 
 # Setup Mongo Database
 services:
@@ -57,5 +61,5 @@ build: off
 
 # TODO: Set up appveyor + mongo*:
 # https://www.appveyor.com/docs/services-databases/
-
+# Old example on how to install different versions of MongoDB added to `scripts/appveyor/install_mongodb.ps1`
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #
