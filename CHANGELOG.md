@@ -1,7 +1,5 @@
 # sails-mongo Changelog
 
-### In development
-
 ### 1.2.1
 
 * [ENHANCEMENT] Adds `npm run start-mongodb` and `npm run stop-mongodb` scripts to start/stop a MongoDB docker instance [@luislobo](@luislobo)
