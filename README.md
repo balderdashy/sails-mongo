@@ -2,7 +2,7 @@
 
 # sails-mongo
 
-Sails.js/Waterline adapter for MongoDB.
+Sails.js/Waterline adapter for MongoDB. (See [compatibility](#compatibility) for more details.)
 
 > Provides easy access to MongoDB from Sails.js & Waterline.
 > This module is a Sails/Waterline adapter maintained by the core team.  Its goal is to provide robust, easy-to-use access to MongoDB from Sails.js and Waterline.
@@ -107,6 +107,8 @@ Check the MongoDB module documentation for more details.
 
 ## Compatibility
 
+> This version of the adapter has been tested with MongoDB versions 3.6, 4.0, and 4.2.
+
 This adapter implements the following methods:
 
 | Method               | Status            | Layer         |
@@ -142,18 +144,41 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 #### Setting up the development environment
 To ease development, this module uses Docker. It uses an image of MongoDB 4.
 
-Included is a Docker Compose file that helps setting up the environment needed to develop and run the test.
+#### Development and Test
 
-To start a MongoDB instance, use `npm run start-mongodb`. It will start a docker instance with MongoDB running,
-in detached mode (in the background). It will be running until you stop the instance. 
+This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
 
-To stop the MongoDB instance, use `npm run stop-mongodb`. 
+The `npm test` command expects a local MongoDB instance running.
 
-Once you have MongoDB running, you can just run `npm test` as usual.
+For convenience, some new npm scripts are available:
+- `npm run start-mongodb`: Starts MongoDB docker instance
+- `npm run stop-mongodb`: Stops MongoDB docker instance
+- `npm run mongodb-shell`: Runs the MongoDB shell CLI, connects to the instance started by the `npm run start-mongodb` command.
 
-To get a shell to the MongoDB docker instance running, you can use `npm run mongodb-shell`.
+This simplifies development as you do not need to have a MongoDB instance running on the development computer.
 
-To do a one single run of the tests, without starting your own MongoDB instance, use `npm run docker-test`.
+Notice that if you do have a local MongoDB instance, then, there might be port conflicts if you run the docker version.
+The docker version is configured to run on the standard port 27017.
+
+The normal development workflow would now be:
+- When starting a development session, `npm run start-mongdb`
+- Now we can execute `npm test` as many times as needed
+- When finishing a development session, `npm run stop-mongdb`
+
+The `npm run docker-test` command runs the tests on a single run under the latest MongoDB version (at the time 4.2).
+It automatically starts a MongoDB docker instance, and it stops it. This is useful for one time local tests.
+Note that since this command stops MongoDB, `npm test` will fail.
+
+When running automation tests in Travis, the module is tested under a combination of Node.js 10, 12, 14 and
+MongoDB: 3.6, 4.0, 4.2.
+
+When running automation tests in AppVeyor, the module is tested under a combination of Node.js 10, 12, 14 and
+the MongoDB version that AppVeyor supports. Multiple MongoDB version are not tested in AppVeyor.
+
+For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
+
+To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
+From there you can run `npm test` to run the tests as many times as you need.
 
 
 #### Special thanks

@@ -9,13 +9,14 @@
 # https://docs.travis-ci.com/user/customizing-the-build #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
----
+dist: xenial
+
 language: node_js
 
 node_js:
-  - "8"
   - "10"
   - "12"
+  - "14"
 
 env:
   global:
@@ -25,20 +26,25 @@ env:
     - NODE_ENV=test
 
   matrix:
-    - MONGODB=3.4.21
-    - MONGODB=3.6.13
-    - MONGODB=4.0.10
+    - MONGODB=3.6.18
+    - MONGODB=4.0.18
+    - MONGODB=4.2.7
 
 cache:
   directories:
-#    - "$TRAVIS_BUILD_DIR/mongodb/mongodb-linux-x86_64-${MONGODB}"
+    - "$TRAVIS_BUILD_DIR/mongodb"
     - "$HOME/.npm"
 
 matrix:
   fast_finish: true
 
+before_install:
+  - chmod +x "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh" "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
+
 install:
-  - npm install
+  # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
+  - npm config set send-metrics false
+  - npm i --no-audit
   - "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh"
 
 before_script:
@@ -53,9 +59,10 @@ after_script:
 branches:
   only:
     - master
-    - fix-aggregate-mongodb34
     - upgrade-mongodb-drivers
+    - update-test-environment
 
 notifications:
   email:
     - ci@sailsjs.com
+    - luislobo@gmail.com

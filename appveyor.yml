@@ -17,22 +17,25 @@ environment:
   WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
   NODE_ENV: test
   matrix:
-    - nodejs_version: "8"
     - nodejs_version: "10"
     - nodejs_version: "12"
+    - nodejs_version: "14"
 
 # Install scripts. (runs after repo cloning)
 install:
   # Get the latest stable version of Node.js
   # (Not sure what this is for, it's just in Appveyor's example.)
   - ps: Install-Product node $env:nodejs_version
+  # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
+  - npm config set send-metrics false
   # Install declared dependencies
-  - npm install
+  - npm install --no-audit
 
 branches:
   only:
   - master
-  - fix-aggregate-mongodb34
+  - upgrade-mongodb-drivers
+  - update-test-environment
 
 # Post-install test scripts.
 test_script:
@@ -60,5 +63,5 @@ build: off
 
 # TODO: Set up appveyor + mongo*:
 # https://www.appveyor.com/docs/services-databases/
-
+# Old example on how to install different versions of MongoDB added to `scripts/appveyor/install_mongodb.ps1`
 # # # # # # # # # # # # # # # # # # # # # # # # # # # #

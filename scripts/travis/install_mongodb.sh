@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-MDB_ROOT=${TRAVIS_BUILD_DIR}/mongodb
-MDB_BIN=${MDB_ROOT}/mongodb-linux-x86_64-${MONGODB}
-MDB_DATA=${MDB_ROOT}/data
+MDB_TGZ=mongodb-linux-x86_64-ubuntu1604-${MONGODB}.tgz
+MDB_ROOT=${TRAVIS_BUILD_DIR}/mongodb/${MONGODB}
+MDB_DATA=${TRAVIS_BUILD_DIR}/mongodb-data
 
-if [ ! -f "${MDB_BIN}/bin/mongod" ]; then
+# If it doesn't exist, it means the cache didn't pull it
+if [ ! -f "${MDB_ROOT}/bin/mongod" ]; then
   mkdir -p $MDB_ROOT
   pushd $MDB_ROOT
-  wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB}.tgz
-  tar xzf mongodb-linux-x86_64-${MONGODB}.tgz
-  rm -f mongodb-linux-x86_64-${MONGODB}.tgz
+  wget https://fastdl.mongodb.org/linux/${MDB_TGZ}
+  tar xzf ${MDB_TGZ} --strip 1
+  rm -f ${MDB_TGZ}
   popd
 fi
 mkdir -p $MDB_DATA
-"${MDB_BIN}/bin/mongod" --version
+"${MDB_ROOT}/bin/mongod" --version
