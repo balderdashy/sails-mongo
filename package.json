@@ -1,14 +1,17 @@
 {
   "name": "sails-mongo",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Mongo DB adapter for Sails.js/Waterline.",
   "main": "./lib",
   "scripts": {
     "test": "npm run lint && npm run custom-tests",
-    "custom-tests": "mocha test/run-adapter-specific-tests && mocha test/connectable/ && node test/run-standard-tests",
-    "lint": "eslint . --max-warnings=0",
+    "custom-tests": "node node_modules/mocha/bin/mocha test/run-adapter-specific-tests && node node_modules/mocha/bin/mocha test/connectable/ && node node_modules/mocha/bin/mocha test/run-standard-tests",
+    "lint": "node node_modules/eslint/bin/eslint . --max-warnings=0",
+    "start-mongodb": "docker-compose up -d mongo",
+    "stop-mongodb": "docker-compose down",
     "docker": "docker-compose run adapter bash",
-    "docker-test": "docker-compose up --exit-code-from adapter && docker-compose down"
+    "mongodb-shell": "docker-compose exec mongo mongo",
+    "docker-test": "docker-compose run adapter bash -c \"npm test\" && docker-compose down"
   },
   "keywords": [
     "mongo",
@@ -27,20 +30,20 @@
     "url": "git://github.com/balderdashy/sails-mongo.git"
   },
   "dependencies": {
-    "@sailshq/lodash": "^3.10.2",
-    "async": "2.0.1",
-    "flaverr": "1.1.1",
-    "machine": "^15.0.0",
+    "@sailshq/lodash": "^3.10.4",
+    "async": "3.2.0",
+    "flaverr": "^1.10.0",
+    "machine": "^15.2.2",
     "mongodb": "3.5.5",
-    "qs": "6.4.0"
+    "qs": "6.9.4"
   },
   "devDependencies": {
-    "benchmark": "2.1.1",
+    "benchmark": "2.1.4",
     "eslint": "4.19.1",
     "mocha": "3.0.2",
-    "waterline": "^0.13.4",
+    "waterline": "^0.13.6",
     "waterline-adapter-tests": "^1.0.1",
-    "waterline-utils": "^1.3.25"
+    "waterline-utils": "^1.4.2"
   },
   "waterlineAdapter": {
     "interfaces": [
