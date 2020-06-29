@@ -9,44 +9,60 @@
 # https://docs.travis-ci.com/user/customizing-the-build #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+dist: xenial
+
 language: node_js
 
 node_js:
-  - "6"
-  - "8"
   - "10"
+  - "12"
+  - "14"
 
 env:
-  - WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb
+  global:
+    - WATERLINE_ADAPTER_TESTS_URL=localhost/testdb
+    - WATERLINE_ADAPTER_TESTS_HOST=localhost
+    - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
+    - NODE_ENV=test
+
   matrix:
-  - MONGODB=3.4.16
-  - MONGODB=3.6.6
-  - MONGODB=4.0.0
+    - MONGODB=3.6.18
+    - MONGODB=4.0.18
+    - MONGODB=4.2.7
+
+cache:
+  directories:
+    - "$TRAVIS_BUILD_DIR/mongodb"
+    - "$HOME/.npm"
 
 matrix:
   fast_finish: true
 
+before_install:
+  - chmod +x "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh" "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
+
 install:
-- wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-${MONGODB}.tgz
-- tar xzf mongodb-linux-x86_64-${MONGODB}.tgz
-- ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --version
-- npm install
+  # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
+  - npm config set send-metrics false
+  - npm i --no-audit
+  - "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh"
 
 before_script:
-- mkdir ${PWD}/mongodb-linux-x86_64-${MONGODB}/data
-- ${PWD}/mongodb-linux-x86_64-${MONGODB}/bin/mongod --dbpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/data --logpath ${PWD}/mongodb-linux-x86_64-${MONGODB}/mongodb.log --fork
+  - "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
 
 script:
-- npm test
+  - npm test
 
 after_script:
-- pkill mongod
+  - pkill mongod
 
 branches:
   only:
     - master
-    - fix-aggregate-mongodb34
+    - upgrade-mongodb-drivers
+    - update-test-environment
 
 notifications:
   email:
     - ci@sailsjs.com
+    - luislobo@gmail.com

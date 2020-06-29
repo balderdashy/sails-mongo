@@ -25,10 +25,70 @@ Then [connect the adapter](http://sailsjs.com/documentation/reference/configurat
 
 Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
+## MongoDB Driver
+From `sails-mongo` version 1.3.0 and above, the adapter uses [MongoDB driver for Node.js v3.5.9 (or above)](https://www.npmjs.com/package/mongodb).
+The updated MongoDB driver changes the way it handles connections internally, and implements the concept of [MongoClient].
+
+`manager` still returns a `database`. Access to the [MongoClient] object is done via `manager.client`:
+```javascript
+// Returns a MongoClient instance
+Pet.getDatastore().manager.client
+```
+
+With access to the [MongoClient] object, now you have access to the latest MongoDB improvements, like [ClientSession],
+and with it, transactions, [change streams](https://mongodb.github.io/node-mongodb-native/3.5/api/ChangeStream.html), and other new features.
+
+#### `.native` still works but you can better use the client
+
+With `native`:
+
+```javascript
+Pet.native(function (err, collection) {
+  if (err) {
+    return res.serverError(err);
+  }
+
+  collection.find({}, {
+    name: true
+  }).toArray(function (err, results) {
+    if (err) {
+      return res.serverError(err);
+    }
+    res.ok(results);
+  });
+});
+```
+
+with `client`:
+
+```javascript
+try {
+  // This is an instance of MongoClient
+  // https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html
+  const mongoClient = Pet.getDatastore().manager.client;
+  const results = await mongoClient.db('test')
+    .collection('pet')
+    .find({}, { name: 1 })
+    .toArray();
+  res.ok(results);
+} catch (err) {
+  res.serverError(err);
+}
+```
+
+## Configuration options
+This version uses [MongoDB 3.5.x connection options](https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html#.connect).
+
+Check them out as there are some updated, changed, new and deprecated options.
+
+## Roadmap
+
+#### NEXT FEATURES TO BE IMPLEMENTED
+- Waterline Built-in transactions, instead of using MongoClient
 
 ## Compatibility
 
-> This version of the adapter has been tested with MongoDB versions 3.4 and 3.6.
+> This version of the adapter has been tested with MongoDB versions 3.6, 4.0, and 4.2.
 
 This adapter implements the following methods:
 
@@ -63,14 +123,42 @@ Please observe the guidelines and conventions laid out in the [Sails project con
 [![NPM](https://nodei.co/npm/sails-mongo.png?downloads=true)](http://npmjs.com/package/sails-mongo)
 
 
+#### Development and Test
+
 This repository includes a Docker Compose file that helps setting up the environment needed to run the test.
 
-The `npm run docker-test` command runs the tests on a single run under the supported MongoDB version 
-(at this time, up to 3.6).
+The `npm test` command expects a local MongoDB instance running.
+
+For convenience, some new npm scripts are available:
+- `npm run start-mongodb`: Starts MongoDB docker instance
+- `npm run stop-mongodb`: Stops MongoDB docker instance
+- `npm run mongodb-shell`: Runs the MongoDB shell CLI, connects to the instance started by the `npm run start-mongodb` command.
+
+This simplifies development as you do not need to have a MongoDB instance running on the development computer.
+
+Notice that if you do have a local MongoDB instance, then, there might be port conflicts if you run the docker version.
+The docker version is configured to run on the standard port 27017.
+
+The normal development workflow would now be:
+- When starting a development session, `npm run start-mongdb`
+- Now we can execute `npm test` as many times as needed
+- When finishing a development session, `npm run stop-mongdb`
+
+The `npm run docker-test` command runs the tests on a single run under the latest MongoDB version (at the time 4.2).
+It automatically starts a MongoDB docker instance, and it stops it. This is useful for one time local tests.
+Note that since this command stops MongoDB, `npm test` will fail.
+
+When running automation tests in Travis, the module is tested under a combination of Node.js 10, 12, 14 and
+MongoDB: 3.6, 4.0, 4.2.
+
+When running automation tests in AppVeyor, the module is tested under a combination of Node.js 10, 12, 14 and
+the MongoDB version that AppVeyor supports. Multiple MongoDB version are not tested in AppVeyor.
+
 For more information, check [MongoDB's Support Policy](https://www.mongodb.com/support-policy).
 
 To run tests while developing, you can run `npm run docker`. This command opens a docker instance and opens a shell.
-From there you can run `npm test` to run the tests as many times as you need. 
+From there you can run `npm test` to run the tests as many times as you need.
+
 
 #### Special thanks
 
@@ -82,7 +170,6 @@ Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin P
 To report a bug, [click here](http://sailsjs.com/bugs).
 
 
-
 ## License
 
 This [core adapter](http://sailsjs.com/documentation/concepts/extending-sails/adapters/available-adapters) is available under the **MIT license**.
@@ -92,3 +179,7 @@ As for [Waterline](http://waterlinejs.org) and the [Sails framework](http://sail
 &copy; [The Sails Co.](http://sailsjs.com/about)
 
 ![image_squidhome@2x.png](http://i.imgur.com/RIvu9.png)
+
+---
+[MongoClient]: https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html
+[ClientSession]: https://mongodb.github.io/node-mongodb-native/3.5/api/ClientSession.html

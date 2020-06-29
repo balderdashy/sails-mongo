@@ -147,10 +147,10 @@ describe('dontUseObjectIds', function() {
       it('should update the record correctly', function(done) {
         models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}, function(err) {
           if (err) {return done(err);}
-          models.user.update({id: 123}, {name: 'joe'}).exec(function(err, records) {
+          models.user.updateOne({id: 123}, {name: 'joe'}).exec(function(err, record) {
             if (err) {return done(err);}
-            assert.equal(records[0].id, 123);
-            assert.equal(records[0].name, 'joe');
+            assert.equal(record.id, 123);
+            assert.equal(record.name, 'joe');
             return done();
           });
 
