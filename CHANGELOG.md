@@ -1,7 +1,10 @@
 # sails-mongo Changelog
 
-### 1.2.1
+### 1.3.0
+* [COMPATIBILITY] Upgrade mongodb driver to version 3.5.9. For more information about breaking changes, check the [Readme](./README.md) file. [@Josebaseba], [@luislobo]
+* [DEPENDENCIES] Updates other dependencies to the latest available. [@luislobo]
 
+### 1.2.1
 * [ENHANCEMENT] Adds `npm run start-mongodb` and `npm run stop-mongodb` scripts to start/stop a MongoDB docker instance [@luislobo]
 * [ENHANCEMENT] Adds `npm run mongodb-shell` to run a MongoDB Shell CLI that connects to the MongoDB docker instance [@luislobo]
 * [INTERNAL] Bump and pin dependency versions [@luislobo]
@@ -46,10 +49,11 @@
 * [STABILITY] Locked the dependency versions down.
 
 ---
+[@Josebaseba]: https://github.com/Josebaseba
+[@Mordred]: https://github.com/Mordred
+[@andyhu]: https://github.com/andyhu
 [@anterodev]: https://github.com/anterodev
 [@luislobo]: https://github.com/luislobo
-[@nicoespeon]: https://github.com/nicoespeon
-[@andyhu]: https://github.com/andyhu
-[@Mordred]: https://github.com/Mordred
-[@vbud]: https://github.com/vbud
 [@miccar]: https://github.com/miccarr
+[@nicoespeon]: https://github.com/nicoespeon
+[@vbud]: https://github.com/vbud
