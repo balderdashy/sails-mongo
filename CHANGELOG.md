@@ -1,6 +1,6 @@
 # sails-mongo Changelog
 
-### 2.0.0-0
+### 1.3.0
 * [COMPATIBILITY] Upgrade mongodb driver to version 3.5.9. For more information about breaking changes, check the [Readme](./README.md) file. [@Josebaseba], [@luislobo]
 * [DEPENDENCIES] Updates other dependencies to the latest available. [@luislobo]
 
