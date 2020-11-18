@@ -1,6 +1,5 @@
 var assert = require('assert');
 var createManager = require('machine').build(require('../../').createManager);
-var MongoClient = require('mongodb').MongoClient;
 
 describe('Connectable ::', function() {
   describe('Create Manager', function() {
@@ -44,7 +43,6 @@ describe('Connectable ::', function() {
 
         try {
           assert(report.manager);
-          assert(report.manager.client instanceof MongoClient );
         } catch (e) { return done(e); }
 
         return done();

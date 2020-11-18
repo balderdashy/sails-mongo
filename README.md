@@ -25,66 +25,6 @@ Then [connect the adapter](http://sailsjs.com/documentation/reference/configurat
 
 Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
 
-## MongoDB Driver
-From `sails-mongo` version 1.3.0 and above, the adapter uses [MongoDB driver for Node.js v3.5.9 (or above)](https://www.npmjs.com/package/mongodb).
-The updated MongoDB driver changes the way it handles connections internally, and implements the concept of [MongoClient].
-
-`manager` still returns a `database`. Access to the [MongoClient] object is done via `manager.client`:
-```javascript
-// Returns a MongoClient instance
-Pet.getDatastore().manager.client
-```
-
-With access to the [MongoClient] object, now you have access to the latest MongoDB improvements, like [ClientSession],
-and with it, transactions, [change streams](https://mongodb.github.io/node-mongodb-native/3.5/api/ChangeStream.html), and other new features.
-
-#### `.native` still works but you can better use the client
-
-With `native`:
-
-```javascript
-Pet.native(function (err, collection) {
-  if (err) {
-    return res.serverError(err);
-  }
-
-  collection.find({}, {
-    name: true
-  }).toArray(function (err, results) {
-    if (err) {
-      return res.serverError(err);
-    }
-    res.ok(results);
-  });
-});
-```
-
-with `client`:
-
-```javascript
-try {
-  // This is an instance of MongoClient
-  // https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html
-  const mongoClient = Pet.getDatastore().manager.client;
-  const results = await mongoClient.db('test')
-    .collection('pet')
-    .find({}, { name: 1 })
-    .toArray();
-  res.ok(results);
-} catch (err) {
-  res.serverError(err);
-}
-```
-
-## Configuration options
-This version uses [MongoDB 3.5.x connection options](https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html#.connect).
-
-Check them out as there are some updated, changed, new and deprecated options.
-
-## Roadmap
-
-#### NEXT FEATURES TO BE IMPLEMENTED
-- Waterline Built-in transactions, instead of using MongoClient
 
 ## Compatibility
 
@@ -170,6 +110,7 @@ Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin P
 To report a bug, [click here](http://sailsjs.com/bugs).
 
 
+
 ## License
 
 This [core adapter](http://sailsjs.com/documentation/concepts/extending-sails/adapters/available-adapters) is available under the **MIT license**.
@@ -179,7 +120,3 @@ As for [Waterline](http://waterlinejs.org) and the [Sails framework](http://sail
 &copy; [The Sails Co.](http://sailsjs.com/about)
 
 ![image_squidhome@2x.png](http://i.imgur.com/RIvu9.png)
-
----
-[MongoClient]: https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html
-[ClientSession]: https://mongodb.github.io/node-mongodb-native/3.5/api/ClientSession.html
