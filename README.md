@@ -23,58 +23,7 @@ Then [connect the adapter](http://sailsjs.com/documentation/reference/configurat
 
 ## Usage
 
-Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
-
-## MongoDB Driver
-From `sails-mongo` version 1.3.0 and above, the adapter uses [MongoDB driver for Node.js v3.5.9 (or above)](https://www.npmjs.com/package/mongodb).
-The updated MongoDB driver changes the way it handles connections internally, and implements the concept of [MongoClient].
-
-`manager` still returns a `database`. Access to the [MongoClient] object is done via `manager.client`:
-```javascript
-// Returns a MongoClient instance
-Pet.getDatastore().manager.client
-```
-
-With access to the [MongoClient] object, now you have access to the latest MongoDB improvements, like [ClientSession],
-and with it, transactions, [change streams](https://mongodb.github.io/node-mongodb-native/3.5/api/ChangeStream.html), and other new features.
-
-#### `.native` still works but you can better use the client
-
-With `native`:
-
-```javascript
-Pet.native(function (err, collection) {
-  if (err) {
-    return res.serverError(err);
-  }
-
-  collection.find({}, {
-    name: true
-  }).toArray(function (err, results) {
-    if (err) {
-      return res.serverError(err);
-    }
-    res.ok(results);
-  });
-});
-```
-
-with `client`:
-
-```javascript
-try {
-  // This is an instance of MongoClient
-  // https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html
-  const mongoClient = Pet.getDatastore().manager.client;
-  const results = await mongoClient.db('test')
-    .collection('pet')
-    .find({}, { name: 1 })
-    .toArray();
-  res.ok(results);
-} catch (err) {
-  res.serverError(err);
-}
-```
+Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice. For a low-level usage example, check out the [tutorial](https://sailsjs.com/documentation/tutorials/using-mongo-db#?lowlevel-mongodb-usage-advanced).
 
 
 ## Compatibility
