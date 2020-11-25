@@ -76,19 +76,11 @@ try {
 }
 ```
 
-## Configuration options
-This version uses [MongoDB 3.5.x connection options](https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html#.connect).
-
-Check them out as there are some updated, changed, new and deprecated options.
-
-## Roadmap
-
-#### NEXT FEATURES TO BE IMPLEMENTED
-- Waterline Built-in transactions, instead of using MongoClient
 
 ## Compatibility
 
 > This version of the adapter has been tested with MongoDB versions 3.6, 4.0, and 4.2.
+> It uses [MongoDB 3.5.x connection options](https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html#.connect). If you're upgrading from an older version, note that there are some updated, changed, new and deprecated options.
 
 This adapter implements the following methods:
 
