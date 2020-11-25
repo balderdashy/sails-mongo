@@ -120,7 +120,3 @@ As for [Waterline](http://waterlinejs.org) and the [Sails framework](http://sail
 &copy; [The Sails Co.](http://sailsjs.com/about)
 
 ![image_squidhome@2x.png](http://i.imgur.com/RIvu9.png)
-
----
-[MongoClient]: https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html
-[ClientSession]: https://mongodb.github.io/node-mongodb-native/3.5/api/ClientSession.html
