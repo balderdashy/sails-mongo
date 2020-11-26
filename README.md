@@ -23,12 +23,13 @@ Then [connect the adapter](http://sailsjs.com/documentation/reference/configurat
 
 ## Usage
 
-Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice.
+Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the docs for more information about using models, datastores, and adapters in your app/microservice. For a low-level usage example, check out the [tutorial](https://sailsjs.com/documentation/tutorials/using-mongo-db#?lowlevel-mongodb-usage-advanced).
 
 
 ## Compatibility
 
 > This version of the adapter has been tested with MongoDB versions 3.6, 4.0, and 4.2.
+> It uses [MongoDB 3.5.x connection options](https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html#.connect). If you're upgrading from an older version, note that there are some updated, changed, new and deprecated options.
 
 This adapter implements the following methods:
 
@@ -108,7 +109,6 @@ Thanks so much to Ted Kulp ([@tedkulp](https://twitter.com/tedkulp)) and Robin P
 ## Bugs &nbsp; [![NPM version](https://badge.fury.io/js/sails-mongo.svg)](http://npmjs.com/package/sails-mongo)
 
 To report a bug, [click here](http://sailsjs.com/bugs).
-
 
 
 ## License
