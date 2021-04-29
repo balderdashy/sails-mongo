@@ -1,6 +1,6 @@
 {
   "name": "sails-mongo",
-  "version": "2.0.0-0",
+  "version": "2.0.0",
   "description": "Mongo DB adapter for Sails.js/Waterline.",
   "main": "./lib",
   "scripts": {
