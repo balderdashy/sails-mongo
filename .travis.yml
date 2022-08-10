@@ -14,9 +14,9 @@ dist: xenial
 language: node_js
 
 node_js:
-  - "10"
   - "12"
   - "14"
+  - "16"
 
 env:
   global:
@@ -40,6 +40,7 @@ matrix:
 
 before_install:
   - chmod +x "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh" "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
+  - npm i -g npm@8.11.0
 
 install:
   # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
