@@ -35,7 +35,7 @@
     "flaverr": "^1.10.0",
     "machine": "^15.2.2",
     "mongodb": "3.7.3",
-    "qs": "6.9.4"
+    "qs": "6.9.7"
   },
   "devDependencies": {
     "benchmark": "2.1.4",
