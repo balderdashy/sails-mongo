@@ -34,7 +34,7 @@
     "async": "3.2.4",
     "flaverr": "^1.10.0",
     "machine": "^15.2.2",
-    "mongodb": "3.7.3",
+    "mongodb": "4.8.1",
     "qs": "6.9.7"
   },
   "devDependencies": {
