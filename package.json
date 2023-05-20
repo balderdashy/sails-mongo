@@ -39,7 +39,8 @@
   },
   "devDependencies": {
     "benchmark": "2.1.4",
-    "eslint": "4.19.1",
+    "eslint": "8.41.0",
+    "eslint-plugin-eslint-comments": "^3.2.0",
     "mocha": "3.0.2",
     "waterline": "^0.13.6",
     "waterline-adapter-tests": "^1.0.1",
@@ -57,7 +58,7 @@
   },
   "machinepack": {
     "friendlyName": "MongoDB",
-    "extendedDescription": "Uses the Node.js mongdb driver located at http://npmjs.com/package/mongodb",
+    "extendedDescription": "Uses the Node.js mongdb driver located at https://npmjs.com/package/mongodb",
     "moreInfoUrl": "https://github.com/mongodb/node-mongodb-native",
     "implements": [
       "connectable",

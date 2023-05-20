@@ -1,19 +1,19 @@
-var createManager = require('machine').build(require('../../').createManager);
-var destroyManager = require('machine').build(require('../../').destroyManager);
+const createManager = require('machine').build(require('../../').createManager);
+const destroyManager = require('machine').build(require('../../').destroyManager);
 
-describe('Connectable ::', function() {
-  describe('Destroy Manager', function() {
-    var manager;
+describe('Connectable ::', () => {
+  describe('Destroy Manager', () => {
+    let manager;
 
     // Create a manager
-    before(function(done) {
+    before((done) => {
       // Needed to dynamically get the host using the docker container
-      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
+      const host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
 
       createManager({
-        connectionString: 'mongodb://' + host + ':27017/mppg'
+        connectionString: `mongodb://${host}:27017/mppg`
       })
-      .exec(function(err, report) {
+      .exec((err, report) => {
         if (err) {
           return done(err);
         }
@@ -24,11 +24,11 @@ describe('Connectable ::', function() {
     });
 
 
-    it('should successfully destroy the manager', function(done) {
+    it('should successfully destroy the manager', (done) => {
       destroyManager({
-        manager: manager
+        manager
       })
-      .exec(function(err) {
+      .exec((err) => {
         if (err) { return done(err); }
         return done();
       });

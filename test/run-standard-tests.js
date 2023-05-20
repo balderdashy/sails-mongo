@@ -4,10 +4,10 @@
  * Module dependencies
  */
 
-var util = require('util');
-var TestRunner = require('waterline-adapter-tests');
-var packageMD = require('../package.json');
-var Adapter = require('../');
+const util = require('util');
+const TestRunner = require('waterline-adapter-tests');
+const packageMD = require('../package.json');
+const Adapter = require('../');
 
 
 
@@ -27,26 +27,26 @@ try {
   packageMD.waterlineAdapter.interfaces;
 } catch (e) {
   throw new Error(
-    '\n' +
-    'Could not read supported interfaces from `waterlineAdapter.interfaces`' + '\n' +
-    'in this adapter\'s `package.json` file ::' + '\n' +
-    util.inspect(e)
+    `\n` +
+    `Could not read supported interfaces from \`waterlineAdapter.interfaces\`` + `\n` +
+    `in this adapter's \`package.json\` file ::` + `\n${
+      util.inspect(e)}`
   );
 }
 
 
 // Log an intro message.
-console.log('Testing `' + packageMD.name + '`, a Sails/Waterline adapter.');
-console.log('Running `waterline-adapter-tests` against ' + packageMD.waterlineAdapter.interfaces.length + ' interface(s) and ' + packageMD.waterlineAdapter.features.length + ' feature(s)...');
-console.log('|   Interfaces:       ' + (packageMD.waterlineAdapter.interfaces.join(', ') || 'n/a') + '');
-console.log('|   Extra features:   ' + ((packageMD.waterlineAdapter.features || []).join(', ') || 'n/a') + '');
+console.log(`Testing \`${packageMD.name}\`, a Sails/Waterline adapter.`);
+console.log(`Running \`waterline-adapter-tests\` against ${packageMD.waterlineAdapter.interfaces.length} interface(s) and ${packageMD.waterlineAdapter.features.length} feature(s)...`);
+console.log(`|   Interfaces:       ${packageMD.waterlineAdapter.interfaces.join(', ') || 'n/a'}`);
+console.log(`|   Extra features:   ${(packageMD.waterlineAdapter.features || []).join(', ') || 'n/a'}`);
 console.log();
 console.log('> More info about building Waterline adapters:');
-console.log('> http://sailsjs.com/docs/concepts/extending-sails/adapters/custom-adapters');
+console.log('> https://sailsjs.com/docs/concepts/extending-sails/adapters/custom-adapters');
 
 
 // Ensure a `url` was specified.
-// (http://sailsjs.com/config/datastores#?the-connection-url)
+// (https://sailsjs.com/config/datastores#?the-connection-url)
 if (!process.env.WATERLINE_ADAPTER_TESTS_URL) {
   console.warn();
   console.warn('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
@@ -58,7 +58,7 @@ if (!process.env.WATERLINE_ADAPTER_TESTS_URL) {
   console.warn('    WATERLINE_ADAPTER_TESTS_URL=root@localhost/testdb npm test');
   console.warn('```');
   console.warn('-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-x-');
-}//-•
+}// -•
 
 
 // Use the `waterline-adapter-tests` module to
@@ -91,13 +91,13 @@ new TestRunner({
 // Most databases implement 'semantic' and 'queryable' interface layers.
 //
 // For full interface reference, see:
-// http://sailsjs.com/docs/concepts/extending-sails/adapters/custom-adapters
+// https://sailsjs.com/docs/concepts/extending-sails/adapters/custom-adapters
 //
 // Some features are polyfilled if omitted; allowing optimizations at the adapter
 // level for databases that support the feature.  For example, if you don't implement
 // a `join` method, it will be polyfilled for you by Waterline core (using the same
 // "polypopulate" that it uses for cross-datastore joins.)  For more on that, talk
-// to an adapter maintainer @ http://sailsjs.com/support.
+// to an adapter maintainer @ https://sailsjs.com/support.
 //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

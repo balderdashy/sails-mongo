@@ -1,21 +1,21 @@
-var createManager = require('machine').build(require('../../').createManager);
-var getConnection = require('machine').build(require('../../').getConnection);
-var releaseConnection = require('machine').build(require('../../').releaseConnection);
+const createManager = require('machine').build(require('../../').createManager);
+const getConnection = require('machine').build(require('../../').getConnection);
+const releaseConnection = require('machine').build(require('../../').releaseConnection);
 
-describe('Connectable ::', function() {
-  describe('Release Connection', function() {
-    var manager;
-    var connection;
+describe('Connectable ::', () => {
+  describe('Release Connection', () => {
+    let manager;
+    let connection;
 
     // Create a manager and connection
-    before(function(done) {
+    before((done) => {
       // Needed to dynamically get the host using the docker container
-      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
+      const host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
 
       createManager({
-        connectionString: 'mongodb://' + host + ':27017/mppg'
+        connectionString: `mongodb://${host}:27017/mppg`
       })
-      .exec(function(err, report) {
+      .exec((err, report) => {
         if (err) {
           return done(err);
         }
@@ -23,9 +23,9 @@ describe('Connectable ::', function() {
         manager = report.manager;
 
         getConnection({
-          manager: manager
+          manager
         })
-        .exec(function(err, report) {
+        .exec((err, report) => {
           if (err) {
             return done(err);
           }
@@ -37,11 +37,11 @@ describe('Connectable ::', function() {
     });
 
     // The actual machine is a no-op so just ensure no error comes back.
-    it('should successfully release a connection', function(done) {
+    it('should successfully release a connection', (done) => {
       releaseConnection({
-        connection: connection
+        connection
       })
-      .exec(function(err) {
+      .exec((err) => {
         if (err) {
           return done(err);
         }
