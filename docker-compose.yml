@@ -1,22 +1,24 @@
-adapter:
-  image: node:12
-  volumes:
-    - $PWD:/home/node/sails-mongo
-  links:
-    - mongo
-  environment:
-    - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
-    - WATERLINE_ADAPTER_TESTS_URL=mongo/testdb
-    - WATERLINE_ADAPTER_TESTS_HOST=mongo
-    - NODE_ENV=test
-  user: node
-  working_dir: /home/node/sails-mongo
-  command:
-    - bash -c "npm test"
+version: '3'
+services:
+  adapter:
+    image: node:20
+    volumes:
+      - $PWD:/home/node/sails-mongo
+    links:
+      - mongo
+    environment:
+      - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
+      - WATERLINE_ADAPTER_TESTS_URL=mongo/testdb
+      - WATERLINE_ADAPTER_TESTS_HOST=mongo
+      - NODE_ENV=test
+    user: node
+    working_dir: /home/node/sails-mongo
+    command:
+      - bash -c "npm test"
 
-mongo:
-  image: mongo:4.2
-  restart: always
-  command: "--logpath=/dev/null"
-  ports:
-    - "27017:27017"
+  mongo:
+    image: mongo:6.0
+    restart: always
+    command: "--logpath=/dev/null"
+    ports:
+      - "27017:27017"
