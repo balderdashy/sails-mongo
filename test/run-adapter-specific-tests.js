@@ -145,8 +145,8 @@ describe('dontUseObjectIds', function() {
     describe('Updating a single record', function() {
 
       it('should update the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}, function(err) {
-          if (err) {return done(err);}
+        models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'})
+        .then(function insertCb() {
           models.user.updateOne({id: 123}, {name: 'joe'}).exec(function(err, record) {
             if (err) {return done(err);}
             assert.equal(record.id, 123);
@@ -154,7 +154,7 @@ describe('dontUseObjectIds', function() {
             return done();
           });
 
-        });
+        }).catch(function (err) { return done(err); });
 
       });
 
@@ -164,8 +164,8 @@ describe('dontUseObjectIds', function() {
 
       it('should update the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
-          if (err) {return done(err);}
+        models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}])
+        .then(function insertManyCb() {
           models.user.update({id: {'>': 0}}, {name: 'joe'}).exec(function(err, records) {
             if (err) {return done(err);}
             assert.equal(records[0].id, 123);
@@ -174,11 +174,8 @@ describe('dontUseObjectIds', function() {
             assert.equal(records[1].name, 'joe');
             return done();
           });
-
-        });
-
+        }).catch(function (err) { return done(err); });
       });
-
     });
 
     describe('Finding a single record', function() {
