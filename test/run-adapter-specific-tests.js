@@ -218,40 +218,36 @@ describe('dontUseObjectIds', function() {
     describe('Deleting a single record', function() {
 
       it('should delete the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}, function(err) {
-          if (err) {return done(err);}
+        models.user._adapter.datastores.test.manager.collection('user')
+        .insertOne({_id: 123, name: 'bob'})
+        .then(function() {
           models.user.destroy({id: 123}).exec(function(err) {
-            if (err) {return done(err);}
-            models.user._adapter.datastores.test.manager.collection('user').find({}).toArray(function(err, records) {
-              if (err) {return done(err);}
+            if (err) { return done(err); }
+            models.user._adapter.datastores.test.manager.collection('user').find({})
+            .toArray().then(function(records) {
               assert.equal(records.length, 0);
               return done();
-            });
-
+            }).catch(function (err) { return done(err); });
           });
-
-        });
-
+        }).catch(function (err) { return done(err); });
       });
-
     });
 
     describe('Deleting multiple records', function() {
 
       it('should delete the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
-          if (err) {return done(err);}
+        models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}])
+        .then(function() {
           models.user.destroy({id: {'>': 0}}).exec(function(err) {
             if (err) {return done(err);}
-            models.user._adapter.datastores.test.manager.collection('user').find({}).toArray(function(err, records) {
-              if (err) {return done(err);}
+            models.user._adapter.datastores.test.manager.collection('user').find({}).toArray()
+            .then(function(records) {
               assert.equal(records.length, 0);
               return done();
-            });
+            }).catch(function (err) { return done(err); });
           });
-
-        });
+        }).catch(function (err) { return done(err); });
 
       });
     });
