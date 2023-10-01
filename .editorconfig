@@ -6,7 +6,7 @@
 # throughout this package, the Sails framework, and the Node-Machine project.
 #
 # To review what each of these options mean, see:
-# http://editorconfig.org/
+# https://editorconfig.org/
 root = true
 
 [*]

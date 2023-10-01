@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-MDB_TGZ=mongodb-linux-x86_64-ubuntu1604-${MONGODB}.tgz
+MDB_TGZ=mongodb-linux-x86_64-ubuntu2004-${MONGODB}.tgz
 MDB_ROOT=${TRAVIS_BUILD_DIR}/mongodb/${MONGODB}
 MDB_DATA=${TRAVIS_BUILD_DIR}/mongodb-data
 
