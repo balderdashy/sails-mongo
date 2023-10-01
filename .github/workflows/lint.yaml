@@ -1,0 +1,25 @@
+name: sails-mongo lint
+
+on:
+  push
+
+jobs:
+  lint:
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        node-version: [20]
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          npm install --no-audit --no-fund
+
+      - name: Lint the code
+        run: |
+          npm run lint-test

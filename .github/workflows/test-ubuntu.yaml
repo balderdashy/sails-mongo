@@ -1,0 +1,42 @@
+name: sails-mongo test (Ubuntu)
+
+on:
+  push
+
+env:
+  WATERLINE_ADAPTER_TESTS_URL: mongo/testdb:27027
+  WATERLINE_ADAPTER_TESTS_HOST: mongo
+  WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
+  NODE_ENV: test
+
+jobs:
+  test-ubuntu:
+    runs-on: ubuntu-22.04
+    container: node:${{ matrix.node-version }}
+
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+        mongodb-version: ['4.4', '5', '6', '7']
+
+    services:
+      mongo:
+        image: mongo:${{ matrix.mongodb-version }}
+        ports:
+          - 27027:27017
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          node --eval "console.log('Running Node.js: ' + process.version)"
+          node --eval "console.log('Current directory: ' + process.cwd())"
+          node --eval "console.log('Files in directory: ' + require('fs').readdirSync(process.cwd()))"
+          npm install --no-audit --no-fund
+
+      - name: Test it out
+        run: |
+          npm run custom-tests
