@@ -182,15 +182,15 @@ describe('dontUseObjectIds', function() {
 
       it('should find a record w/ a numeric ID', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}, function(err) {
-          if (err) {return done(err);}
+        models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'})
+        .then(function() {
           models.user.findOne({id: 123}).exec(function(err, record) {
             if (err) {return done(err);}
             assert.equal(record.id, 123);
             assert.equal(record.name, 'bob');
             return done();
           });
-        });
+        }).catch(function (err) { return done(err); });
 
       });
 
@@ -200,8 +200,8 @@ describe('dontUseObjectIds', function() {
 
       it('should find the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}], function(err) {
-          if (err) {return done(err);}
+        models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}])
+        .then(function() {
           models.user.find({id: {'>': 0}}).exec(function(err, records) {
             if (err) {return done(err);}
             assert.equal(records[0].id, 123);
@@ -210,8 +210,7 @@ describe('dontUseObjectIds', function() {
             assert.equal(records[1].name, 'nancy');
             return done();
           });
-
-        });
+        }).catch(function (err) { return done(err); });
 
       });
     });
