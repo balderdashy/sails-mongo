@@ -4,10 +4,10 @@
  * Module dependencies
  */
 
-var util = require('util');
-var TestRunner = require('waterline-adapter-tests');
-var packageMD = require('../package.json');
-var Adapter = require('../');
+const util = require('util');
+const TestRunner = require('waterline-adapter-tests');
+const packageMD = require('../package.json');
+const Adapter = require('../');
 
 
 
@@ -100,4 +100,3 @@ new TestRunner({
 // to an adapter maintainer @ http://sailsjs.com/support.
 //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
