@@ -42,7 +42,7 @@
     "benchmark": "2.1.4",
     "eslint": "^8.50.0",
     "mocha": "3.0.2",
-    "waterline": "^0.13.6",
+    "waterline": "^0.15.2",
     "waterline-adapter-tests": "^1.0.1",
     "waterline-utils": "^1.4.2"
   },
