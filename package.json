@@ -38,6 +38,7 @@
     "qs": "6.9.7"
   },
   "devDependencies": {
+    "@types/mocha": "^10.0.2",
     "benchmark": "2.1.4",
     "eslint": "^8.50.0",
     "mocha": "3.0.2",
