@@ -1,14 +1,14 @@
-var createManager = require('machine').build(require('../../').createManager);
-var destroyManager = require('machine').build(require('../../').destroyManager);
+const createManager = require('machine').build(require('../../').createManager);
+const destroyManager = require('machine').build(require('../../').destroyManager);
 
 describe('Connectable ::', function() {
   describe('Destroy Manager', function() {
-    var manager;
+    let manager;
 
     // Create a manager
     before(function(done) {
       // Needed to dynamically get the host using the docker container
-      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
+      const host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
 
       createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'
