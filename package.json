@@ -7,11 +7,11 @@
     "test": "npm run lint && npm run custom-tests",
     "custom-tests": "node node_modules/mocha/bin/mocha",
     "lint": "node node_modules/eslint/bin/eslint . --max-warnings=0",
-    "start-mongodb": "docker-compose up -d mongo",
-    "stop-mongodb": "docker-compose down",
-    "docker": "docker-compose run adapter bash",
-    "mongodb-shell": "docker-compose exec mongo mongo",
-    "docker-test": "docker-compose run adapter bash -c \"npm test\" && docker-compose down"
+    "start-mongodb": "docker compose up -d mongo",
+    "stop-mongodb": "docker compose down",
+    "docker": "docker compose run adapter bash",
+    "mongodb-shell": "docker compose exec mongo mongo",
+    "docker-test": "docker compose run adapter bash -c \"npm test\" && docker compose down"
   },
   "keywords": [
     "mongo",
