@@ -17,7 +17,7 @@ services:
       - bash -c "npm test"
 
   mongo:
-    image: mongo:6.0
+    image: mongo:7
     restart: always
     command: "--logpath=/dev/null"
     ports:
