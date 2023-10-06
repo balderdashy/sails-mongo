@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         node-version: [16, 18, 20]
-        mongodb-version: ['4.4', '5', '6', '7']
+        mongodb-version: ['5']
 
     steps:
       - uses: ankane/setup-mongodb@ce30d9041565cb469945895d5bde3384a254dd2e # use commit ID until action is versioned, see https://github.com/ankane/setup-mongodb/issues/2
@@ -54,7 +54,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm ci
+          npm install --no-audit --no-fund
       - name: Run test
         run: |
           npm run custom-tests

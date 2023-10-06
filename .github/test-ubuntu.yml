@@ -35,7 +35,7 @@ jobs:
           node --eval "console.log('Running Node.js: ' + process.version)"
           node --eval "console.log('Current directory: ' + process.cwd())"
           node --eval "console.log('Files in directory: ' + require('fs').readdirSync(process.cwd()))"
-          npm ci
+          npm install --no-audit --no-fund
       - name: Run test
         run: |
           npm run custom-tests
