@@ -66,7 +66,6 @@
       "migratable"
     ],
     "machineDir": "lib/private/machines/",
-    "exportStyle": "dryDictionary",
-    "testsUrl": "https://travis-ci.org/balderdashy/sails-mongo"
+    "exportStyle": "dryDictionary"
   }
 }
