@@ -1,17 +1,14 @@
-const assert = require('assert');
-const _ = require('@sailshq/lodash');
-const Waterline = require('waterline');
-const waterlineUtils = require('waterline-utils');
-const normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
-
-
-let waterline;
-let models = {};
+var assert = require('assert');
+var _ = require('@sailshq/lodash');
+var Waterline = require('waterline');
+var waterlineUtils = require('waterline-utils');
+var normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
+var waterlinevar models = {};
 
 describe('normalizeDatastoreConfig', function() {
 
   it('Given a URL without a prefix, normalizeDatastoreConfig should add the prefix', function() {
-    const config = {
+    var config = {
       url: 'creepygiggles:shipyard4eva@localhost/test'
     };
     normalizeDatastoreConfig(config, undefined, 'mongodb');
@@ -19,8 +16,8 @@ describe('normalizeDatastoreConfig', function() {
   });
 
   it('Given a URL with a comma in it (like a Mongo Atlas URL), normalizeDatastoreConfig should not modify the URL.', function() {
-    const url = 'mongodb://creepygiggles:shipyard4eva@cluster0-shard-00-00-ienyq.mongodb.net:27017,cluster0-shard-00-01-ienyq.mongodb.net:27017,cluster0-shard-00-02-ienyq.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
-    const config = {
+    var url = 'mongodb://creepygiggles:shipyard4eva@cluster0-shard-00-00-ienyq.mongodb.net:27017,cluster0-shard-00-01-ienyq.mongodb.net:27017,cluster0-shard-00-02-ienyq.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
+    var config = {
       url: 'mongodb://creepygiggles:shipyard4eva@cluster0-shard-00-00-ienyq.mongodb.net:27017,cluster0-shard-00-01-ienyq.mongodb.net:27017,cluster0-shard-00-02-ienyq.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin'
     };
     normalizeDatastoreConfig(config);
@@ -336,7 +333,7 @@ describe('dontUseObjectIds', function() {
 
     describe('Where a collection using number keys belongsTo a model using ObjectID ', function() {
 
-      let userId;
+      var userId;
 
       before(function(done) {
         setup(
@@ -396,7 +393,7 @@ describe('dontUseObjectIds', function() {
 
     describe('Where a collection using ObjectID belongsTo a model using number keys', function() {
 
-      let petId;
+      var petId;
 
       before(function(done) {
         setup(
@@ -455,7 +452,7 @@ describe('dontUseObjectIds', function() {
 
     describe('Where a collection using number keys belongsTo a model using ObjectID (vialess)', function() {
 
-      let userId;
+      var userId;
 
       before(function(done) {
         setup(
@@ -501,9 +498,9 @@ describe('dontUseObjectIds', function() {
 
     describe('Where a collection using ObjectID belongsTo a model using number keys (vialess)', function() {
 
-      let petId;
+      var petId;
       // eslint-disable-next-line no-unused-vars
-      let userId;
+      var userId;
 
       before(function(done) {
         setup(
@@ -550,7 +547,7 @@ describe('dontUseObjectIds', function() {
 
     describe('Where a collection using ObjectID has many-to-many relationship with a model using number keys', function() {
 
-      let petId;
+      var petId;
 
       before(function(done) {
         setup(
@@ -669,7 +666,7 @@ describe('dontUseObjectIds', function() {
 
 function setup(fixtures, modelsContainer, cb) {
 
-  const defaults = {
+  var defaults = {
     primaryKey: 'id',
     datastore: 'test',
     fetchRecordsOnUpdate: true,
@@ -682,11 +679,11 @@ function setup(fixtures, modelsContainer, cb) {
   waterline = new Waterline();
 
   _.each(fixtures, function(val, key) {
-    const modelFixture = _.extend({}, defaults, fixtures[key]);
+    var modelFixture = _.extend({}, defaults, fixtures[key]);
     waterline.registerModel(Waterline.Collection.extend(modelFixture));
   });
 
-  const datastores = {
+  var datastores = {
     test: {
       adapter: 'sails-mongo',
       url: process.env.WATERLINE_ADAPTER_TESTS_URL || 'localhost/sails_mongo'
@@ -702,7 +699,7 @@ function setup(fixtures, modelsContainer, cb) {
     }
 
     // Save a reference to the ORM
-    const ORM = orm;
+    var ORM = orm;
 
     // Run migrations
     waterlineUtils.autoMigrations('drop', orm, function(err) {
@@ -723,7 +720,7 @@ function setup(fixtures, modelsContainer, cb) {
 function createModel (identity, options) {
   options = options || {};
 
-  const model = {
+  var model = {
     datastore: 'test',
     identity: identity,
     attributes: {
