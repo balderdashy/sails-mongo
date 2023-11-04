@@ -1,6 +1,6 @@
-const assert = require('assert');
-const createManager = require('machine').build(require('../../').createManager);
-const MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var createManager = require('machine').build(require('../../').createManager);
+var MongoClient = require('mongodb').MongoClient;
 
 describe('Connectable ::', function() {
   describe('Create Manager', function() {
@@ -32,7 +32,7 @@ describe('Connectable ::', function() {
 
     it('should successfully return a Mongo Server instance', function(done) {
       // Needed to dynamically get the host using the docker container
-      const host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
+      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
 
       createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'
