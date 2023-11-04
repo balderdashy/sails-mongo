@@ -4,10 +4,10 @@
  * Module dependencies
  */
 
-const util = require('util');
-const TestRunner = require('waterline-adapter-tests');
-const packageMD = require('../package.json');
-const Adapter = require('../');
+var util = require('util');
+var TestRunner = require('waterline-adapter-tests');
+var packageMD = require('../package.json');
+var Adapter = require('../');
 
 
 
