@@ -1,0 +1,69 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#   ╔╦╗╦═╗╔═╗╦  ╦╦╔═╗ ┬ ┬┌┬┐┬                           #
+#    ║ ╠╦╝╠═╣╚╗╔╝║╚═╗ └┬┘││││                           #
+#  o ╩ ╩╚═╩ ╩ ╚╝ ╩╚═╝o ┴ ┴ ┴┴─┘                         #
+#                                                       #
+# This file configures Travis CI.                       #
+# (i.e. how we run the tests... mainly)                 #
+#                                                       #
+# https://docs.travis-ci.com/user/customizing-the-build #
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+dist: xenial
+
+language: node_js
+
+node_js:
+  - "12"
+  - "14"
+  - "16"
+
+env:
+  global:
+    - WATERLINE_ADAPTER_TESTS_URL=localhost/testdb
+    - WATERLINE_ADAPTER_TESTS_HOST=localhost
+    - WATERLINE_ADAPTER_TESTS_DATABASE=sails-mongo
+    - NODE_ENV=test
+
+  matrix:
+    - MONGODB=3.6.18
+    - MONGODB=4.0.18
+    - MONGODB=4.2.7
+
+cache:
+  directories:
+    - "$TRAVIS_BUILD_DIR/mongodb"
+    - "$HOME/.npm"
+
+matrix:
+  fast_finish: true
+
+before_install:
+  - chmod +x "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh" "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
+  - npm i -g npm@8.11.0
+
+install:
+  # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
+  - npm config set send-metrics false
+  - npm i --no-audit
+  - "$TRAVIS_BUILD_DIR/scripts/travis/install_mongodb.sh"
+
+before_script:
+  - "$TRAVIS_BUILD_DIR/scripts/travis/run_mongodb.sh"
+
+script:
+  - npm test
+
+after_script:
+  - pkill mongod
+
+branches:
+  only:
+    - master
+    - upgrade-mongodb-drivers
+    - update-test-environment
+
+notifications:
+  email:
+    - ci@sailsjs.com
+    - luislobo@gmail.com
