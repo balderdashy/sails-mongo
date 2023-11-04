@@ -1,0 +1,67 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+#  ╔═╗╔═╗╔═╗╦  ╦╔═╗╦ ╦╔═╗╦═╗ ┬ ┬┌┬┐┬              #
+#  ╠═╣╠═╝╠═╝╚╗╔╝║╣ ╚╦╝║ ║╠╦╝ └┬┘││││              #
+#  ╩ ╩╩  ╩   ╚╝ ╚═╝ ╩ ╚═╝╩╚═o ┴ ┴ ┴┴─┘            #
+#                                                 #
+# This file configures Appveyor CI.               #
+# (i.e. how we run the tests on Windows)          #
+#                                                 #
+# https://www.appveyor.com/docs/lang/nodejs-iojs/ #
+# # # # # # # # # # # # # # # # # # # # # # # # # #
+
+
+# Test against these versions of Node.js.
+environment:
+  WATERLINE_ADAPTER_TESTS_URL: localhost/testdb
+  WATERLINE_ADAPTER_TESTS_HOST: localhost
+  WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
+  NODE_ENV: test
+  matrix:
+    - nodejs_version: "10"
+    - nodejs_version: "12"
+    - nodejs_version: "14"
+
+# Install scripts. (runs after repo cloning)
+install:
+  # Get the latest stable version of Node.js
+  # (Not sure what this is for, it's just in Appveyor's example.)
+  - ps: Install-Product node $env:nodejs_version
+  # Don't let npm send metrics as it creates a file in the .npm folder invalidating the cache every time
+  - npm config set send-metrics false
+  # Install declared dependencies
+  - npm install --no-audit
+
+branches:
+  only:
+  - master
+  - upgrade-mongodb-drivers
+  - update-test-environment
+
+# Post-install test scripts.
+test_script:
+  # Output Node and NPM version info.
+  # (Presumably just in case Appveyor decides to try any funny business?
+  #  But seriously, always good to audit this kind of stuff for debugging.)
+  - node --version
+  - npm --version
+  # Run the actual tests.
+  - npm test
+
+# Setup Mongo Database
+services:
+  - mongodb
+
+
+# Don't actually build.
+# (Not sure what this is for, it's just in Appveyor's example.
+#  I'm not sure what we're not building... but I'm OK with not
+#  building it.  I guess.)
+build: off
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# TODO: Set up appveyor + mongo*:
+# https://www.appveyor.com/docs/services-databases/
+# Old example on how to install different versions of MongoDB added to `scripts/appveyor/install_mongodb.ps1`
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
