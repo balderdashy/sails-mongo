@@ -1,16 +1,16 @@
-const createManager = require('machine').build(require('../../').createManager);
-const getConnection = require('machine').build(require('../../').getConnection);
-const releaseConnection = require('machine').build(require('../../').releaseConnection);
+var createManager = require('machine').build(require('../../').createManager);
+var getConnection = require('machine').build(require('../../').getConnection);
+var releaseConnection = require('machine').build(require('../../').releaseConnection);
 
 describe('Connectable ::', function() {
   describe('Release Connection', function() {
-    let manager;
-    let connection;
+    var manager;
+    var connection;
 
     // Create a manager and connection
     before(function(done) {
       // Needed to dynamically get the host using the docker container
-      const host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
+      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
 
       createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'
