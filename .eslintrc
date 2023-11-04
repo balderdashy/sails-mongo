@@ -19,7 +19,7 @@
   },
 
   "parserOptions": {
-    "ecmaVersion": 5
+    "ecmaVersion": 14
     // ^^This can be changed to `8` if this package doesn't need to support <= Node v6.
   },
 

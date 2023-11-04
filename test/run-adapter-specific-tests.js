@@ -5,7 +5,8 @@ var _ = require('@sailshq/lodash');
 var Waterline = require('waterline');
 var waterlineUtils = require('waterline-utils');
 var normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
-var waterlinevar models = {};
+var waterline;
+var models = {};
 
 describe('normalizeDatastoreConfig', function() {
 
