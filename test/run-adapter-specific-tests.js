@@ -1,10 +1,9 @@
-
-
 var assert = require('assert');
 var _ = require('@sailshq/lodash');
 var Waterline = require('waterline');
 var waterlineUtils = require('waterline-utils');
 var normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
+
 var waterline;
 var models = {};
 
@@ -145,8 +144,8 @@ describe('dontUseObjectIds', function() {
     describe('Updating a single record', function() {
 
       it('should update the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'})
-        .then(function insertCb() {
+        (function(iifeDone) { models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}).then(function(){ iifeDone();}).catch(function(err){ iifeDone(err);});})(function(err) {
+          if (err) {return done(err);}
           models.user.updateOne({id: 123}, {name: 'joe'}).exec(function(err, record) {
             if (err) {return done(err);}
             assert.equal(record.id, 123);
@@ -154,7 +153,7 @@ describe('dontUseObjectIds', function() {
             return done();
           });
 
-        }).catch(function (err) { return done(err); });
+        });
 
       });
 
