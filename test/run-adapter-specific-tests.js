@@ -185,15 +185,16 @@ describe('dontUseObjectIds', function() {
 
       it('should find a record w/ a numeric ID', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'})
-        .then(function() {
+
+        (function(iifeDone) {models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}).then(function(){ iifeDone();}).catch(function(err) { iifeDone(err);});})(function(err) {
+          if (err) {return done(err);}
           models.user.findOne({id: 123}).exec(function(err, record) {
             if (err) {return done(err);}
             assert.equal(record.id, 123);
             assert.equal(record.name, 'bob');
             return done();
           });
-        }).catch(function (err) { return done(err); });
+        });
 
       });
 
