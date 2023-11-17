@@ -15,4 +15,3 @@ if [ ! -f "${MDB_ROOT}/bin/mongod" ]; then
 fi
 mkdir -p $MDB_DATA
 "${MDB_ROOT}/bin/mongod" --version
-
