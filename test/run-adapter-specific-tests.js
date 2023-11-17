@@ -775,3 +775,4 @@ function createModel (identity, options) {
   return model;
 
 }
+
