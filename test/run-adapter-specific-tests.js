@@ -4,6 +4,7 @@ var Waterline = require('waterline');
 var waterlineUtils = require('waterline-utils');
 var normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
 
+
 var waterline;
 var models = {};
 
