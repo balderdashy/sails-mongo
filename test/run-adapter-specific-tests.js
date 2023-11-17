@@ -164,8 +164,8 @@ describe('dontUseObjectIds', function() {
 
       it('should update the records correctly', function(done) {
 
-        models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}])
-        .then(function insertManyCb() {
+        (function(iifeDone) {models.user._adapter.datastores.test.manager.collection('user').insertMany([{_id: 123, name: 'sid'}, {_id: 555, name: 'nancy'}]).then(function() { iifeDone();}).catch(function(err) { iifeDone(err);});})(function(err) {
+          if (err) {return done(err);}
           models.user.update({id: {'>': 0}}, {name: 'joe'}).exec(function(err, records) {
             if (err) {return done(err);}
             assert.equal(records[0].id, 123);
@@ -174,7 +174,8 @@ describe('dontUseObjectIds', function() {
             assert.equal(records[1].name, 'joe');
             return done();
           });
-        }).catch(function (err) { return done(err); });
+
+        });
       });
     });
 
