@@ -100,3 +100,4 @@ new TestRunner({
 // to an adapter maintainer @ http://sailsjs.com/support.
 //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
