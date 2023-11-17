@@ -222,19 +222,22 @@ describe('dontUseObjectIds', function() {
     describe('Deleting a single record', function() {
 
       it('should delete the record correctly', function(done) {
-        models.user._adapter.datastores.test.manager.collection('user')
-        .insertOne({_id: 123, name: 'bob'})
-        .then(function() {
+        (function(iifeDone) {models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}).then(function() { iifeDone();}).catch(function(err) { iifeDone(err);});})(function(err) {
+          if (err) {return done(err);}
           models.user.destroy({id: 123}).exec(function(err) {
-            if (err) { return done(err); }
-            models.user._adapter.datastores.test.manager.collection('user').find({})
-            .toArray().then(function(records) {
+            if (err) {return done(err);}
+            (function(iifeDone) { models.user._adapter.datastores.test.manager.collection('user').find({}).toArray().then(function(records) { iifeDone(null, records);}).catch(function(err) { iifeDone(err, null);});})(function(err, records) {
+              if (err) {return done(err);}
               assert.equal(records.length, 0);
               return done();
-            }).catch(function (err) { return done(err); });
+            });
+
           });
-        }).catch(function (err) { return done(err); });
+
+        });
+
       });
+
     });
 
     describe('Deleting multiple records', function() {
