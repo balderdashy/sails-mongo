@@ -185,7 +185,6 @@ describe('dontUseObjectIds', function() {
 
       it('should find a record w/ a numeric ID', function(done) {
 
-
         (function(iifeDone) {models.user._adapter.datastores.test.manager.collection('user').insertOne({_id: 123, name: 'bob'}).then(function(){ iifeDone();}).catch(function(err) { iifeDone(err);});})(function(err) {
           if (err) {return done(err);}
           models.user.findOne({id: 123}).exec(function(err, record) {
