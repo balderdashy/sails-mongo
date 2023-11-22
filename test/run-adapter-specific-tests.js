@@ -226,7 +226,7 @@ describe('dontUseObjectIds', function() {
           if (err) {return done(err);}
           models.user.destroy({id: 123}).exec(function(err) {
             if (err) {return done(err);}
-            (function(iifeDone) { models.user._adapter.datastores.test.manager.collection('user').find({}).toArray().then(function(records) { iifeDone(null, records);}).catch(function(err) { iifeDone(err, null);});})(function(err, records) {
+            (function(iifeDone) { models.user._adapter.datastores.test.manager.collection('user').find({}).toArray().then(function(records) { iifeDone(undefined, records);}).catch(function(err) { iifeDone(err);});})(function(err, records) {
               if (err) {return done(err);}
               assert.equal(records.length, 0);
               return done();
@@ -248,7 +248,7 @@ describe('dontUseObjectIds', function() {
           if (err) {return done(err);}
           models.user.destroy({id: {'>': 0}}).exec(function(err) {
             if (err) {return done(err);}
-            (function(iifeDone) { models.user._adapter.datastores.test.manager.collection('user').find({}).toArray().then(function(records) { iifeDone(null, records);}).catch(function(err) { iifeDone(err, null);});})(function(err, records) {
+            (function(iifeDone) { models.user._adapter.datastores.test.manager.collection('user').find({}).toArray().then(function(records) { iifeDone(undefined, records);}).catch(function(err) { iifeDone(err);});})(function(err, records) {
               if (err) {return done(err);}
               assert.equal(records.length, 0);
               return done();
