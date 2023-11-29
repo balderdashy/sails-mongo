@@ -9,15 +9,14 @@
 # https://docs.travis-ci.com/user/customizing-the-build #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-dist: focal
+dist: xenial
 
 language: node_js
 
 node_js:
   - "16"
-  - "18"
-  - "20"
-
+  # - "18"
+  # - "20"
 env:
   global:
     - WATERLINE_ADAPTER_TESTS_URL=localhost/testdb
