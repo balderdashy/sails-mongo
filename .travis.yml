@@ -9,7 +9,7 @@
 # https://docs.travis-ci.com/user/customizing-the-build #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-dist: xenial
+dist: focal
 
 language: node_js
 
