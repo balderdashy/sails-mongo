@@ -6,7 +6,7 @@ describe('Connectable ::', function() {
   describe('Create Manager', function() {
     it('should work without a protocol in the connection string', function(done) {
       createManager({
-        connectionString: process.env.WATERLINE_ADAPTER_TESTS_URL || '127.0.0.1:27017/mppg'
+        connectionString: process.env.WATERLINE_ADAPTER_TESTS_URL || 'localhost:27017/mppg'
       })
       .exec(function(err) {
         if (err) {
@@ -18,7 +18,7 @@ describe('Connectable ::', function() {
 
     it('should not work with an invalid protocol in the connection string', function(done) {
       createManager({
-        connectionString: 'foobar://127.0.0.1:27017/mppg'
+        connectionString: 'foobar://localhost:27017/mppg'
       })
       .exec(function(err) {
         try {
@@ -32,7 +32,7 @@ describe('Connectable ::', function() {
 
     it('should successfully return a Mongo Server instance', function(done) {
       // Needed to dynamically get the host using the docker container
-      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || '127.0.0.1';
+      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
 
       createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'

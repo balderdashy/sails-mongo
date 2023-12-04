@@ -71,7 +71,7 @@ new TestRunner({
 
   // Adapter config to use for tests.
   config: {
-    url: process.env.WATERLINE_ADAPTER_TESTS_URL || '127.0.0.1/testdb'
+    url: process.env.WATERLINE_ADAPTER_TESTS_URL || 'localhost/testdb'
   },
 
   // The set of adapter interface layers & specific features to test against.
