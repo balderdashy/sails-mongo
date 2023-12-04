@@ -9,7 +9,7 @@ describe('Connectable ::', function() {
     // Create a manager
     before(function(done) {
       // Needed to dynamically get the host using the docker container
-      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || 'localhost';
+      var host = process.env.WATERLINE_ADAPTER_TESTS_HOST || '127.0.0.1';
 
       createManager({
         connectionString: 'mongodb://' + host + ':27017/mppg'
