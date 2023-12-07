@@ -14,10 +14,9 @@ dist: xenial
 language: node_js
 
 node_js:
-  - "12"
-  - "14"
   - "16"
-
+  # - "18"
+  # - "20"
 env:
   global:
     - WATERLINE_ADAPTER_TESTS_URL=localhost/testdb
