@@ -3,10 +3,74 @@ var _ = require('@sailshq/lodash');
 var Waterline = require('waterline');
 var waterlineUtils = require('waterline-utils');
 var normalizeDatastoreConfig = require('../lib/private/normalize-datastore-config');
+var pkg = require('../package.json');
 
 
 var waterline;
 var models = {};
+
+describe('driverInfo', function() {
+
+  it('package.json has name "sails-mongo" and a version string', function() {
+    assert.equal(pkg.name, 'sails-mongo');
+    assert.ok(pkg.version, 'version should be set');
+    assert.equal(typeof pkg.version, 'string');
+  });
+
+  it('create-manager passes driverInfo to MongoClient when not supplied by caller', function(done) {
+    var NodeMongoDBNativeLib = require('mongodb');
+    var originalConnect = NodeMongoDBNativeLib.MongoClient.connect;
+    var capturedOptions;
+
+    NodeMongoDBNativeLib.MongoClient.connect = function(url, options) {
+      capturedOptions = options;
+      // Return a rejected promise to short-circuit without a real connection
+      return Promise.reject(new Error('test-abort'));
+    };
+
+    var createManager = require('machine').build(require('../').createManager);
+
+    createManager({ connectionString: 'mongodb://localhost:27017/testdb' })
+    .exec(function() {
+      NodeMongoDBNativeLib.MongoClient.connect = originalConnect;
+      try {
+        assert.ok(capturedOptions, 'options should have been captured');
+        assert.ok(capturedOptions.driverInfo, 'driverInfo should be set');
+        assert.equal(capturedOptions.driverInfo.name, 'sails-mongo');
+        assert.equal(capturedOptions.driverInfo.version, pkg.version);
+      } catch (e) { return done(e); }
+      return done();
+    });
+  });
+
+  it('create-manager does not overwrite caller-supplied driverInfo', function(done) {
+    var NodeMongoDBNativeLib = require('mongodb');
+    var originalConnect = NodeMongoDBNativeLib.MongoClient.connect;
+    var capturedOptions;
+
+    NodeMongoDBNativeLib.MongoClient.connect = function(url, options) {
+      capturedOptions = options;
+      return Promise.reject(new Error('test-abort'));
+    };
+
+    var createManager = require('machine').build(require('../').createManager);
+
+    createManager({
+      connectionString: 'mongodb://localhost:27017/testdb',
+      meta: { driverInfo: { name: 'my-custom-lib', version: '9.9.9' } }
+    })
+    .exec(function() {
+      NodeMongoDBNativeLib.MongoClient.connect = originalConnect;
+      try {
+        assert.ok(capturedOptions, 'options should have been captured');
+        assert.equal(capturedOptions.driverInfo.name, 'my-custom-lib');
+        assert.equal(capturedOptions.driverInfo.version, '9.9.9');
+      } catch (e) { return done(e); }
+      return done();
+    });
+  });
+
+});
 
 describe('normalizeDatastoreConfig', function() {
 
