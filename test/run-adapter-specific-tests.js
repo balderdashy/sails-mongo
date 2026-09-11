@@ -675,6 +675,56 @@ describe('dontUseObjectIds', function() {
 
 });
 
+describe('BSON version compatibility', function() {
+
+  before(function(done) {
+    setup(
+      [createModel('user')],
+      models,
+      done
+    );
+  });
+
+  after(function(done) {
+    models = {};
+    if (waterline) {
+      return waterline.teardown(done);
+    }
+    return done();
+  });
+
+  it('should accept an ObjectId built with the driver\'s bundled bson (v7.x)', function(done) {
+    // resolves to whatever version `mongodb` currently bundles
+    var BSON7 = require('bson');
+    var id = new BSON7.ObjectId();
+    models.user._adapter.datastores.test.manager.collection('user').insertOne({ _id: id, name: 'ext-v7' })
+      .then(function(result) {
+        // `acknowledged` rules out a silent no-op write;
+        // `insertedId.equals(id)` checks the stored _id round-trips to the exact same BSON value we passed in — not just that insertOne() didn't throw.
+        assert(result.acknowledged);
+        assert(result.insertedId.equals(id));
+        return done();
+      })
+      .catch(function(err) { return done(err); });
+  });
+
+  it('documents current rejection behavior on an ObjectId built with an external bson@6.x', function(done) {
+    // aliased devDependency to npm:bson@^6.10.4
+    var BSON6 = require('bson-v6-fixture');
+    var id = new BSON6.ObjectId();
+    models.user._adapter.datastores.test.manager.collection('user').insertOne({ _id: id, name: 'ext-v6' })
+      .then(function() {
+        return done(new Error('Expected insertOne to reject a cross-major BSON ObjectId, but it succeeded.'));
+      })
+      .catch(function(err) {
+        assert.equal(err.name, 'BSONVersionError');
+        assert(/bson types must be from bson 7\.x\.x/.test(err.message));
+        return done();
+      });
+  });
+
+});
+
 function setup(fixtures, modelsContainer, cb) {
 
   var defaults = {

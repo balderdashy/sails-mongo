@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "benchmark": "2.1.4",
+    "bson-v6-fixture": "npm:bson@^6.10.4",
     "eslint": "4.19.1",
     "mocha": "3.0.2",
     "waterline": "^0.13.6",
