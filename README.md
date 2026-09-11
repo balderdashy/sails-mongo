@@ -28,8 +28,8 @@ Visit [Models & ORM](http://sailsjs.com/docs/concepts/models-and-orm) in the doc
 
 ## Compatibility
 
-> This version of the adapter has been tested with MongoDB versions 3.6, 4.0, and 4.2.
-> It uses [MongoDB 3.5.x connection options](https://mongodb.github.io/node-mongodb-native/3.5/api/MongoClient.html#.connect). If you're upgrading from an older version, note that there are some updated, changed, new and deprecated options.
+> This version of the adapter has been tested with MongoDB versions 4.4, 6.0, and 8.0.
+> It uses [MongoDB 7.x connection options](https://www.mongodb.com/docs/v7.0/reference/connection-string-options/). If you're upgrading from an older version, note that there are some updated, changed, new and deprecated options.
 
 This adapter implements the following methods:
 
@@ -51,6 +51,74 @@ This adapter implements the following methods:
 | dropPhysicalModel    | Implemented       | Migratable    |
 | setPhysicalSequence  | _not supported_   | Migratable    |
 
+### Upgrading from sails-mongo v2.x
+  
+Starting with this release, sails-mongo bundles the MongoDB Node.js driver v7.x (previously v6.3.0). This mainly affects apps that pass low-level driver options directly — for example, through a datastore's connection config or the [low-level MongoDB usage](https://sailsjs.com/documentation/tutorials/using-mongo-db#?lowlevel-mongodb-usage-advanced) pattern via `.manager`.
+ 
+The most common adjustment needed: the long-deprecated `useNewUrlParser` and `useUnifiedTopology` connection options have been fully removed by the driver and are no longer accepted.
+ 
+**Before:**
+ 
+```js
+// config/datastores.js
+module.exports.datastores = {
+  default: {
+    adapter: 'sails-mongo',
+    url: 'mongodb://localhost/my-app',
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
+};
+```
+ 
+**After:**
+ 
+```js
+// config/datastores.js
+module.exports.datastores = {
+  default: {
+    adapter: 'sails-mongo',
+    url: 'mongodb://localhost/my-app',
+  }
+};
+```
+ 
+If your app accesses the driver directly via `.manager` (see [low-level MongoDB usage](https://sailsjs.com/documentation/tutorials/using-mongo-db#?lowlevel-mongodb-usage-advanced)), the same change applies to any `MongoClient` you construct yourself:
+ 
+**Before:**
+ 
+```js
+const { MongoClient } = require('mongodb');
+ 
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+ 
+await client.connect();
+```
+ 
+**After:**
+ 
+```js
+const { MongoClient } = require('mongodb');
+ 
+const client = new MongoClient(uri);
+ 
+await client.connect();
+```
+ 
+Both options have had no effect since driver v4.0 (their behavior became the default), so removing them changes nothing at runtime — they simply need to disappear from your datastore config or your own `MongoClient` options. If you forget to remove them, connecting will throw:
+ 
+```
+MongoParseError: option useNewUrlParser is not supported
+```
+ 
+For the full list of driver changes, see:
+ 
+- [MongoDB Node.js Driver — Version 7.0 Breaking Changes](https://www.mongodb.com/docs/drivers/node/current/reference/upgrade/#version-70-breaking-changes)
+- [node-mongodb-native PR #4704 — remove deprecated objects](https://github.com/mongodb/node-mongodb-native/pull/4704)
+- [MongoDB Community Forums — useNewUrlParser is a deprecated - What to do?](https://www.mongodb.com/community/forums/t/usenewurlparser-is-a-deprecated-what-to-do/304181)
 
 ## Questions?
 
