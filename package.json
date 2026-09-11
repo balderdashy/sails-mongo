@@ -34,11 +34,12 @@
     "async": "3.2.4",
     "flaverr": "^1.10.0",
     "machine": "^15.2.2",
-    "mongodb": "6.3.0",
+    "mongodb": "7.6.0",
     "qs": "6.9.7"
   },
   "devDependencies": {
     "benchmark": "2.1.4",
+    "bson-v6-fixture": "npm:bson@^6.10.4",
     "eslint": "4.19.1",
     "mocha": "3.0.2",
     "waterline": "^0.13.6",

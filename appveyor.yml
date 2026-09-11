@@ -9,6 +9,7 @@
 # https://www.appveyor.com/docs/lang/nodejs-iojs/ #
 # # # # # # # # # # # # # # # # # # # # # # # # # #
 
+image: Visual Studio 2026
 
 # Test against these versions of Node.js.
 environment:
@@ -17,9 +18,8 @@ environment:
   WATERLINE_ADAPTER_TESTS_DATABASE: sails-mongo
   NODE_ENV: test
   matrix:
-    - nodejs_version: "16"
-    - nodejs_version: "18"
-    - nodejs_version: "20"
+    - nodejs_version: "22"
+    - nodejs_version: "24"
 
 # Install scripts. (runs after repo cloning)
 install:
